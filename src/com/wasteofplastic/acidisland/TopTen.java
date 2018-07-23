@@ -347,7 +347,7 @@ public class TopTen implements Listener{
             
             plugin.getLogger().info("DEBUG: second chance = " + plugin.getPlayers().getName(player));
         }
-        ItemStack playerSkull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+        ItemStack playerSkull = new ItemStack(Material.PLAYER_HEAD, 1);
         if (playerName == null) return null;
         SkullMeta meta = (SkullMeta) playerSkull.getItemMeta();
         meta.setOwner(playerName);
@@ -389,8 +389,8 @@ public class TopTen implements Listener{
         }
         event.setCancelled(true);
         player.updateInventory();
-        if(event.getCurrentItem() != null && event.getCurrentItem().getType().equals(Material.SKULL_ITEM) && event.getCurrentItem().hasItemMeta()){
-            Util.runCommand(player, "is warp " + ((SkullMeta)event.getCurrentItem().getItemMeta()).getOwner());
+        if(event.getCurrentItem() != null && event.getCurrentItem().getType().equals(Material.PLAYER_HEAD) && event.getCurrentItem().hasItemMeta()){
+            Util.runCommand(player, "is warp " + ((SkullMeta)event.getCurrentItem().getItemMeta()).getOwningPlayer().getName());
         	player.closeInventory();
         	return;
         }

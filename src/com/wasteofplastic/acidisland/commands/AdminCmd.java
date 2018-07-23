@@ -681,7 +681,7 @@ public class AdminCmd implements CommandExecutor, TabCompleter {
                         continue;
                     break;
                 }
-                if (!lastBlock.getType().equals(Material.SIGN_POST)) {
+                if (!lastBlock.getType().equals(Material.SIGN)) {
                     Util.sendMessage(sender, ChatColor.RED + plugin.myLocale(player.getUniqueId()).adminResetSignNoSign);
                     return true;
                 }
@@ -1068,7 +1068,7 @@ public class AdminCmd implements CommandExecutor, TabCompleter {
                         break;
                     }
                     // Check if it is a sign
-                    if (!lastBlock.getType().equals(Material.SIGN_POST)) {
+                    if (!lastBlock.getType().equals(Material.SIGN)) {
                         Util.sendMessage(sender, ChatColor.RED + plugin.myLocale(p.getUniqueId()).adminResetSignNoSign);
                         return true;
                     }

@@ -159,7 +159,7 @@ public class SafeSpotTeleport {
                                 // Work down from the entry point up
                                 for (y = Math.min(chunk.getHighestBlockYAt(x, z), worldHeight); y >= 0; y--) {
                                     // Check for portal - only if this is not a safe home search
-                                    if (!setHome && chunk.getBlockTypeId(x, y, z) == Material.PORTAL.getId()) {
+                                    if (!setHome && chunk.getBlockType(x, y, z) == Material.NETHER_PORTAL) {
                                         if (portalPart == null || (distance > islandLoc.toVector().distanceSquared(new Vector(x,y,z)))) {
                                             // First one found or a closer one, save the chunk the position and the distance
                                             portalChunk = chunk;
@@ -194,7 +194,7 @@ public class SafeSpotTeleport {
                         x = portalPart.getBlockX();
                         y = portalPart.getBlockY();
                         z = portalPart.getBlockZ();
-                        while (portalChunk.getBlockTypeId(x,y,z) == Material.PORTAL.getId()) {
+                        while (portalChunk.getBlockType(x,y,z) == Material.NETHER_PORTAL) {
                             y--;
                         }
                         //System.out.print("DEBUG: Portal teleport loc = " + (16 * portalChunk.getX() + x) + "," + (y) + "," + (16 * portalChunk.getZ() + z));
@@ -280,15 +280,15 @@ public class SafeSpotTeleport {
                 private boolean checkBlock(ChunkSnapshot chunk, int x, int y, int z, int worldHeight) {
                     //plugin.getLogger().info("DEBUG: chunk = " + chunk.getX() + "," + chunk.getZ());
                     //plugin.getLogger().info("DEBUG: x,y,z = " + x + "," + y +"," + z);
-                    int type = chunk.getBlockTypeId(x, y, z);
+                    Material type = chunk.getBlockType(x, y, z);
                     //plugin.getLogger().info("DEBUG:block type = " + type);
-                    if (type != 0) { // AIR
-                        int space1 = chunk.getBlockTypeId(x, Math.min(y + 1, worldHeight), z);
-                        int space2 = chunk.getBlockTypeId(x, Math.min(y + 2, worldHeight), z);
-                        if ((space1 == 0 && space2 == 0) || (space1 == Material.PORTAL.getId() || space2 == Material.PORTAL.getId())) {
+                    if (type != Material.AIR) { // AIR
+                        Material space1 = chunk.getBlockType(x, Math.min(y + 1, worldHeight), z);
+                        Material space2 = chunk.getBlockType(x, Math.min(y + 2, worldHeight), z);
+                        if ((space1 == Material.AIR && space2 == Material.AIR) || (space1 == Material.NETHER_PORTAL || space2 == Material.NETHER_PORTAL)) {
                             // Now there is a chance that this is a safe spot
                             // Check for safe ground
-                            Material mat = Material.getMaterial(type);
+                            Material mat = Material.matchMaterial(type.toString());
                             if (!mat.toString().contains("FENCE") 
                                     && !mat.toString().contains("DOOR")
                                     && !mat.toString().contains("GATE")
@@ -297,30 +297,38 @@ public class SafeSpotTeleport {
                                 // Unsafe
                                 case ANVIL:
                                 case BARRIER:
-                                case BOAT:
+                                case OAK_BOAT:
+                                case ACACIA_BOAT:
+                                case BIRCH_BOAT:
+                                case DARK_OAK_BOAT:
+                                case JUNGLE_BOAT:
+                                case SPRUCE_BOAT:
                                 case CACTUS:
-                                case DOUBLE_PLANT:
-                                case ENDER_PORTAL:
+                                case SUNFLOWER:
+                                case END_PORTAL:
                                 case FIRE:
                                 case FLOWER_POT:
                                 case LADDER:
-                                case LAVA:
                                 case LEVER:
-                                case LONG_GRASS:
-                                case PISTON_EXTENSION:
-                                case PISTON_MOVING_PIECE:
-                                case PORTAL:
-                                case SIGN_POST:
-                                case SKULL:
-                                case STANDING_BANNER:
-                                case STATIONARY_LAVA:
-                                case STATIONARY_WATER:
+                                case TALL_GRASS:
+                                case PISTON_HEAD:
+                                case MOVING_PISTON:
+                                case NETHER_PORTAL:
+                                case SIGN:
+               //                 case HEAD:
+                //                case BANNER:
+                                case LAVA:
+                                case WATER:
                                 case STONE_BUTTON:
                                 case TORCH:
                                 case TRIPWIRE:
-                                case WATER:
-                                case WEB:
-                                case WOOD_BUTTON:
+                                case COBWEB:
+                                case OAK_BUTTON:
+                                case ACACIA_BUTTON:
+                                case BIRCH_BUTTON:
+                                case DARK_OAK_BUTTON:
+                                case JUNGLE_BUTTON:
+                                case SPRUCE_BUTTON:
                                     //System.out.println("Block is dangerous " + mat.toString());
                                     break;
                                 default:

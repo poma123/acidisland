@@ -29,8 +29,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
-import net.milkbowl.vault.economy.EconomyResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -65,6 +63,8 @@ import com.wasteofplastic.acidisland.panels.CPItem;
 import com.wasteofplastic.acidisland.util.SpawnEgg1_9;
 import com.wasteofplastic.acidisland.util.Util;
 import com.wasteofplastic.acidisland.util.VaultHelper;
+
+import net.milkbowl.vault.economy.EconomyResponse;
 
 /**
  * Handles challenge commands and related methods
@@ -434,11 +434,9 @@ public class Challenges implements CommandExecutor, TabCompleter {
             final String[] element = s.split(":");
             if (element.length == 2) {
                 try {
-                    if (StringUtils.isNumeric(element[0])) {
-                        rewardItem = Material.getMaterial(Integer.parseInt(element[0]));
-                    } else {
-                        rewardItem = Material.getMaterial(element[0].toUpperCase());
-                    }
+                    
+                        rewardItem = Material.getMaterial(element[0].toString().toUpperCase());
+                   
                     rewardQty = Integer.parseInt(element[1]);
                     ItemStack item = new ItemStack(rewardItem, rewardQty);
                     rewardedItems.add(item);
@@ -472,11 +470,9 @@ public class Challenges implements CommandExecutor, TabCompleter {
                 }
             } else if (element.length == 3) {
                 try {
-                    if (StringUtils.isNumeric(element[0])) {
-                        rewardItem = Material.getMaterial(Integer.parseInt(element[0]));
-                    } else {
-                        rewardItem = Material.getMaterial(element[0].toUpperCase());
-                    }
+                  
+                    	 rewardItem = Material.getMaterial(element[0].toString().toUpperCase());
+                    
                     rewardQty = Integer.parseInt(element[2]);                    
                     // Check for POTION
                     if (rewardItem.equals(Material.POTION)) {
@@ -484,7 +480,7 @@ public class Challenges implements CommandExecutor, TabCompleter {
                     } else {
                         ItemStack item = null;
                         // Normal item, not a potion, check if it is a Monster Egg
-                        if (rewardItem.equals(Material.MONSTER_EGG)) {
+                        if (rewardItem.equals(Material.SPAWN)) {
 
                             try {                                
                                 EntityType type = EntityType.valueOf(element[1].toUpperCase());
@@ -566,11 +562,9 @@ public class Challenges implements CommandExecutor, TabCompleter {
                 //plugin.getLogger().info("DEBUG: 6 element reward");
                 // Potion format = POTION:name:level:extended:splash:qty
                 try {
-                    if (StringUtils.isNumeric(element[0])) {
-                        rewardItem = Material.getMaterial(Integer.parseInt(element[0]));
-                    } else {
-                        rewardItem = Material.getMaterial(element[0].toUpperCase());
-                    }
+                   
+                    	 rewardItem = Material.getMaterial(element[0].toString().toUpperCase());
+                    
                     rewardQty = Integer.parseInt(element[5]);
                     // Check for POTION
                     if (rewardItem.equals(Material.POTION)) {
@@ -992,11 +986,7 @@ public class Challenges implements CommandExecutor, TabCompleter {
                                 part[0] = "SKULL_ITEM";
                             }
                             // TODO: add netherwart vs. netherstalk?
-                            if (StringUtils.isNumeric(part[0])) {
-                                reqItem = Material.getMaterial(Integer.parseInt(part[0]));
-                            } else {
-                                reqItem = Material.getMaterial(part[0].toUpperCase());
-                            }
+                            reqItem = Material.getMaterial(part[0].toString().toUpperCase());
                             reqAmount = Integer.parseInt(part[1]);
                             ItemStack item = new ItemStack(reqItem);
                             if (DEBUG) {
@@ -1111,11 +1101,12 @@ public class Challenges implements CommandExecutor, TabCompleter {
                         } else if (part[0].equalsIgnoreCase("skull")) {
                             part[0] = "SKULL_ITEM";
                         }
-                        if (StringUtils.isNumeric(part[0])) {
+                     /*   if (StringUtils.isNumeric(part[0])) {
                             reqItem = Material.getMaterial(Integer.parseInt(part[0]));
                         } else {
                             reqItem = Material.getMaterial(part[0].toUpperCase());
-                        }
+                        }*/
+                        reqItem = Material.getMaterial(part[0].toString().toUpperCase());
                         reqAmount = Integer.parseInt(part[2]);
                         int reqDurability = Integer.parseInt(part[1]);
                         ItemStack item = new ItemStack(reqItem);
@@ -1491,11 +1482,12 @@ public class Challenges implements CommandExecutor, TabCompleter {
                             }
                         } else {	
                             Material item;
-                            if (StringUtils.isNumeric(sPart[0])) {
+                           /* if (StringUtils.isNumeric(sPart[0])) {
                                 item = Material.getMaterial(Integer.parseInt(sPart[0]));
                             } else {
                                 item = Material.getMaterial(sPart[0].toUpperCase());
-                            }
+                            }*/
+                            item = Material.getMaterial(sPart[0].toString().toUpperCase());
                             if (item != null) {
                                 neededItem.put(item, qty);
                                 // plugin.getLogger().info("DEBUG: Needed item is "
@@ -1679,7 +1671,7 @@ public class Challenges implements CommandExecutor, TabCompleter {
                 // Add a navigation book
                 List<String> lore = new ArrayList<String>();
                 if (i <= levelDone) {
-                    CPItem item = new CPItem(Material.BOOK_AND_QUILL, ChatColor.GOLD + Settings.challengeLevels.get(i), null, null);
+                    CPItem item = new CPItem(Material.WRITABLE_BOOK, ChatColor.GOLD + Settings.challengeLevels.get(i), null, null);
                     lore = Util.chop(ChatColor.WHITE, plugin.myLocale(player.getUniqueId()).challengesNavigation.replace("[level]", Settings.challengeLevels.get(i)), 25);
                     item.setNextSection(Settings.challengeLevels.get(i));
                     item.setLore(lore);
@@ -1743,13 +1735,17 @@ public class Challenges implements CommandExecutor, TabCompleter {
                 if (split.length == 1) {
                     // Some material does not show in the inventory
                     if (iconName.equalsIgnoreCase("potato")) {
-                        iconName = "POTATO_ITEM";
+                        iconName = "POTATO";
+   
                     } else if (iconName.equalsIgnoreCase("brewing_stand")) {
-                        iconName = "BREWING_STAND_ITEM";
+                        iconName = "BREWING_STAND";
+                       
                     } else if (iconName.equalsIgnoreCase("carrot")) {
-                        iconName = "CARROT_ITEM";
+                        iconName = "CARROT";
                     } else if (iconName.equalsIgnoreCase("cauldron")) {
-                        iconName = "CAULDRON_ITEM";
+                        iconName = "CAULDRON";
+                      
+                        
                     } else if (iconName.equalsIgnoreCase("lava") || iconName.equalsIgnoreCase("stationary_lava")) {
                         iconName = "LAVA_BUCKET";
                     } else if (iconName.equalsIgnoreCase("water") || iconName.equalsIgnoreCase("stationary_water")) {
@@ -1759,17 +1755,15 @@ public class Challenges implements CommandExecutor, TabCompleter {
                     } else if (iconName.equalsIgnoreCase("PUMPKIN_STEM")) {
                         iconName = "PUMPKIN";
                     } else if (iconName.equalsIgnoreCase("skull")) {
-                        iconName = "SKULL_ITEM";
+                        iconName = "PLAYER_HEAD";
                     } else if (iconName.equalsIgnoreCase("COCOA")) {
-                        iconName = "INK_SACK:3";
+                        iconName = "COCOA_BEANS";
                     } else if (iconName.equalsIgnoreCase("NETHER_WARTS")) {
                         iconName = "NETHER_STALK";
                     }
-                    if (StringUtils.isNumeric(iconName)) {
-                        icon = new ItemStack(Integer.parseInt(iconName));
-                    } else {
+                  
                         icon = new ItemStack(Material.valueOf(iconName));
-                    }
+                    
                     // Check POTION for V1.9 - for some reason, it must be declared as WATER otherwise comparison later causes an NPE
                     if (icon.getType().name().contains("POTION")) {
                         if (!plugin.getServer().getVersion().contains("(MC: 1.8") && !plugin.getServer().getVersion().contains("(MC: 1.7")) {                        
@@ -1799,7 +1793,7 @@ public class Challenges implements CommandExecutor, TabCompleter {
                             } 
                             icon.setItemMeta(potionMeta);
                         }
-                    } else if (icon.getType().equals(Material.MONSTER_EGG)) {
+                    } else if (icon.getType().equals(Material.LEGACY_MONSTER_EGG)) {
                         // Handle monster egg icons
                         try {                                
                             EntityType type = EntityType.valueOf(split[1].toUpperCase());

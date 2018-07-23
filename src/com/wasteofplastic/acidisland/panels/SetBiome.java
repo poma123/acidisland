@@ -61,12 +61,12 @@ public class SetBiome {
         
         // If the biome is dry, then we need to remove the water, ice, snow, etc.
         switch (biomeType) {
-        case MESA:
+        case BADLANDS:
         case DESERT:
         case JUNGLE:
         case SAVANNA:
-        case SWAMPLAND:
-        case HELL:
+        case SWAMP:
+        case NETHER:
             // Get the chunks
             //plugin.getLogger().info("DEBUG: get the chunks");
             List<ChunkSnapshot> chunkSnapshot = new ArrayList<ChunkSnapshot>();
@@ -94,12 +94,12 @@ public class SetBiome {
                             for (int z = 0; z < 16; z++) {
                                 // Check if it is snow, ice or water
                                 for (int yy = world.getMaxHeight()-1; yy >= Settings.seaHeight; yy--) {
-                                    int type = chunk.getBlockTypeId(x, yy, z);
-                                    if (type == Material.ICE.getId() || type == Material.SNOW.getId() || type == Material.SNOW_BLOCK.getId()
-                                            || type == Material.WATER.getId() || type == Material.STATIONARY_WATER.getId()) {
+                                    Material type = chunk.getBlockType(x, yy, z);
+                                    if (type == Material.ICE || type == Material.SNOW || type == Material.SNOW_BLOCK
+                                            || type == Material.WATER || type == Material.WATER) {
                                         //System.out.println("DEBUG: offending block found " + Material.getMaterial(type) + " @ " + (chunk.getX()*16 + x) + " " + yy + " " + (chunk.getZ()*16 + z));
                                         blocksToRemove.put(new Vector(chunk.getX()*16 + x,yy,chunk.getZ()*16 + z), type);
-                                    } else if (type != Material.AIR.getId()){
+                                    } else if (type != Material.AIR){
                                         // Hit a non-offending block so break and store this column of vectors
                                         break;
                                     }
@@ -118,8 +118,8 @@ public class SetBiome {
                             public void run() {
                                 //plugin.getLogger().info("DEBUG: Running sync task");
                                 for (Entry<Vector, Integer> entry: blocks.entrySet()) {
-                                    if (entry.getValue() == Material.WATER.getId() || entry.getValue() == Material.STATIONARY_WATER.getId()) {
-                                        if (biomeType.equals(Biome.HELL)) {
+                                    if (entry.getValue() == Material.WATER || entry.getValue() == Material.WATER) {
+                                        if (biomeType.equals(Biome.NETHER)) {
                                             // Remove water from Hell   
                                             entry.getKey().toLocation(world).getBlock().setType(Material.AIR);
                                         }

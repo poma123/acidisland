@@ -899,20 +899,20 @@ public class Island implements Cloneable {
                     if (onIsland(holder.getLocation())) {
                         if (holder.getType() == material) {
                             result++;
-                        } else if (material.equals(Material.REDSTONE_COMPARATOR_OFF)) {
-                            if (holder.getType().equals(Material.REDSTONE_COMPARATOR_ON)) {
+                        } else if (material.equals(Material.matchMaterial("REDSTONE_COMPARATOR_OFF"))) {
+                            if (holder.getType().equals(Material.matchMaterial("REDSTONE_COMPARATOR_ON"))) {
                                 result++;
                             }
                         } else if (material.equals(Material.FURNACE)) {
-                            if (holder.getType().equals(Material.BURNING_FURNACE)) {
+                            if (holder.getType().equals(Material.FURNACE)) {
                                 result++;
                             }
                         } else if (material.toString().endsWith("BANNER")) {
                             if (holder.getType().toString().endsWith("BANNER")) {
                                 result++;
                             }
-                        } else if (material.equals(Material.WALL_SIGN) || material.equals(Material.SIGN_POST)) {
-                            if (holder.getType().equals(Material.WALL_SIGN) || holder.getType().equals(Material.SIGN_POST)) {
+                        } else if (material.equals(Material.WALL_SIGN) || material.equals(Material.SIGN)) {
+                            if (holder.getType().equals(Material.WALL_SIGN) || holder.getType().equals(Material.SIGN)) {
                                 result++;
                             }
                         }

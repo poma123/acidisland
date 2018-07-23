@@ -33,7 +33,9 @@ import java.util.UUID;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.ChunkSnapshot;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
@@ -193,11 +195,11 @@ public class LevelCalcByChunk {
                                     continue;
                                 }
                                 for (int y = 0; y < worldHeight; y++) {
-                                    int type = chunk.getBlockTypeId(x, y, z);
-                                    int data = chunk.getBlockData(x, y, z);
-                                    MaterialData md = new MaterialData(type,(byte) data);                                    
+                                    Material type = chunk.getBlockType(x, y, z);
+                                    BlockData data = chunk.getBlockData(x, y, z);
+                                    MaterialData md = new MaterialData(type);                                    
                                     MaterialData generic = new MaterialData(type);
-                                    if (type != 0) { // AIR
+                                    if (type != null) { // AIR
                                         if (limitCount.containsKey(md) && Settings.blockValues.containsKey(md)) {
                                             int count = limitCount.get(md);
                                             //plugin.getLogger().info("DEBUG: Count for non-generic " + md + " is " + count);
