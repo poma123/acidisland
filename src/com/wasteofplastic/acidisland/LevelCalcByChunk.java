@@ -14,6 +14,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.ChunkSnapshot;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
@@ -135,7 +136,7 @@ public class LevelCalcByChunk {
                 }
 
                 for (int y = 0; y < island.getCenter().getWorld().getMaxHeight(); y++) {
-                    Material blockType = Material.getMaterial(chunk.getBlockTypeId(x, y, z));
+                    Material blockType = Material.matchMaterial(chunk.getBlockType(x, y, z).toString());
                     boolean belowSeaLevel = Settings.seaHeight > 0 && y <= Settings.seaHeight;
                     // Air is free
                     if (!blockType.equals(Material.AIR)) {
@@ -146,10 +147,10 @@ public class LevelCalcByChunk {
         }
     }
 
-    private void checkBlock(Material type, int blockData, boolean belowSeaLevel) {
+    private void checkBlock(Material type, BlockData blockData, boolean belowSeaLevel) {
         // Currently, there is no alternative to using block data (Feb 2018)
         @SuppressWarnings("deprecation")
-        MaterialData md = new MaterialData(type, (byte) blockData);
+        MaterialData md = new MaterialData(type);
         int count = limitCount(md);
         if (count != 0) {
             if (belowSeaLevel) {
@@ -225,7 +226,7 @@ public class LevelCalcByChunk {
         // Run any modifications
         // Get the permission multiplier if it is available
         int levelMultiplier = 1;
-        Player player = plugin.getServer().getPlayer(targetPlayer);
+        Player player = plugin.getServer().getPlayer(targetPlayer.toString());
         if (player != null) {
             // Get permission multiplier
             for (PermissionAttachmentInfo perms : player.getEffectivePermissions()) {

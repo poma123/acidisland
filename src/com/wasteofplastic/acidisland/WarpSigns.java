@@ -74,7 +74,7 @@ public class WarpSigns implements Listener {
         Block b = e.getBlock();
         Player player = e.getPlayer();
         if (b.getWorld().equals(ASkyBlock.getIslandWorld()) || b.getWorld().equals(ASkyBlock.getNetherWorld())) {
-            if (b.getType().equals(Material.SIGN_POST) || b.getType().equals(Material.WALL_SIGN)) {
+            if (b.getType().equals(Material.SIGN) || b.getType().equals(Material.WALL_SIGN)) {
                 Sign s = (Sign) b.getState();
                 if (s != null) {
                     //plugin.getLogger().info("DEBUG: sign found at location " + s.toString());
@@ -119,7 +119,7 @@ public class WarpSigns implements Listener {
         Player player = e.getPlayer();
         if (player.getWorld().equals(ASkyBlock.getIslandWorld()) || player.getWorld().equals(ASkyBlock.getNetherWorld())) {
             //plugin.getLogger().info("DEBUG: Correct world");
-            if (e.getBlock().getType().equals(Material.SIGN_POST) || e.getBlock().getType().equals(Material.WALL_SIGN)) {
+            if (e.getBlock().getType().equals(Material.SIGN) || e.getBlock().getType().equals(Material.WALL_SIGN)) {
 
                 //plugin.getLogger().info("DEBUG: The first line of the sign says " + title);
                 // Check if someone is changing their own sign
@@ -166,7 +166,7 @@ public class WarpSigns implements Listener {
                         // so,
                         // deactivate it
                         Block oldSignBlock = oldSignLoc.getBlock();
-                        if (oldSignBlock.getType().equals(Material.SIGN_POST) || oldSignBlock.getType().equals(Material.WALL_SIGN)) {
+                        if (oldSignBlock.getType().equals(Material.SIGN) || oldSignBlock.getType().equals(Material.WALL_SIGN)) {
                             // The block is still a sign
                             //plugin.getLogger().info("DEBUG: The block is still a sign");
                             Sign oldSign = (Sign) oldSignBlock.getState();
@@ -289,7 +289,7 @@ public class WarpSigns implements Listener {
      */
     private void popSign(Location loc) {
         Block b = loc.getBlock();
-        if (b.getType().equals(Material.SIGN_POST) || b.getType().equals(Material.WALL_SIGN)) {
+        if (b.getType().equals(Material.SIGN) || b.getType().equals(Material.WALL_SIGN)) {
             Sign s = (Sign) b.getState();
             if (s != null) {
                 if (s.getLine(0).equalsIgnoreCase(ChatColor.GREEN + plugin.myLocale().warpswelcomeLine)) {

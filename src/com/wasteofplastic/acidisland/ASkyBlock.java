@@ -771,7 +771,6 @@ public class ASkyBlock extends JavaPlugin {
      *
      * @param player - player
      */
-    @SuppressWarnings("deprecation")
     public void resetPlayer(Player player) {
         // getLogger().info("DEBUG: clear inventory = " +
         // Settings.clearInventory);

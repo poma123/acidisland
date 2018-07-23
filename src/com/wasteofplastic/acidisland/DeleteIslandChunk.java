@@ -103,7 +103,7 @@ public class DeleteIslandChunk {
                                         Material setTo = Material.AIR;
                                         // Split depending on below or above water line
                                         if (y < Settings.seaHeight) {
-                                            setTo = Material.STATIONARY_WATER;
+                                            setTo = Material.WATER;//stationary
                                         }
                                         // Grab anything out of containers (do that it is
                                         // destroyed)
@@ -118,11 +118,11 @@ public class DeleteIslandChunk {
                                             block.setType(setTo);
                                             break;
                                         case AIR:
-                                            if (setTo.equals(Material.STATIONARY_WATER)) {
+                                            if (setTo.equals(Material.WATER)) {//stationary
                                                 nms.setBlockSuperFast(block, setTo.getId(), (byte)0, false);
                                             }
                                             break;
-                                        case STATIONARY_WATER:
+                                        case WATER://stationary
                                             if (setTo.equals(Material.AIR)) {
                                                 nms.setBlockSuperFast(block, setTo.getId(), (byte)0, false);
                                             }

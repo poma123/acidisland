@@ -1,0 +1,409 @@
+name: AcidIsland
+main: com.wasteofplastic.acidisland.ASkyBlock
+version: ${version}
+description: AcidIsland
+author: Tastybento
+depend: [Vault]
+softdepend: [Herochat]
+load: startup
+loadbefore: [Multiverse-Core]
+commands:
+    ai:
+        description: Main player command
+        aliases: [is, island, ai]
+        usage:  |
+             /island help
+    acid:
+        description: Admin commands
+        usage:  |
+            /acid
+    aic:
+        description: Game challenges
+        aliases: [c, challenge, aic, aichallenge, challenges]
+        usage:  |  
+            /challenge
+permissions:    
+  acidisland.*:
+    default: false
+    children:
+      acidisland.island.*:
+        children:
+          acidisland.island.go:
+            description: Allow teleporting to player island
+            default: true
+          acidisland.island.create:
+            description: Let the player use the /island command
+            default: true
+          acidisland.island.info:
+            description: Let the player check their island level
+            default: true
+          acidisland.island.topten:
+            description: Let the player see the top ten list
+            default: true
+          acidisland.island.sethome:
+            description: Let the player set their island teleport point
+            default: true
+          acidisland.island.challenges:
+            description: Let the player use the /challenges command
+            default: true
+          acidisland.island.warp:
+            description: Let the player use /island warp to warp to a players island
+            default: true
+          acidisland.island.addwarp:
+            description: Let the player place a Welcome warp sign
+            default: true
+          acidisland.island.minishop:
+            description: Allows usage of the minishop
+            default: true
+          acidisland.island.controlpanel:
+            description: Allows usage of the island GUI
+            default: true
+          acidisland.island.controlpanelonoff:
+            description: Allows turning on/off of the island GUI
+            default: true
+          acidisland.island.biomes:
+            description: Allows biome changing
+            default: true
+          acidisland.island.lock:
+            description: Allows island locking
+            default: false
+          acidisland.island.expel:
+            description: Allows expelling of visitors
+            default: true
+          acidisland.island.ban:
+            description: Allows banning of visitors
+            default: false
+          acidisland.island.settings:
+            description: Player can see server settings
+            default: true
+          acidisland.island.lang:
+            description: Player can select a language
+            default: true
+          acidisland.island.name:
+            description: Player can set the name of their island
+            default: false
+          acidisland.island.value:
+            description: Player can see the value of a block
+            default: true
+          acidisland.island.spawn:
+            description: Player can use the island spawn command if spawn exists
+            default: true
+          acidisland.island.reset:
+            description: Player can use the island reset or restart command
+            default: true  
+      acidisland.team.*:
+        children:
+          acidisland.team.create:
+            description: Let a player invite other players to join a team
+            default: true
+          acidisland.team.kick:
+            description: Let a player kick other players
+            default: true
+          acidisland.team.makeleader:
+            description: Let a player make another player leader of the team
+            default: true
+          acidisland.team.join:
+            description: Let a player join another player's team
+            default: true
+          acidisland.team.chat:
+            description: Allow player to use team chat
+            default: true
+      acidisland.command.*:
+        description: Event commands will not be run for players with this perm
+        default: false
+        children:
+          acidisland.command.resetexempt:
+            description: Player is exempt from commands run when island resets
+            default: false
+          acidisland.command.leaveexempt:
+            description: Player is exempt from commands run when they leave or are kicked. Note will not help if player is offline.
+            default: false
+          acidisland.command.newexempt:
+            description: Player is exempt from commands run when starting an island
+            default: false
+          acidisland.command.challengeexempt:
+            description: Player is exempt from commands run when a challenge is completed
+            default: false
+          acidisland.command.newteamexempt:
+            description: Player is exempt from commands run when accepting a team invite
+            default: false
+      acidisland.coop:
+        description: Allows player to use the coop command
+        default: false    
+      acidisland.craft.*:
+        children:
+          acidisland.craft.enderchest:
+            description: Allow crafting and use of enderchests in acidisland
+            default: false
+      acidisland.craft.dirt:
+            description: Allows tilling of coarse dirt into dirt
+            default: false
+      acidisland.intopten:
+        description: Includes player in top ten
+        default: true
+      acidisland.nohunger:
+        description: Excludes player from hunger if on island
+        default: false   
+      acidisland.islandfly:
+        description: Allow player to fly inside his island boundaries
+        default: false
+      acidisland.settings.*:
+        description: Ability to change settings in GUI
+        default: false
+        children:
+          acidisland.settings.ACID_DAMAGE:
+            description: Can configure the Acid Damage setting
+            default: false
+          acidisland.settings.ANVIL:
+            description: Can configure the Anvil setting
+            default: false
+          acidisland.settings.ARMOR_STAND:
+            description: Can configure the Armor Stand setting
+            default: false
+          acidisland.settings.BEACON:
+            description: Can configure the Beacon setting
+            default: false
+          acidisland.settings.BED:
+            description: Can configure the Bed setting
+            default: false
+          acidisland.settings.BREAK_BLOCKS:
+            description: Can configure the Break Blocks setting
+            default: false
+          acidisland.settings.BREEDING:
+            description: Can configure the Breeding setting
+            default: false
+          acidisland.settings.BREWING:
+            description: Can configure the Brewing setting
+            default: false
+          acidisland.settings.BUCKET:
+            description: Can configure the Bucket setting
+            default: false
+          acidisland.settings.COLLECT_LAVA:
+            description: Can configure the Collect Lava setting
+            default: false
+          acidisland.settings.COLLECT_WATER:
+            description: Can configure the Collect Water setting
+            default: false
+          acidisland.settings.CHEST:
+            description: Can configure the Chest setting
+            default: false
+          acidisland.settings.CHORUS_FRUIT:
+            description: Can configure the Chorus Fruit setting
+            default: false
+          acidisland.settings.CRAFTING:
+            description: Can configure the Crafting setting
+            default: false
+          acidisland.settings.CREEPER_PAIN:
+            description: Can configure the Creeper Pain setting
+            default: false
+          acidisland.settings.CROP_TRAMPLE:
+            description: Can configure the Crop Trample setting
+            default: false
+          acidisland.settings.DOOR:
+            description: Can configure the Door setting
+            default: false
+          acidisland.settings.EGGS:
+            description: Can configure the Eggs setting
+            default: false
+          acidisland.settings.ENCHANTING:
+            description: Can configure the Enchanting setting
+            default: false
+          acidisland.settings.ENDER_PEARL:
+            description: Can configure the Ender Pearl setting
+            default: false
+          acidisland.settings.ENTER_EXIT_MESSAGES:
+            description: Can configure the Enter Exit Messages setting
+            default: false
+          acidisland.settings.FIRE:
+            description: Can configure the Fire setting
+            default: false
+          acidisland.settings.FIRE_EXTINGUISH:
+            description: Can configure the Fire Extinguish setting
+            default: false
+          acidisland.settings.FIRE_SPREAD:
+            description: Can configure the Fire Spread setting
+            default: false
+          acidisland.settings.FURNACE:
+            description: Can configure the Furnace setting
+            default: false
+          acidisland.settings.GATE:
+            description: Can configure the Gate setting
+            default: false
+          acidisland.settings.HORSE_INVENTORY:
+            description: Can configure the Horse Inventory setting
+            default: false
+          acidisland.settings.HORSE_RIDING:
+            description: Can configure the Horse Riding setting
+            default: false
+          acidisland.settings.HURT_MOBS:
+            description: Can configure the Hurt Mobs setting
+            default: false
+          acidisland.settings.HURT_MONSTERS:
+            description: Can configure the Hurt Monsters setting
+            default: false
+          acidisland.settings.LEASH:
+            description: Can configure the Leash setting
+            default: false
+          acidisland.settings.LEVER_BUTTON:
+            description: Can configure the Lever Button setting
+            default: false
+          acidisland.settings.MILKING:
+            description: Can configure the Milking setting
+            default: false
+          acidisland.settings.MOB_SPAWN:
+            description: Can configure the Mob Spawn setting
+            default: false
+          acidisland.settings.MONSTER_SPAWN:
+            description: Can configure the Monster Spawn setting
+            default: false
+          acidisland.settings.MUSIC:
+            description: Can configure the Music setting
+            default: false
+          acidisland.settings.NETHER_PVP:
+            description: Can configure the Nether Pvp setting
+            default: false
+          acidisland.settings.PLACE_BLOCKS:
+            description: Can configure the Place Blocks setting
+            default: false
+          acidisland.settings.PORTAL:
+            description: Can configure the Portal setting
+            default: false
+          acidisland.settings.PRESSURE_PLATE:
+            description: Can configure the Pressure Plate setting
+            default: false
+          acidisland.settings.PVP:
+            description: Can configure the Pvp setting
+            default: false
+          acidisland.settings.REDSTONE:
+            description: Can configure the Redstone setting
+            default: false
+          acidisland.settings.SPAWN_EGGS:
+            description: Can configure the Spawn Eggs setting
+            default: false
+          acidisland.settings.SHEARING:
+            description: Can configure the Shearing setting
+            default: false
+          acidisland.settings.VILLAGER_TRADING:
+            description: Can configure the Villager Trading setting
+            default: false
+          acidisland.settings.VISITOR_ITEM_DROP:
+            description: Can configure the Visitor Item Drop setting
+            default: false
+          acidisland.settings.VISITOR_ITEM_PICKUP:
+            description: Can configure the Visitor Item Pickup setting
+            default: false
+      acidisland.mod.*:
+        children:
+          acidisland.mod.topten:
+            description: Let a moderator update the top ten list
+            default: op
+          acidisland.mod.info:
+            description: Let a moderator see info on a player
+            default: op
+          acidisland.mod.challenges:
+            description: Let a moderator access challenge commands 
+            default: op
+          acidisland.mod.noburn:
+            description: Gives mod immunity to acid
+            default: false
+          acidisland.mod.resethome:
+            description: Allows setting or reseting of a player's home position
+            default: op
+          acidisland.mod.clearreset:
+            description: Allow clearing of island reset limit
+            default: false
+          acidisland.mod.tp:
+            description: Allows teleport to an island
+            default: op
+          acidisland.mod.tpnether:
+            description: Allows teleport to a nether island
+            default: op
+          acidisland.mod.bypassprotect:
+            description: Allow moderator to bypass island protection
+            default: op
+          acidisland.mod.bypassexpel:
+            description: Allow moderator to bypass island expulsion
+            default: op
+          acidisland.mod.setbiome:
+            description: Allows setting player island biomes
+            default: op
+          acidisland.mod.topbreeders:
+            description: Lists most populated islands current loaded
+            default: op
+          acidisland.mod.lock:
+            description: Locks or unlocks an island
+            default: op
+          acidisland.mod.bypasslock:
+            description: Bypasses an island lock
+            default: op
+          acidisland.mod.signadmin:
+            description: Enables warp sign admin commands
+            default: op
+          acidisland.mod.spy:
+            description: Spy on team chats
+            default: false
+          acidisland.mod.removesign:
+            description: Gives ability to remove warp signs
+            default: false
+          acidisland.mod.team:
+            description: Enables modification of teams via kick and add commands
+            default: false
+          acidisland.mod.name:
+            description: Enables naming of player's islands
+            default: false
+          acidisland.mod.resetname:
+            description: Enables reset of player's island names
+            default: false
+          acidisland.mod.setdeaths:
+            description: Sets how many deaths the player has
+            default: false
+      acidisland.admin.*:
+        children:
+          acidisland.mod.clearresetall:
+            description: Allow clearing of island reset limit for all players
+            default: op
+          acidisland.admin.reload:
+            description: Reload the config.yml
+            default: op
+          acidisland.admin.delete:
+            description: Let a player completely remove a player (including island)
+            default: op
+          acidisland.admin.deleteisland:
+            description: Let a player completely remove the island the player is on
+            default: op
+          acidisland.admin.register:
+            description: Let a player register the nearest island to another player.
+            default: op
+          acidisland.admin.unregister:
+            description: Removes a player from an island without deleting the island blocks.
+            default: op
+          acidisland.admin.purge:
+            description: Let a player purge old islands.
+            default: op
+          acidisland.admin.noburn:
+            description: Gives admin immunity to acid
+            default: false
+          acidisland.admin.setspawn:
+            description: Allows use of spawn tools
+            default: op
+          acidisland.admin.setrange:
+            description: Allows setting of island protection range
+            default: op
+          acidisland.admin.topbreeders:
+            description: Lists most populated islands current loaded
+            default: op
+          acidisland.admin.reserve:
+            description: Reserves an empty spot for a player's next island
+            default: op
+          acidisland.admin.settingsreset:
+            description: Resets all the islands to default protection settings
+            default: op
+          acidisland.admin.noban:
+            description: Player cannot be banned from an island
+            default: op
+          acidisland.admin.cobblestats:
+            description: Displays magic cobble gen stats
+            default: op
+          acidisland.admin.setlanguage:
+            description: Resets all player languages and sets the default language
+            default: op

@@ -92,7 +92,7 @@ public class SafeBoat implements Listener {
         // Try to remove the boat and throw it at the player
         Location boatSpot = new Location(boat.getWorld(), boat.getLocation().getX(), boat.getLocation().getY() + 2, boat.getLocation().getZ());
         Location throwTo = new Location(boat.getWorld(), p.getLocation().getX(), p.getLocation().getY() + 1, p.getLocation().getZ());
-        ItemStack newBoat = new ItemStack(Material.BOAT, 1);
+        ItemStack newBoat = new ItemStack(Material.OAK_BOAT, 1);
         // Find the direction the boat should move in
         Vector dir = throwTo.toVector().subtract(boatSpot.toVector()).normalize();
         dir = dir.multiply(0.5);

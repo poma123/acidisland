@@ -65,7 +65,7 @@ public class TopTen implements Listener, Requester {
     private final int[] SLOTS = new int[] {4, 12, 14, 19, 20, 21, 22, 23, 24, 25};
     private final Material[] ICONS = new Material[] {
             Material.DIAMOND_AXE,
-            Material.GOLD_AXE,
+            Material.GOLDEN_AXE,
             Material.IRON_AXE,
             Material.DIAMOND_BLOCK,
             Material.GOLD_BLOCK,
@@ -117,7 +117,7 @@ public class TopTen implements Listener, Requester {
             if (topTenList.containsKey(ownerUUID) && !topTenHeads.containsKey(ownerUUID)) {
                 String name = plugin.getPlayers().getName(ownerUUID);
                 if (name != null && !name.isEmpty()) {
-                    ItemStack playerSkull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+                    ItemStack playerSkull = new ItemStack(Material.PLAYER_HEAD, 1);
                     SkullMeta meta = (SkullMeta) playerSkull.getItemMeta();
                     meta.setDisplayName(name);
                     playerSkull.setItemMeta(meta);
@@ -379,7 +379,7 @@ public class TopTen implements Listener, Requester {
         }
         ItemStack trophy = new ItemStack(ICONS[rank - 1]);
         if (Settings.warpHeads) {
-            trophy = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+            trophy = new ItemStack(Material.PLAYER_HEAD, 1);
         }
         if (playerName == null) return null;
         ItemMeta meta = trophy.getItemMeta();

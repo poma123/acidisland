@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="target/classes" path="src">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry excluding="**" kind="src" output="target/classes" path="schematics">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry excluding="**" kind="src" output="target/classes" path="locale">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/User/Downloads/spigot-latest.jar"/>
+	<classpathentry kind="lib" path="C:/Users/User/Downloads/Vault.jar"/>
+	<classpathentry kind="lib" path="C:/Users/User/Downloads/worldguard-6.2.1.jar"/>
+	<classpathentry kind="lib" path="I:/RPG/2018-07-01-1847/plugins/worldedit-bukkit-6.1.9-SNAPSHOT-dist.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

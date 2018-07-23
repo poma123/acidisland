@@ -86,7 +86,7 @@ public class CoopPlay {
             for (UUID member : plugin.getPlayers().getMembers(leaderUUID)) {
                 // plugin.getLogger().info("DEBUG: " + member.toString());
                 if (!member.equals(requester.getUniqueId())) {
-                    Player player = plugin.getServer().getPlayer(member);
+                    Player player = plugin.getServer().getPlayer(member.toString());
                     if (player != null) {
                         Util.sendMessage(player, ChatColor.GOLD
                                 + plugin.myLocale(player.getUniqueId()).coopInvited.replace("[name]", requester.getName()).replace("[player]", newPlayer.getName()));
@@ -199,7 +199,8 @@ public class CoopPlay {
      * 
      * @param player - player object
      */
-    public void clearMyCoops(Player player) {
+    @SuppressWarnings("unlikely-arg-type")
+	public void clearMyCoops(Player player) {
         //plugin.getLogger().info("DEBUG: clear my coops - clearing coops memberships of " + player.getName());
         Island coopIsland = plugin.getGrid().getIsland(player.getUniqueId());
         if (coopPlayers.get(player.getUniqueId()) != null) {
@@ -315,7 +316,7 @@ public class CoopPlay {
                     plugin.getServer().getPluginManager().callEvent(event);
                     if (!event.isCancelled()) {
                         // Yes, so get the invitee (target)
-                        Player target = plugin.getServer().getPlayer(playerUUID);
+                        Player target = plugin.getServer().getPlayer(playerUUID.toString());
                         if (target != null) {
                             Util.sendMessage(target, ChatColor.RED + plugin.myLocale(playerUUID).coopRemoved.replace("[name]", clearer.getName()));
                         } else {
