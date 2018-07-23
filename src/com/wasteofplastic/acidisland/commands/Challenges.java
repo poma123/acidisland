@@ -480,7 +480,7 @@ public class Challenges implements CommandExecutor, TabCompleter {
                     } else {
                         ItemStack item = null;
                         // Normal item, not a potion, check if it is a Monster Egg
-                        if (rewardItem.equals(Material.SPAWN)) {
+                        if (rewardItem.equals(Material.LEGACY_MONSTER_EGG)) {
 
                             try {                                
                                 EntityType type = EntityType.valueOf(element[1].toUpperCase());
