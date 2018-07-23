@@ -82,7 +82,8 @@ public class AcidEffect implements Listener {
         PlayerEvents.unsetFalling(e.getEntity().getUniqueId());
     }
 
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    @SuppressWarnings("unused")
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     public void onPlayerMove(PlayerMoveEvent e) {
         // Fast return if acid isn't being used
         if (Settings.rainDamage == 0 && Settings.acidDamage == 0) {
@@ -132,7 +133,7 @@ public class AcidEffect implements Listener {
             // Only check if they are in a non-dry biome
             Biome biome = playerLoc.getBlock().getBiome();
             if (biome != Biome.DESERT && biome != Biome.DESERT_HILLS
-                    && biome != Biome.SAVANNA && biome != Biome.MESA && biome != Biome.HELL) {
+                    && biome != Biome.SAVANNA && biome != Biome.BADLANDS && biome != Biome.NETHER) {
                 if (isSafeFromRain(player)) {
                     // plugin.getLogger().info("DEBUG: not hit by rain");
                     wetPlayers.remove(player);
@@ -294,9 +295,9 @@ public class AcidEffect implements Listener {
         // In liquid
         Material bodyMat = player.getLocation().getBlock().getType();
         Material headMat = player.getLocation().getBlock().getRelative(BlockFace.UP).getType();
-        if (bodyMat.equals(Material.STATIONARY_WATER))
+        if (bodyMat.equals(Material.WATER))
             bodyMat = Material.WATER;
-        if (headMat.equals(Material.STATIONARY_WATER))
+        if (headMat.equals(Material.WATER))
             headMat = Material.WATER;
         if (bodyMat != Material.WATER && headMat != Material.WATER) {
             if (DEBUG)
@@ -400,7 +401,7 @@ public class AcidEffect implements Listener {
                 }
                 if (!otherOb) {
                     Util.sendMessage(e.getPlayer(), ChatColor.YELLOW + plugin.myLocale(e.getPlayer().getUniqueId()).changingObsidiantoLava);
-                    e.getPlayer().getInventory().setItemInHand(null);
+                    e.getPlayer().getInventory().setItemInMainHand(null);
                     // e.getPlayer().getInventory().removeItem(new
                     // ItemStack(Material.BUCKET, 1));
                     e.getPlayer().getInventory().addItem(new ItemStack(Material.LAVA_BUCKET, 1));
@@ -431,7 +432,7 @@ public class AcidEffect implements Listener {
         if (helmet != null) {
             if (helmet.getType() == Material.LEATHER_HELMET)
                 red = red + 0.04;
-            else if (helmet.getType() == Material.GOLD_HELMET)
+            else if (helmet.getType() == Material.GOLDEN_HELMET)
                 red = red + 0.08;
             else if (helmet.getType() == Material.CHAINMAIL_HELMET)
                 red = red + 0.08;
@@ -443,7 +444,7 @@ public class AcidEffect implements Listener {
         if (boots != null) {
             if (boots.getType() == Material.LEATHER_BOOTS)
                 red = red + 0.04;
-            else if (boots.getType() == Material.GOLD_BOOTS)
+            else if (boots.getType() == Material.GOLDEN_BOOTS)
                 red = red + 0.04;
             else if (boots.getType() == Material.CHAINMAIL_BOOTS)
                 red = red + 0.04;
@@ -456,7 +457,7 @@ public class AcidEffect implements Listener {
         if (pants != null) {
             if (pants.getType() == Material.LEATHER_LEGGINGS)
                 red = red + 0.08;
-            else if (pants.getType() == Material.GOLD_LEGGINGS)
+            else if (pants.getType() == Material.GOLDEN_LEGGINGS)
                 red = red + 0.12;
             else if (pants.getType() == Material.CHAINMAIL_LEGGINGS)
                 red = red + 0.16;
@@ -469,7 +470,7 @@ public class AcidEffect implements Listener {
         if (chest != null) {
             if (chest.getType() == Material.LEATHER_CHESTPLATE)
                 red = red + 0.12;
-            else if (chest.getType() == Material.GOLD_CHESTPLATE)
+            else if (chest.getType() == Material.GOLDEN_CHESTPLATE)
                 red = red + 0.20;
             else if (chest.getType() == Material.CHAINMAIL_CHESTPLATE)
                 red = red + 0.20;

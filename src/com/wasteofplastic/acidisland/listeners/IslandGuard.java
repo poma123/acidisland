@@ -545,7 +545,7 @@ public class IslandGuard implements Listener {
                         switch (b.getType()) {
                         case CHEST:
                         case ENDER_CHEST:
-                        case STORAGE_MINECART:
+                        case CHEST_MINECART:
                         case TRAPPED_CHEST:
                             toberemoved.add(b);
                             break;
@@ -606,7 +606,7 @@ public class IslandGuard implements Listener {
                         switch (b.getType()) {
                         case CHEST:
                         case ENDER_CHEST:
-                        case STORAGE_MINECART:
+                        case CHEST_MINECART:
                         case TRAPPED_CHEST:
                             toberemoved.add(b);
                             break;
@@ -634,7 +634,7 @@ public class IslandGuard implements Listener {
                         switch (b.getType()) {
                         case CHEST:
                         case ENDER_CHEST:
-                        case STORAGE_MINECART:
+                        case CHEST_MINECART:
                         case TRAPPED_CHEST:
                             toberemoved.add(b);
                             break;
@@ -995,12 +995,12 @@ public class IslandGuard implements Listener {
     public void onSpawnerBlockPlace(final BlockPlaceEvent e) {
         if (DEBUG)
             plugin.getLogger().info("DEBUG: block place");
-        if (inWorld(e.getPlayer()) && Util.playerIsHolding(e.getPlayer(), Material.MOB_SPAWNER)) {
+        if (inWorld(e.getPlayer()) && Util.playerIsHolding(e.getPlayer(), Material.SPAWNER)) {
             if (DEBUG)
                 plugin.getLogger().info("DEBUG: in world");
             // Get item in hand
             for (ItemStack item : Util.getPlayerInHandItems(e.getPlayer())) {
-                if (item.getType().equals(Material.MOB_SPAWNER) && item.hasItemMeta() && item.getItemMeta().hasLore()) {
+                if (item.getType().equals(Material.SPAWNER) && item.hasItemMeta() && item.getItemMeta().hasLore()) {
                     if (DEBUG)
                         plugin.getLogger().info("DEBUG: spawner in hand with lore");
                     List<String> lore = item.getItemMeta().getLore();
@@ -1012,7 +1012,7 @@ public class IslandGuard implements Listener {
                                 // Found the spawner type
                                 if (DEBUG)
                                     plugin.getLogger().info("DEBUG: found type");
-                                e.getBlock().setType(Material.MOB_SPAWNER);
+                                e.getBlock().setType(Material.SPAWNER);
                                 CreatureSpawner cs = (CreatureSpawner)e.getBlock().getState();
                                 cs.setSpawnedType(type);
                             }
@@ -1226,11 +1226,11 @@ public class IslandGuard implements Listener {
                 Block dumpBlock = e.getBlockClicked().getRelative(e.getBlockFace());
                 if (actionAllowed(p, dumpBlock.getLocation(), SettingsFlag.BUCKET)) {
                     // Check if biome is Nether and then allow water placement but fizz the water
-                    if (e.getBlockClicked().getBiome().equals(Biome.HELL)) {
+                    if (e.getBlockClicked().getBiome().equals(Biome.NETHER)) {
                         if (plugin.getServer().getVersion().contains("(MC: 1.8") || plugin.getServer().getVersion().contains("(MC: 1.7")) {
-                            if (e.getPlayer().getItemInHand().getType().equals(Material.WATER_BUCKET)) {
+                            if (e.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.WATER_BUCKET)) {
                                 e.setCancelled(true);
-                                e.getPlayer().getItemInHand().setType(Material.BUCKET);
+                                e.getPlayer().getInventory().getItemInMainHand().setType(Material.BUCKET);
                                 e.getPlayer().getWorld().playSound(e.getPlayer().getLocation(), Sound.valueOf("FIZZ"), 1F, 2F);
                                 Util.sendMessage(e.getPlayer(), ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).biomeSet.replace("[biome]", "Nether"));
                             }
@@ -1266,7 +1266,7 @@ public class IslandGuard implements Listener {
         if (DEBUG) {
             plugin.getLogger().info(e.getEventName());
         }
-        if (e.getBlock().getWorld().getEnvironment().equals(Environment.NETHER) || !inWorld(e.getBlock().getLocation()) || !e.getBlock().getBiome().equals(Biome.HELL)) {
+        if (e.getBlock().getWorld().getEnvironment().equals(Environment.NETHER) || !inWorld(e.getBlock().getLocation()) || !e.getBlock().getBiome().equals(Biome.NETHER)) {
             return;
         }
         // plugin.getLogger().info("DEBUG: Item being dispensed is " +
@@ -1383,7 +1383,7 @@ public class IslandGuard implements Listener {
                             plugin.getLogger().info("DEBUG: found clicked block");
                         break;
                     }
-                    if (lastBlock.getType().equals(Material.SKULL)) {
+                    if (lastBlock.getType().toString().endsWith("HEAD")) {
                         if (DEBUG)
                             plugin.getLogger().info("DEBUG: SKULL found");
                         if (island != null) {
@@ -1451,7 +1451,7 @@ public class IslandGuard implements Listener {
                 return;
             }
             // Handle fireworks
-            if (e.getMaterial() != null && e.getMaterial().equals(Material.FIREWORK)) {
+            if (e.getMaterial() != null && e.getMaterial().equals(Material.FIREWORK_ROCKET)) {
                 if (island == null) {
                     if (!Settings.defaultWorldSettings.get(SettingsFlag.PLACE_BLOCKS)) {
                         Util.sendMessage(e.getPlayer(), ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
@@ -1465,13 +1465,18 @@ public class IslandGuard implements Listener {
             }
 
             switch (e.getClickedBlock().getType()) {
-            case WOODEN_DOOR:
+            case OAK_DOOR:
             case SPRUCE_DOOR:
             case ACACIA_DOOR:
             case DARK_OAK_DOOR:
             case BIRCH_DOOR:
             case JUNGLE_DOOR:
-            case TRAP_DOOR:
+            case OAK_TRAPDOOR:
+            case SPRUCE_TRAPDOOR:
+            case ACACIA_TRAPDOOR:
+            case DARK_OAK_TRAPDOOR:
+            case BIRCH_TRAPDOOR:
+            case JUNGLE_TRAPDOOR:
                 if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
                     if (island == null) {
                         if (Settings.defaultWorldSettings.get(SettingsFlag.DOOR)) {
@@ -1489,7 +1494,7 @@ public class IslandGuard implements Listener {
                     }
                 }
                 break;
-            case FENCE_GATE:
+            case OAK_FENCE_GATE:
             case SPRUCE_FENCE_GATE:
             case ACACIA_FENCE_GATE:
             case DARK_OAK_FENCE_GATE:
@@ -1518,7 +1523,7 @@ public class IslandGuard implements Listener {
             case DROPPER:
             case HOPPER:
             case HOPPER_MINECART:
-            case STORAGE_MINECART:
+            case CHEST_MINECART:
                 if (island == null) {
                     if (Settings.defaultWorldSettings.get(SettingsFlag.CHEST)) {
                         return;
@@ -1534,7 +1539,7 @@ public class IslandGuard implements Listener {
                     return;
                 }
                 break;
-            case SOIL:
+            case FARMLAND:
                 // Prevent jumping on crops
                 if (e.getAction().equals(Action.PHYSICAL)) {
                     if (island == null) {
@@ -1655,7 +1660,12 @@ public class IslandGuard implements Listener {
             case PACKED_ICE:
                 break;
             case STONE_BUTTON:
-            case WOOD_BUTTON:
+            case BIRCH_BUTTON:
+            case OAK_BUTTON:
+            case SPRUCE_BUTTON:
+            case DARK_OAK_BUTTON:
+            case JUNGLE_BUTTON:
+            case ACACIA_BUTTON:
             case LEVER:
                 if (island == null) {
                     if (Settings.defaultWorldSettings.get(SettingsFlag.LEVER_BUTTON)) {
@@ -1674,7 +1684,7 @@ public class IslandGuard implements Listener {
                 break;
             case TNT:
                 break;
-            case WORKBENCH:
+            case CRAFTING_TABLE:
                 if (island == null) {
                     if (Settings.defaultWorldSettings.get(SettingsFlag.CRAFTING)) {
                         return;
@@ -1706,7 +1716,7 @@ public class IslandGuard implements Listener {
                     return;
                 }
                 break;
-            case RAILS:
+            case RAIL:
             case POWERED_RAIL:
             case DETECTOR_RAIL:
             case ACTIVATOR_RAIL:
@@ -1719,8 +1729,8 @@ public class IslandGuard implements Listener {
                     return;
                 }
                 if (!island.getIgsFlag(SettingsFlag.PLACE_BLOCKS)) {
-                    if (e.getMaterial() == Material.MINECART || e.getMaterial() == Material.STORAGE_MINECART || e.getMaterial() == Material.HOPPER_MINECART
-                            || e.getMaterial() == Material.EXPLOSIVE_MINECART || e.getMaterial() == Material.POWERED_MINECART) {
+                    if (e.getMaterial() == Material.MINECART || e.getMaterial() == Material.CHEST_MINECART || e.getMaterial() == Material.HOPPER_MINECART
+                            || e.getMaterial() == Material.TNT_MINECART || e.getMaterial() == Material.FURNACE_MINECART) {
                         e.setCancelled(true);
                         Util.sendMessage(e.getPlayer(), ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
                         e.getPlayer().updateInventory();
@@ -1744,7 +1754,7 @@ public class IslandGuard implements Listener {
                     return;
                 }
                 break;
-            case CAKE_BLOCK:
+            case CAKE:
                 if (island == null) {
                     if (Settings.defaultWorldSettings.get(SettingsFlag.BREAK_BLOCKS)) {
                         return;
@@ -1776,7 +1786,7 @@ public class IslandGuard implements Listener {
                     return;
                 }
                 break;
-            case MOB_SPAWNER:
+            case SPAWNER:
                 if (island == null) {
                     if (Settings.defaultWorldSettings.get(SettingsFlag.BREAK_BLOCKS)) {
                         return;
@@ -1792,7 +1802,22 @@ public class IslandGuard implements Listener {
                     return;
                 }
                 break;
-            case BED_BLOCK:
+            case WHITE_BED:
+            case ORANGE_BED:
+            case MAGENTA_BED:
+            case LIGHT_BLUE_BED:
+            case YELLOW_BED:
+            case LIME_BED:
+            case PINK_BED:
+            case GRAY_BED:
+            case LIGHT_GRAY_BED:
+            case CYAN_BED:
+            case PURPLE_BED:
+            case BLUE_BED:
+            case BROWN_BED:
+            case GREEN_BED:
+            case RED_BED:
+            case BLACK_BED:
                 if (e.getPlayer().getWorld().getEnvironment().equals(Environment.NETHER)) {
                     // Prevent explosions
                     Util.sendMessage(e.getPlayer(), ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
@@ -1812,7 +1837,7 @@ public class IslandGuard implements Listener {
         if (e.getMaterial() != null) {
             // This check protects against an exploit in 1.7.9 against cactus
             // and sugar cane
-            if (e.getMaterial() == Material.WOOD_DOOR || e.getMaterial() == Material.CHEST
+            if (e.getMaterial().toString().endsWith("DOOR") || e.getMaterial() == Material.CHEST
                     || e.getMaterial() == Material.TRAPPED_CHEST || e.getMaterial() == Material.IRON_DOOR) {
                 if ((island == null && Settings.defaultWorldSettings.get(SettingsFlag.PLACE_BLOCKS))
                         || (island !=null && !island.getIgsFlag(SettingsFlag.PLACE_BLOCKS))) {
@@ -1848,7 +1873,7 @@ public class IslandGuard implements Listener {
                         e.setCancelled(true);
                     }
                 }
-            } else if (e.getMaterial().equals(Material.MONSTER_EGG)) {
+            } else if (e.getMaterial().toString().endsWith("SPAWN_EGG")) {
                 if (DEBUG)
                     plugin.getLogger().info("DEBUG: allowMonsterEggs = " + island.getIgsFlag(SettingsFlag.SPAWN_EGGS));
                 if (!actionAllowed(e.getPlayer(),e.getClickedBlock().getLocation(),SettingsFlag.SPAWN_EGGS)) {
@@ -2034,7 +2059,7 @@ public class IslandGuard implements Listener {
          * Leashes are deal with mostly using the PlayerLeashEvent and PlayerUnleashEvent
          * however, skeleton and zombie horses cannot be leashed, so those should be exempted
          */
-        if (Util.playerIsHolding(p, Material.LEASH) && e.getRightClicked() != null) {
+        if (Util.playerIsHolding(p, Material.LEAD) && e.getRightClicked() != null) {
             if (DEBUG)
                 plugin.getLogger().info("DEBUG: checking horse types");
             // Pre 1.11
@@ -2043,9 +2068,10 @@ public class IslandGuard implements Listener {
                 if (DEBUG)
                     plugin.getLogger().info("DEBUG: horse clicked ");
                 Horse horse = (Horse)e.getRightClicked();
+               
                 if (DEBUG)
-                    plugin.getLogger().info("DEBUG: horse variant = " + horse.getVariant());
-                if (horse.getVariant().equals(Variant.SKELETON_HORSE) || horse.getVariant().equals(Variant.UNDEAD_HORSE)) {
+                    plugin.getLogger().info("DEBUG: horse variant = " + horse.getType());
+                if (horse.getType().equals(EntityType.SKELETON_HORSE) || horse.getType().equals(EntityType.HORSE)) {
                     if (DEBUG)
                         plugin.getLogger().info("DEBUG: skelly or zombie horse");
                     skellyZombieHorse = true;
@@ -2111,7 +2137,7 @@ public class IslandGuard implements Listener {
             if (e.getRightClicked() instanceof Animals) {
                 for (ItemStack item : Util.getPlayerInHandItems(p)) {
                     Material type = item.getType();
-                    if (type == Material.EGG || type == Material.WHEAT || type == Material.CARROT_ITEM || type == Material.SEEDS) {
+                    if (type == Material.EGG || type == Material.WHEAT || type == Material.CARROT || type.toString().endsWith("SEED")) {
                         if (island == null && !Settings.defaultWorldSettings.get(SettingsFlag.BREEDING)) {
                             Util.sendMessage(e.getPlayer(), ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
                             e.setCancelled(true);
@@ -2294,7 +2320,7 @@ public class IslandGuard implements Listener {
                             public void run() {
                                 if (e.getBlock().getType().equals(Material.FIRE)) {
                                     e.getBlock().setType(md.getItemType());
-                                    e.getBlock().setData(md.getData());
+                                    e.getBlock().setBlockData(md.getData());
                                 }
 
                             }
@@ -2391,7 +2417,12 @@ public class IslandGuard implements Listener {
             }
             Island island = plugin.getGrid().getProtectedIslandAt(e.getBlock().getLocation());
             switch(e.getBlock().getType()) {
-            case WOOD_BUTTON:
+            case BIRCH_BUTTON:
+            case OAK_BUTTON:
+            case SPRUCE_BUTTON:
+            case DARK_OAK_BUTTON:
+            case JUNGLE_BUTTON:
+            case ACACIA_BUTTON:
             case STONE_BUTTON:
                 if ((island == null && Settings.defaultWorldSettings.get(SettingsFlag.LEVER_BUTTON))) {
                     return;
@@ -2402,10 +2433,15 @@ public class IslandGuard implements Listener {
                 Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).islandProtected);
                 e.setCancelled(true);
                 break;
-            case WOOD_PLATE:
-            case STONE_PLATE:
-            case GOLD_PLATE:
-            case IRON_PLATE:
+            case BIRCH_PRESSURE_PLATE:
+            case OAK_PRESSURE_PLATE:
+            case SPRUCE_PRESSURE_PLATE:
+            case DARK_OAK_PRESSURE_PLATE:
+            case JUNGLE_PRESSURE_PLATE:
+            case ACACIA_PRESSURE_PLATE:
+            case STONE_PRESSURE_PLATE:
+            case LIGHT_WEIGHTED_PRESSURE_PLATE:
+            case HEAVY_WEIGHTED_PRESSURE_PLATE:
                 // Pressure plates
                 if ((island == null && Settings.defaultWorldSettings.get(SettingsFlag.PRESSURE_PLATE))) {
                     return;

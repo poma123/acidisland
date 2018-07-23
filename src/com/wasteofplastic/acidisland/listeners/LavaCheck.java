@@ -92,7 +92,7 @@ public class LavaCheck implements Listener {
                 public void run() {
                     // plugin.getLogger().info("To material is after 1 tick " +
                     // to.getType().toString());
-                    if ((prev.equals(Material.WATER) || prev.equals(Material.STATIONARY_WATER)) && to.getType().equals(Material.STONE)) {
+                    if ((prev.equals(Material.WATER) || prev.equals(Material.WATER)) && to.getType().equals(Material.STONE)) {
                         to.setType(prev);
                         if (plugin.getServer().getVersion().contains("(MC: 1.8") || plugin.getServer().getVersion().contains("(MC: 1.7")) {
                             to.getWorld().playSound(to.getLocation(), Sound.valueOf("FIZZ"), 1F, 2F);

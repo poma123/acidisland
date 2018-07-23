@@ -888,7 +888,7 @@ public class Island {
                         if (holder.getType() == material) {
                             result++;
                         } else if (material.equals(Material.REDSTONE_COMPARATOR_OFF)) {
-                            if (holder.getBlockData(). getType().equals(Material.REDSTONE_COMPARATOR_ON)) {
+                            if (holder.getType().equals(Material.REDSTONE_COMPARATOR_ON)) {
                                 result++;
                             }
                         } else if (material.equals(Material.FURNACE)) {

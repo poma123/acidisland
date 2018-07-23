@@ -389,9 +389,9 @@ public class NetherPortals implements Listener {
             return;
         }
         for (BlockState b : e.getBlocks()) {
-            if (b.getType() == Material.LOG || b.getType() == Material.LOG_2) {
+            if (b.getType().toString().endsWith("LOG")) {
                 b.setType(Material.GRAVEL);
-            } else if (b.getType() == Material.LEAVES || b.getType() == Material.LEAVES_2) {
+            } else if (b.getType().toString().endsWith("LEAVES")) {
                 b.setType(Material.GLOWSTONE);
             }
         }

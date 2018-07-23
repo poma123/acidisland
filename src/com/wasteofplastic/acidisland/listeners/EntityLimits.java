@@ -213,8 +213,8 @@ public class EntityLimits implements Listener {
                         for (ItemStack itemInHand: Util.getPlayerInHandItems((Player) entity)) {
                             if (itemInHand != null) {
                                 Material type = itemInHand.getType();
-                                if (type == Material.EGG || type == Material.MONSTER_EGG || type == Material.WHEAT || type == Material.CARROT_ITEM
-                                        || type == Material.SEEDS) {
+                                if (type == Material.EGG || type.toString().endsWith("SPAWN_EGG") || type == Material.WHEAT || type == Material.CARROT
+                                        || type.toString().endsWith("SEEDS")) {
                                     if (DEBUG2)
                                         plugin.getLogger().info("Player used egg or did breeding ");
                                     if (!culprits.contains((Player)entity)) {
@@ -249,8 +249,8 @@ public class EntityLimits implements Listener {
                         } else if (entity instanceof Player && e.getSpawnReason() != SpawnReason.SPAWNER && e.getSpawnReason() != SpawnReason.DISPENSE_EGG) {
                             for (ItemStack itemInHand : Util.getPlayerInHandItems(((Player) entity))) {
                                 Material type = itemInHand.getType();
-                                if (type == Material.EGG || type == Material.MONSTER_EGG || type == Material.WHEAT || type == Material.CARROT_ITEM
-                                        || type == Material.SEEDS) {
+                                if (type == Material.EGG || type.toString().endsWith("SPAWN_EGG") || type == Material.WHEAT || type == Material.CARROT
+                                        || type.toString().endsWith("SEEDS")) {
                                     if (!culprits.contains((Player)entity)) {
                                         culprits.add(((Player) entity));
                                     }
@@ -360,7 +360,7 @@ public class EntityLimits implements Listener {
                         || e.getBlock().getType().equals(Material.REDSTONE_COMPARATOR_OFF)
                         || type.endsWith("BANNER") // Avoids V1.7 issues
                         || e.getBlock().getType().equals(Material.ENDER_CHEST)
-                        || e.getBlock().getType().equals(Material.ENCHANTMENT_TABLE)
+                        || e.getBlock().getType().equals(Material.ENCHANTING_TABLE)
                         || e.getBlock().getType().equals(Material.DAYLIGHT_DETECTOR)
                         || e.getBlock().getType().equals(Material.FLOWER_POT)){
                     // tile entity placed
@@ -426,9 +426,9 @@ public class EntityLimits implements Listener {
                         || e.getBlock().getType().equals(Material.REDSTONE_COMPARATOR_OFF)
                         || type.endsWith("BANNER") // Avoids V1.7 issues
                         || e.getBlock().getType().equals(Material.ENDER_CHEST)
-                        || e.getBlock().getType().equals(Material.ENCHANTMENT_TABLE)
+                        || e.getBlock().getType().equals(Material.ENCHANTING_TABLE)
                         || e.getBlock().getType().equals(Material.DAYLIGHT_DETECTOR)
-                        || e.getBlock().getType().equals(Material.FLOWER_POT)){
+                        || e.getBlock().getType().equals(Material.FLOWER_POT)) {
                     // tile entity placed
                     if (Settings.limitedBlocks.containsKey(type) && Settings.limitedBlocks.get(type) > -1) {
                         int count = island.getTileEntityCount(e.getBlock().getType(),e.getBlock().getWorld());
@@ -519,8 +519,7 @@ public class EntityLimits implements Listener {
         Iterator<BlockState> it = e.getBlocks().iterator();
         while (it.hasNext()) {
             BlockState b = it.next();
-            if (b.getType() == Material.LOG || b.getType() == Material.LOG_2
-                    || b.getType() == Material.LEAVES || b.getType() == Material.LEAVES_2) {
+            if (b.getType().toString().endsWith("LOG") || b.getType().toString().endsWith("LEAVES")) {
                 if (!island.onIsland(b.getLocation())) {
                     it.remove();
                 }

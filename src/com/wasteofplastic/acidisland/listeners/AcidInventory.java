@@ -180,7 +180,7 @@ public class AcidInventory implements Listener {
                     }
                 }
                 final ItemStack item = new ItemStack(Material.GLASS_BOTTLE);
-                e.getPlayer().setItemInHand(item);
+                e.getPlayer().getInventory().setItemInMainHand(item);
                 e.getPlayer().setHealth(0D);
                 e.setCancelled(true);
             }
@@ -230,7 +230,7 @@ public class AcidInventory implements Listener {
             return;
         if (Settings.acidDamage == 0D || !Settings.acidBottle)
             return;
-        if (!player.getItemInHand().getType().equals(Material.GLASS_BOTTLE)) {
+        if (!player.getInventory().getItemInMainHand().getType().equals(Material.GLASS_BOTTLE)) {
             return;
         }
         // plugin.getLogger().info(e.getEventName() + " called");
@@ -244,7 +244,7 @@ public class AcidInventory implements Listener {
             break;
         }
         // plugin.getLogger().info(lastBlock.getType().toString());
-        if (lastBlock.getType().equals(Material.WATER) || lastBlock.getType().equals(Material.STATIONARY_WATER)
+        if (lastBlock.getType().equals(Material.WATER) || lastBlock.getType().equals(Material.WATER)
                 || lastBlock.getType().equals(Material.CAULDRON)) {
             // They *may* have filled a bottle with water
             // Check inventory for POTIONS in a tick

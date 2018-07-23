@@ -54,7 +54,7 @@ public class ChunkGeneratorWorld extends ChunkGenerator {
             for (int x = 0; x < 16; x++) {
                 for (int z = 0; z < 16; z++) {
                     for (int y = 0; y < Settings.seaHeight; y++) {
-                        setBlock(result, x, y, z, (byte) Material.STATIONARY_WATER.getId()); // Stationary
+                        setBlock(result, x, y, z, (byte) Material.WATER.getId()); // Stationary
                         // Water
                         // Allows stuff to fall through into oblivion, thus
                         // keeping lag to a minimum

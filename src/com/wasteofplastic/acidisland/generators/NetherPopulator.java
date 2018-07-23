@@ -46,7 +46,7 @@ public class NetherPopulator extends BlockPopulator {
             for (int y = 0; y < world.getMaxHeight(); y++) {
                 for (int z = 0; z < 16; z++) {
                     Block b = source.getBlock(x, y, z);
-                    if (b.getType().equals(Material.MOB_SPAWNER)) {
+                    if (b.getType().equals(Material.SPAWNER)) {
                         CreatureSpawner cs = (CreatureSpawner) b.getState();
                         switch (random.nextInt(3)) {
                         case 0:
@@ -103,28 +103,28 @@ public class NetherPopulator extends BlockPopulator {
                             } else if (choice < 25) {
                                 chestInv.setItem(slot, new ItemStack(Material.GOLD_INGOT, random.nextInt(2) + 1));
                             } else if (choice < 30) {
-                                chestInv.setItem(slot, new ItemStack(Material.GOLD_SWORD, 1));
+                                chestInv.setItem(slot, new ItemStack(Material.GOLDEN_SWORD, 1));
                             } else if (choice < 35) {
-                                chestInv.setItem(slot, new ItemStack(Material.GOLD_CHESTPLATE, 1));
+                                chestInv.setItem(slot, new ItemStack(Material.GOLDEN_CHESTPLATE, 1));
                             } else if (choice < 40) {
                                 chestInv.setItem(slot, new ItemStack(Material.FLINT_AND_STEEL, 1));
                             } else if (choice < 45) {
-                                chestInv.setItem(slot, new ItemStack(Material.NETHER_STALK, random.nextInt(4) + 3));
+                                chestInv.setItem(slot, new ItemStack(Material.NETHER_WART, random.nextInt(4) + 3));
                             } else if (choice < 55) {
                                 chestInv.setItem(slot, new ItemStack(Material.SADDLE, 1));
                             } else if (choice < 63) {
-                                chestInv.setItem(slot, new ItemStack(Material.GOLD_BARDING, 1));
+                                chestInv.setItem(slot, new ItemStack(Material.GOLDEN_HORSE_ARMOR, 1));
                             } else if (choice < 68) {
-                                chestInv.setItem(slot, new ItemStack(Material.IRON_BARDING, 1));
+                                chestInv.setItem(slot, new ItemStack(Material.IRON_HORSE_ARMOR, 1));
                             } else if (choice < 71) {
-                                chestInv.setItem(slot, new ItemStack(Material.DIAMOND_BARDING, 1));
+                                chestInv.setItem(slot, new ItemStack(Material.DIAMOND_HORSE_ARMOR, 1));
                             } else {
                                 chestInv.setItem(slot, new ItemStack(Material.OBSIDIAN, random.nextInt(3) + 1));
                             }
                         }
 
                     } else if (b.getType().equals(Material.STONE)) {
-                        b.setType(Material.QUARTZ_ORE);
+                        b.setType(Material.NETHER_QUARTZ_ORE);
                     } else if (b.getType().equals(Material.DIRT)) {
                         world.generateTree(source.getBlock(x, y + 1, z).getLocation(), TreeType.BROWN_MUSHROOM);
                         b.setType(Material.SOUL_SAND);
@@ -132,7 +132,7 @@ public class NetherPopulator extends BlockPopulator {
                         //Bukkit.getLogger().info("DEBUG: soul sand found!");
                         if (random.nextInt(9) == 1) {
                             //Bukkit.getLogger().info("DEBUG: Setting to NETHER_WARTS");
-                            b.getRelative(BlockFace.UP).setType(Material.NETHER_WARTS);
+                            b.getRelative(BlockFace.UP).setType(Material.NETHER_WART_BLOCK);
                         }
                     }
                     // Mob spawn
