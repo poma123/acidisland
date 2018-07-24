@@ -382,9 +382,9 @@ public class Schematic {
                     blocks[index] = (short) (blockId[index] & 0xFF);
                 } else {
                     if ((index & 1) == 0) {
-                        blocks[index] = (short) (((addId[index >> 1] & 0x0F) << 8) + (blockId[index] & 0xFF));
+                        blocks[index] = (((addId[index >> 1] & 0x0F) << 8) + (blockId[index] & 0xFF));
                     } else {
-                        blocks[index] = (short) (((addId[index >> 1] & 0xF0) << 4) + (blockId[index] & 0xFF));
+                        blocks[index] = (((addId[index >> 1] & 0xF0) << 4) + (blockId[index] & 0xFF));
                     }
                 }
             }
@@ -604,13 +604,13 @@ public class Schematic {
             for (int y = 0; y < height; ++y) {
                 for (int z = 0; z < length; ++z) {
                     int index = y * width * length + z * width + x;
-                    if (blocks[index] == 7) {
+                    if (blocks[index] == Material.BEDROCK) {
                         // Last bedrock
                         if (bedrock == null || bedrock.getY() < y) {
                             bedrock = new Vector(x, y, z);
                             //Bukkit.getLogger().info("DEBUG higher bedrock found:" + bedrock.toString());
                         }
-                    } else if (blocks[index] == 54) {
+                    } else if (blocks[index] == Material.CHEST) {
                         // Last chest
                         if (chest == null || chest.getY() < y) {
                             chest = new Vector(x, y, z);
@@ -619,14 +619,14 @@ public class Schematic {
                             // Bukkit.getLogger().info("Chest relative location is "
                             // + chest.toString());
                         }
-                    } else if (blocks[index] == 63) {
+                    } else if (blocks[index] == Material.SIGN) {
                         // Sign
                         if (welcomeSign == null || welcomeSign.getY() < y) {
                             welcomeSign = new Vector(x, y, z);
                             // Bukkit.getLogger().info("DEBUG higher sign found:"
                             // + welcomeSign.toString());
                         }
-                    } else if (blocks[index] == 2) {
+                    } else if (blocks[index] == Material.GRASS) {
                         // Grass
                         grassBlocks.add(new Vector(x,y,z));
                     } 

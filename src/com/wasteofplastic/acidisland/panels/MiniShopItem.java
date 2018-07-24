@@ -294,7 +294,7 @@ public class MiniShopItem {
         Material mat = item.getType();
         // Find out durability, which indicates additional information on the
         // item, color, etc.
-        short damage = item.getDurability();
+        //short damage = item.getDurability();
         switch (mat) {
         case WOOL:
             switch ((int) damage) {
