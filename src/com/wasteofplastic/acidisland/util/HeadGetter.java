@@ -38,7 +38,7 @@ public class HeadGetter {
                 if (it.hasNext()) {
                     Entry<UUID,String> en = it.next();
                     //Bukkit.getLogger().info("DEBUG: getting " + en.getValue());
-                    ItemStack playerSkull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+                    ItemStack playerSkull = new ItemStack(Material.PLAYER_HEAD, 1);
                     SkullMeta meta = (SkullMeta) playerSkull.getItemMeta();
                     meta.setOwner(en.getValue());
                     meta.setDisplayName(ChatColor.WHITE + en.getValue());

@@ -201,7 +201,7 @@ public class ControlPanel implements Listener {
         }
     }
 
-    @SuppressWarnings("deprecation")
+
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled=true)
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked(); // The player that

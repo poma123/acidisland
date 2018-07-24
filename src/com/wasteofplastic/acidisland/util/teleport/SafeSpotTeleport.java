@@ -252,42 +252,79 @@ public class SafeSpotTeleport {
     @SuppressWarnings("deprecation")
     private boolean checkBlock(ChunkSnapshot chunk, int x, int y, int z, int worldHeight) {
         World world = location.getWorld();
-        Material type = Material.getMaterial(chunk.getBlockTypeId(x, y, z));
+        Material type = Material.getMaterial(chunk.getBlockType(x, y, z).toString());
         if (!type.equals(Material.AIR)) { // AIR
-            Material space1 = Material.getMaterial(chunk.getBlockTypeId(x, Math.min(y + 1, worldHeight), z));
-            Material space2 = Material.getMaterial(chunk.getBlockTypeId(x, Math.min(y + 2, worldHeight), z));
-            if ((space1.equals(Material.AIR) && space2.equals(Material.AIR)) || (space1.equals(Material.PORTAL) && space2.equals(Material.PORTAL))
+            Material space1 = Material.getMaterial(chunk.getBlockType(x, Math.min(y + 1, worldHeight), z).toString());
+            Material space2 = Material.getMaterial(chunk.getBlockType(x, Math.min(y + 2, worldHeight), z).toString());
+            if ((space1.equals(Material.AIR) && space2.equals(Material.AIR)) || (space1.equals(Material.NETHER_PORTAL) && space2.equals(Material.NETHER_PORTAL))
                     && (!type.toString().contains("FENCE") && !type.toString().contains("DOOR") && !type.toString().contains("GATE") && !type.toString().contains("PLATE"))) {
                 switch (type) {
                 // Unsafe
                 case ANVIL:
                 case BARRIER:
-                case BOAT:
+                //case BOAT:
+    			case OAK_BOAT:
+                case SPRUCE_BOAT:
+                case ACACIA_BOAT:
+                case DARK_OAK_BOAT:
+                case BIRCH_BOAT:
+                case JUNGLE_BOAT:
                 case CACTUS:
-                case DOUBLE_PLANT:
-                case ENDER_PORTAL:
+                case SUNFLOWER:
+                case END_PORTAL:
                 case FIRE:
                 case FLOWER_POT:
                 case LADDER:
-                case LAVA:
+                //case LAVA: //normal
                 case LEVER:
-                case LONG_GRASS:
-                case PISTON_EXTENSION:
-                case PISTON_MOVING_PIECE:
-                case SIGN_POST:
-                case SKULL:
-                case STANDING_BANNER:
-                case STATIONARY_LAVA:
-                case STATIONARY_WATER:
+                case TALL_GRASS:
+                case PISTON_HEAD:
+                case MOVING_PISTON:
+                case SIGN:
+                case PLAYER_HEAD:
+                case CREEPER_HEAD:
+                case DRAGON_HEAD:
+                case ZOMBIE_HEAD:
+                case WITHER_SKELETON_SKULL:
+                case SKELETON_SKULL:
+                //case STANDING_BANNER:
+                case WHITE_BANNER:
+                case ORANGE_BANNER:
+                case MAGENTA_BANNER:
+                case LIGHT_BLUE_BANNER:
+                case YELLOW_BANNER:
+                case LIME_BANNER:
+                case PINK_BANNER:
+                case GRAY_BANNER:
+                case LIGHT_GRAY_BANNER:
+                case CYAN_BANNER:
+                case PURPLE_BANNER:
+                case BLUE_BANNER:
+                case BROWN_BANNER:
+                case GREEN_BANNER:
+                case RED_BANNER:
+                case BLACK_BANNER:
+                case LAVA://STATIONARY
+                case WATER://STATIONARY
                 case STONE_BUTTON:
                 case TORCH:
                 case TRIPWIRE:
-                case WATER:
-                case WEB:
-                case WOOD_BUTTON:
+               // case WATER: //normal
+                case COBWEB:
+    			case OAK_BUTTON:
+    				break;
+                case SPRUCE_BUTTON:
+                	break;
+                case ACACIA_BUTTON:
+                	break;
+                case DARK_OAK_BUTTON:
+                	break;
+                case BIRCH_BUTTON:
+                	break;
+                case JUNGLE_BUTTON:
                     //Block is dangerous
                     break;
-                case PORTAL:
+                case NETHER_PORTAL:
                     if (portal) {
                         // A portal has been found, switch to non-portal mode now
                         portal = false;

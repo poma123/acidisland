@@ -166,7 +166,7 @@ public class IslandGuard1_9 implements Listener {
     }
 
     // End crystal
-    @SuppressWarnings("deprecation")
+
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled=true)
     void placeEndCrystalEvent(final PlayerInteractEvent e) {
         Player p = e.getPlayer();
@@ -280,7 +280,7 @@ public class IslandGuard1_9 implements Listener {
                     switch (b.getType()) {
                     case CHEST:
                     case ENDER_CHEST:
-                    case STORAGE_MINECART:
+                    case CHEST_MINECART:
                     case TRAPPED_CHEST:
                         toberemoved.add(b);
                         break;
@@ -417,7 +417,7 @@ public class IslandGuard1_9 implements Listener {
         }
         // Prevents tilling of coarse dirt into dirt
         ItemStack inHand = e.getPlayer().getInventory().getItemInOffHand();
-        if (inHand.getType() == Material.WOOD_HOE || inHand.getType() == Material.IRON_HOE || inHand.getType() == Material.GOLD_HOE
+        if (inHand.getType() == Material.LEGACY_WOOD_HOE || inHand.getType() == Material.IRON_HOE || inHand.getType() == Material.LEGACY_GOLD_HOE
                 || inHand.getType() == Material.DIAMOND_HOE || inHand.getType() == Material.STONE_HOE) {
             // plugin.getLogger().info("1.8 " + "DEBUG: hoe in hand");
             Block block = e.getClickedBlock();

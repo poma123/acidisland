@@ -1597,7 +1597,7 @@ public class IslandGuard implements Listener {
                     return;
                 }
                 break;
-            case ENCHANTMENT_TABLE:
+            case ENCHANTING_TABLE:
                 if (island == null) {
                     if (Settings.defaultWorldSettings.get(SettingsFlag.ENCHANTING)) {
                         return;

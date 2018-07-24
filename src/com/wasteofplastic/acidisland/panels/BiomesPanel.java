@@ -81,8 +81,8 @@ public class BiomesPanel implements Listener {
                             material = Material.valueOf(icon.toUpperCase());
                         }
                     } catch (Exception e) {
-                        plugin.getLogger().warning("Error parsing biome icon value " + icon + ". Using default SAPLING.");
-                        material = Material.SAPLING;
+                        plugin.getLogger().warning("Error parsing biome icon value " + icon + ". Using default OAK_SAPLING.");
+                        material = Material.OAK_SAPLING;
                     }
                     // Get cost
                     double cost = plugin.getConfig().getDouble("biomes." + biomeName + ".cost", Settings.biomeCost);

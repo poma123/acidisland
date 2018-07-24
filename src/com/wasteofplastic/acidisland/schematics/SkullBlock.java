@@ -220,13 +220,13 @@ public class SkullBlock {
     }
 
     // Credits: GermanCoding
-    @SuppressWarnings("deprecation")
+    //@SuppressWarnings("deprecation")
     public static void setSkullWithNonPlayerProfile(String textureValue, String textureSignature, String ownerUUID, String ownerName, Skull skull) {
-        if (skull.getType() != Material.SKULL)
+        if (skull.getType() != Material.PLAYER_HEAD)
             throw new IllegalArgumentException("Block must be a skull.");
 
-        skull.getWorld().refreshChunk(skull.getChunk().getX(), skull.getChunk().getZ());
-
+        skull.getWorld().regenerateChunk(skull.getChunk().getX(), skull.getChunk().getZ());
+        
 
         // Difference beetween NonPlayerSkin and PlayerSkin
         if(textureSignature != null){

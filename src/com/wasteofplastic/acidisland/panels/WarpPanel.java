@@ -73,7 +73,7 @@ public class WarpPanel implements Listener, Requester {
                     plugin.getLogger().warning("Warp for Player: UUID " + playerUUID.toString() + " is unknown on this server, skipping...");
             } else {
                 if (Settings.warpHeads) {
-                    ItemStack playerSkull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+                    ItemStack playerSkull = new ItemStack(Material.PLAYER_HEAD, 1);
                     SkullMeta meta = (SkullMeta) playerSkull.getItemMeta();
                     meta.setDisplayName(playerName);
                     playerSkull.setItemMeta(meta);
@@ -150,7 +150,7 @@ public class WarpPanel implements Listener, Requester {
             return;
         }
         if (Settings.warpHeads) {
-            ItemStack playerSkull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+            ItemStack playerSkull = new ItemStack(Material.PLAYER_HEAD, 1);
             SkullMeta meta = (SkullMeta) playerSkull.getItemMeta();
             meta.setDisplayName(playerName);
             playerSkull.setItemMeta(meta);
@@ -188,7 +188,7 @@ public class WarpPanel implements Listener, Requester {
         }            
         //plugin.getLogger().info("DEBUG: block type = " + signLocation.getBlock().getType());
         // Get the sign info if it exists
-        if (signLocation.getBlock().getType().equals(Material.SIGN_POST) || signLocation.getBlock().getType().equals(Material.WALL_SIGN)) {
+        if (signLocation.getBlock().getType().equals(Material.SIGN) || signLocation.getBlock().getType().equals(Material.WALL_SIGN)) {
             Sign sign = (Sign)signLocation.getBlock().getState();
             List<String> lines = new ArrayList<String>(Arrays.asList(sign.getLines()));
             // Check for PVP and add warning
@@ -344,7 +344,7 @@ public class WarpPanel implements Listener, Requester {
         for (Inventory panel: warpPanel) {
             for (int i = 0; i < panel.getSize(); i++) {
                 ItemStack it = panel.getItem(i);
-                if (it != null && it.getType().equals(Material.SKULL_ITEM)) {
+                if (it != null && it.getType().equals(Material.PLAYER_HEAD)) {
                     ItemMeta meta = it.getItemMeta();
                     if (headInfo.getName().equals(meta.getDisplayName())) {
                         panel.setItem(i, head);

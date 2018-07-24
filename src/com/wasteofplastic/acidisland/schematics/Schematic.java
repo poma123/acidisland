@@ -123,7 +123,7 @@ public class Schematic {
     private Vector playerSpawn;
     //private Material playerSpawnBlock;
     private NMSAbstraction nms;
-    private Set<Integer> attachable = new HashSet<Integer>();
+    private Set<Material> attachable = new HashSet<Material>();
     private Map<String, Art> paintingList = new HashMap<String, Art>();
     private Map<Byte, BlockFace> facingList = new HashMap<Byte, BlockFace>();
     private Map<Byte, Rotation> rotationList = new HashMap<Byte, Rotation>();
@@ -206,24 +206,42 @@ public class Schematic {
         //playerSpawnBlock = null;
         partnerName = "";
 
-        attachable.add(Material.STONE_BUTTON.getId());
-        attachable.add(Material.WOOD_BUTTON.getId());
-        attachable.add(Material.COCOA.getId());
-        attachable.add(Material.LADDER.getId());
-        attachable.add(Material.LEVER.getId());
-        attachable.add(Material.PISTON_EXTENSION.getId());
-        attachable.add(Material.REDSTONE_TORCH_OFF.getId());
-        attachable.add(Material.REDSTONE_TORCH_ON.getId());
-        attachable.add(Material.WALL_SIGN.getId());
-        attachable.add(Material.TORCH.getId());
-        attachable.add(Material.TRAP_DOOR.getId());
-        attachable.add(Material.TRIPWIRE_HOOK.getId());
-        attachable.add(Material.VINE.getId());
-        attachable.add(Material.WOODEN_DOOR.getId());
-        attachable.add(Material.IRON_DOOR.getId());
-        attachable.add(Material.RED_MUSHROOM.getId());
-        attachable.add(Material.BROWN_MUSHROOM.getId());
-        attachable.add(Material.PORTAL.getId());
+        attachable.add(Material.STONE_BUTTON);
+        //attachable.add(Material.WOOD_BUTTON);
+		attachable.add(Material.OAK_BUTTON);
+        attachable.add(Material.BIRCH_BUTTON);
+        attachable.add(Material.SPRUCE_BUTTON);
+        attachable.add(Material.ACACIA_BUTTON);
+        attachable.add(Material.DARK_OAK_BUTTON);
+        attachable.add(Material.JUNGLE_BUTTON);
+        attachable.add(Material.COCOA);
+        attachable.add(Material.LADDER);
+        attachable.add(Material.LEVER);
+        attachable.add(Material.PISTON_HEAD);
+        attachable.add(Material.REDSTONE_TORCH_OFF);
+        attachable.add(Material.REDSTONE_TORCH_ON);
+        attachable.add(Material.WALL_SIGN);
+        attachable.add(Material.TORCH);
+        //attachable.add(Material.TRAP_DOOR);
+		attachable.add(Material.OAK_TRAPDOOR);
+        attachable.add(Material.BIRCH_TRAPDOOR);
+        attachable.add(Material.SPRUCE_TRAPDOOR);
+        attachable.add(Material.ACACIA_TRAPDOOR);
+        attachable.add(Material.DARK_OAK_TRAPDOOR);
+        attachable.add(Material.JUNGLE_TRAPDOOR);
+        attachable.add(Material.TRIPWIRE_HOOK);
+        attachable.add(Material.VINE);
+        //attachable.add(Material.WOODEN_DOOR);
+		attachable.add(Material.OAK_DOOR);
+        attachable.add(Material.BIRCH_DOOR);
+        attachable.add(Material.SPRUCE_DOOR);
+        attachable.add(Material.ACACIA_DOOR);
+        attachable.add(Material.DARK_OAK_DOOR);
+        attachable.add(Material.JUNGLE_DOOR);
+        attachable.add(Material.IRON_DOOR);
+        attachable.add(Material.RED_MUSHROOM);
+        attachable.add(Material.BROWN_MUSHROOM);
+        attachable.add(Material.NETHER_PORTAL);
 
         // Painting list, useful to check if painting exsits or nor
         paintingList.put("Kebab", Art.KEBAB);
@@ -248,10 +266,10 @@ public class Schematic {
         paintingList.put("Wither", Art.WITHER);
         paintingList.put("Fighters", Art.FIGHTERS);
         paintingList.put("Skeleton", Art.SKELETON);
-        paintingList.put("DonkeyKong", Art.DONKEYKONG);
+        paintingList.put("DonkeyKong", Art.DONKEY_KONG);
         paintingList.put("Pointer", Art.POINTER);
         paintingList.put("Pigscene", Art.PIGSCENE);
-        paintingList.put("BurningSkull", Art.BURNINGSKULL);
+        paintingList.put("BurningSkull", Art.BURNING_SKULL);
 
         facingList.put((byte) 0, BlockFace.SOUTH);
         facingList.put((byte) 1, BlockFace.WEST);
@@ -277,15 +295,15 @@ public class Schematic {
         }
         // Establish the World Edit to Material look up
         // V1.8 items
-        if (!Bukkit.getServer().getVersion().contains("(MC: 1.7")) {
+       /* if (!Bukkit.getServer().getVersion().contains("(MC: 1.7")) {
             attachable.add(Material.IRON_TRAPDOOR.getId());
-            attachable.add(Material.WALL_BANNER.getId());
+            attachable.add(Material.WHITE_BANNER.getId());
             attachable.add(Material.ACACIA_DOOR.getId());
             attachable.add(Material.BIRCH_DOOR.getId());
             attachable.add(Material.SPRUCE_DOOR.getId());
             attachable.add(Material.DARK_OAK_DOOR.getId());
             attachable.add(Material.JUNGLE_DOOR.getId());  
-        }
+        }*/
 
         // Entities
         /*
@@ -1168,7 +1186,7 @@ public class Schematic {
                             if (tileEntitiesMap.containsKey(new BlockVector(x, y, z))) {
                                 //plugin.getLogger().info("DEBUG: tile entity = " + Material.getMaterial(block.getTypeId()).name());
                                 if (plugin.isOnePointEight()) {
-                                    if (block.getTypeId() == Material.STANDING_BANNER.getId()) {
+                                    if (block.getType() == Material.STANDING_BANNER.getId()) {
                                         block.setBanner(tileEntitiesMap.get(new BlockVector(x, y, z)));
                                     }
                                     else if (block.getTypeId() == Material.SKULL.getId()) {
@@ -1348,7 +1366,7 @@ public class Schematic {
                         b.setType(Material.SANDSTONE);
                     } else {
                         b.setType(Material.SAND);
-                        b.setData((byte) 0);
+                       // b.setData((byte) 0);
                     }
                 }
             }
@@ -1358,7 +1376,7 @@ public class Schematic {
             for (int x_space = x - 4; x_space <= x + 4; x_space += 8) {
                 for (int z_space = z - 4; z_space <= z + 4; z_space += 8) {
                     final Block b = world.getBlockAt(x_space, y, z_space);
-                    b.setType(Material.STATIONARY_WATER);
+                    b.setType(Material.WATER);//stationary
                 }
             }
         }
@@ -1426,7 +1444,7 @@ public class Schematic {
 
         // Place a helpful sign in front of player
         Block blockToChange = world.getBlockAt(x, Settings.islandHeight + 5, z + 3);
-        blockToChange.setType(Material.SIGN_POST);
+        blockToChange.setType(Material.SIGN);
         Sign sign = (Sign) blockToChange.getState();
         sign.setLine(0, ASkyBlock.getPlugin().myLocale(player.getUniqueId()).signLine1.replace("[player]", player.getName()));
         sign.setLine(1, ASkyBlock.getPlugin().myLocale(player.getUniqueId()).signLine2.replace("[player]", player.getName()));
@@ -1449,7 +1467,7 @@ public class Schematic {
         // Fill the chest and orient it correctly (1.8 faces it north!
         DirectionalContainer dc = (DirectionalContainer) blockToChange.getState().getData();
         dc.setFacingDirection(BlockFace.SOUTH);
-        blockToChange.setData(dc.getData(), true);
+        //blockToChange.setData(dc.getData(), true);
         // Teleport player
         plugin.getGrid().homeTeleport(player);
         // Reset any inventory, etc. This is done AFTER the teleport because other plugins may switch out inventory based on world
@@ -1574,7 +1592,7 @@ public class Schematic {
      * @return if Biome is HELL, this is true
      */
     public boolean isInNether() {
-        if (biome == Biome.HELL) {
+        if (biome == Biome.NETHER) {
             return true;
         }
         return false;

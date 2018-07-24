@@ -140,8 +140,8 @@ public class LavaCheck implements Listener {
         }
 
         final Block b = e.getBlock();
-        if (b.getType().equals(Material.WATER) || b.getType().equals(Material.STATIONARY_WATER) 
-                || b.getType().equals(Material.LAVA) || b.getType().equals(Material.STATIONARY_LAVA)) {
+        if (b.getType().equals(Material.WATER) || b.getType().equals(Material.WATER)//stationary 
+                || b.getType().equals(Material.LAVA) || b.getType().equals(Material.LAVA)) {//stationary
             //plugin.getLogger().info("DEBUG: From block is water or lava. To = " + e.getToBlock().getType());
             final Block toBlock = e.getToBlock();
             if (toBlock.getType().equals(Material.AIR) && generatesCobble(b, toBlock)){
@@ -211,8 +211,8 @@ public class LavaCheck implements Listener {
 
 
     public boolean generatesCobble(Block block, Block toBlock){
-        Material mirrorID1 = (block.getType().equals(Material.WATER)) || (block.getType().equals(Material.STATIONARY_WATER)) ? Material.LAVA : Material.WATER;
-        Material mirrorID2 = (block.getType().equals(Material.WATER)) || (block.getType().equals(Material.STATIONARY_WATER)) ? Material.STATIONARY_LAVA : Material.STATIONARY_WATER;
+        Material mirrorID1 = (block.getType().equals(Material.WATER)) || (block.getType().equals(Material.WATER))/*stationary*/ ? Material.LAVA : Material.WATER;
+        Material mirrorID2 = (block.getType().equals(Material.WATER)) || (block.getType().equals(Material.WATER))/*stationary*/ ? Material.LAVA/*stationary*/ : Material.WATER;//stationary
         for (BlockFace face: FACES) {
             Block r = toBlock.getRelative(face);
             if ((r.getType().equals(mirrorID1)) || (r.getType().equals(mirrorID2))) {
