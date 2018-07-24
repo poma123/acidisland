@@ -52,7 +52,7 @@ import com.wasteofplastic.org.jnbt.Tag;
 
 public class IslandBlock {
     private Material typeId;
-    private byte data;
+   // private byte data;
     private int x;
     private int y;
     private int z;
@@ -301,15 +301,15 @@ public class IslandBlock {
     /**
      * @return the data
      */
-    public int getData() {
+    /*public int getData() {
         return data;
-    }
+    }*/
     /**
      * @param data the data to set
      */
-    public void setData(byte data) {
+    /*public void setData(byte data) {
         this.data = data;
-    }
+    }*/
 
     /**
      * @return the signText
@@ -325,11 +325,11 @@ public class IslandBlock {
     }
 
     /**
-     * @param s
+     * @param i
      * @param b
      */
-    public void setBlock(Material s) {
-        this.typeId = s;
+    public void setBlock(Material i) {
+        this.typeId = i;
     }
 
     /**

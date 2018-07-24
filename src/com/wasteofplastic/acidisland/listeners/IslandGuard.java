@@ -1575,13 +1575,9 @@ public class IslandGuard implements Listener {
                     return;
                 }
                 break;
-            case DIODE:
-            case DIODE_BLOCK_OFF:
-            case DIODE_BLOCK_ON:
-            case REDSTONE_COMPARATOR_ON:
-            case REDSTONE_COMPARATOR_OFF:
+            case REPEATER:
+            case COMPARATOR:
             case DAYLIGHT_DETECTOR:
-            case DAYLIGHT_DETECTOR_INVERTED:
                 if (island == null) {
                     if (Settings.defaultWorldSettings.get(SettingsFlag.REDSTONE)) {
                         return;
@@ -1614,7 +1610,6 @@ public class IslandGuard implements Listener {
                 }
                 break;
             case FURNACE:
-            case BURNING_FURNACE:
                 if (island == null) {
                     if (Settings.defaultWorldSettings.get(SettingsFlag.FURNACE)) {
                         return;
@@ -2320,7 +2315,7 @@ public class IslandGuard implements Listener {
                             public void run() {
                                 if (e.getBlock().getType().equals(Material.FIRE)) {
                                     e.getBlock().setType(md.getItemType());
-                                    e.getBlock().setBlockData(md.getData());
+                        
                                 }
 
                             }

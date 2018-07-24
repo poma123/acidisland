@@ -887,12 +887,12 @@ public class Island {
                     if (onIsland(holder.getLocation())) {
                         if (holder.getType() == material) {
                             result++;
-                        } else if (material.equals(Material.REDSTONE_COMPARATOR_OFF)) {
-                            if (holder.getType().equals(Material.REDSTONE_COMPARATOR_ON)) {
+                        } else if (material.equals(Material.COMPARATOR)) {
+                            if (holder.getType().equals(Material.COMPARATOR)) {
                                 result++;
                             }
                         } else if (material.equals(Material.FURNACE)) {
-                            if (holder.getType().equals(Material.BURNING_FURNACE)) {
+                            if (holder.getType().equals(Material.FURNACE)) {
                                 result++;
                             }
                         } else if (material.toString().endsWith("BANNER")) {

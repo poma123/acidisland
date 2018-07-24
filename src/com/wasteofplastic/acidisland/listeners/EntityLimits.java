@@ -9,6 +9,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.Comparator;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.Entity;
@@ -355,9 +358,11 @@ public class EntityLimits implements Listener {
                 // Check how many placed
                 //plugin.getLogger().info("DEBUG: block placed " + e.getBlock().getType());
                 String type = e.getBlock().getType().toString();
+                BlockData bd =  e.getBlock().getBlockData();
+                
                 if (!e.getBlock().getState().getClass().getName().endsWith("CraftBlockState")
                         // Not all blocks have that type of class, so we have to do some explicit checking...
-                        || e.getBlock().getType().equals(Material.REDSTONE_COMPARATOR_OFF)
+                        || ((Comparator) bd).isPowered()
                         || type.endsWith("BANNER") // Avoids V1.7 issues
                         || e.getBlock().getType().equals(Material.ENDER_CHEST)
                         || e.getBlock().getType().equals(Material.ENCHANTING_TABLE)
@@ -423,7 +428,7 @@ public class EntityLimits implements Listener {
                 String type = e.getBlock().getType().toString();
                 if (!e.getBlock().getState().getClass().getName().endsWith("CraftBlockState")
                         // Not all blocks have that type of class, so we have to do some explicit checking...
-                        || e.getBlock().getType().equals(Material.REDSTONE_COMPARATOR_OFF)
+                        || ((Comparator) e.getBlock().getBlockData()).isPowered()
                         || type.endsWith("BANNER") // Avoids V1.7 issues
                         || e.getBlock().getType().equals(Material.ENDER_CHEST)
                         || e.getBlock().getType().equals(Material.ENCHANTING_TABLE)
