@@ -18,12 +18,12 @@ default:
       command: '[island] ms'
       nextsection: ''
     2:
-      material: SKULL_ITEM
+      material: PLAYER_HEAD
       description: 'List team members'
       command: '[island] team'
       nextsection:
     3:
-      material: BED
+      material: RED_BED
       description: 'Set your home here'
       command: '[island] sethome'
       nextsection:
@@ -48,12 +48,12 @@ default:
       command: '[island] spawn'
       nextsection:
     8:
-      material: SAPLING
+      material: OAK_SAPLING
       description: 'Change biome'
       command: '[island] biomes'
       nextsection: ''
     9:
-      material: ENCHANTMENT_TABLE
+      material: ENCHANTING_TABLE
       description: 'Challenges'
       command: 'aic'
       nextsection: ''
