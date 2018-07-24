@@ -337,7 +337,7 @@ general:
    mobwhitelist:
    - WITHER
    - ENDERMAN
-   - PIG_ZOMBIE
+   - ZOMBIE_PIGMAN
    #- ZOMBIE_VILLAGER
 
    # Sets the limit for number of monsters that can spawn in a chunk in this world. 
@@ -839,8 +839,8 @@ biomesettings:
 # remove ice/water/snow - will be done once when the biome is made
 
 biomes:
-  COLD_BEACH:
-    icon: SAPLING
+  SNOWY_BEACH:
+    icon: ICE
     cost: 700
     description: Snowy and cold. Brrr.
     # Perms can be any string you like!
@@ -850,11 +850,11 @@ biomes:
     description: A dry desert. Warning - Ice or snow have to go.
     #permission: any.perm.you.want
   # Change MUTATED_FOREST to FLOWER_FOREST if you use an old server version
-  MUTATED_FOREST:
-    icon: RED_ROSE
+  FLOWER_FOREST:
+    icon: POPPY
     description: The place for flowers!
     #permission: any.perm.you.want
-  HELL:
+  NETHER:
     icon: LAVA_BUCKET
     cost: 1000
     permission: acidisland.biomes.hell
@@ -864,7 +864,7 @@ biomes:
     icon: VINE
     description: Lush jungle. Warning - Ice or snow have to go.
     #permission: any.perm.you.want
-  MUSHROOM_ISLAND:
+  MUSHROOM_FIELDS:
     icon: RED_MUSHROOM
     # Note, this permission can be anything you like
     permission: acidisland.biomes.mushroom_island
@@ -875,21 +875,21 @@ biomes:
     description: Plain plains!
     #permission: any.perm.you.want
     cost: 0
-  SWAMPLAND:
-    icon: WATER_LILY
+  SWAMP:
+    icon: LILY_PAD
     description: Swampy. Warning - Ice or snow have to go.
     #permission: any.perm.you.want
-  MESA:
-    icon: HARD_CLAY
+  BADLANDS:
+    icon: ORANGE_TERRACOTTA
     description: Rare dry, desert biome. Warning - Ice or snow have to go.
     #permission: any.perm.you.want
     cost: 500
   SAVANNA:
-    icon: LONG_GRASS
+    icon: TALL_GRASS
     description: Flat and dry, no rain. Warning - Ice or snow have to go.
     #permission: any.perm.you.want
-  ROOFED_FOREST:
-    icon: LOG
+  DARK_FOREST:
+    icon: DARK_OAK_LOG
     description: Black forest
     #permission: any.perm.you.want
     
@@ -961,7 +961,7 @@ schematicsection:
       show: false
       icon: NETHERRACK
       # If the biome is HELL it is assumed this island goes in the Nether
-      biome: HELL
+      biome: NETHER
       name: "NetherBlock Island"
       description: "An island in the nether|overlooked by a mob tower"
       filename: nether.schematic
