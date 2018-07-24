@@ -24,6 +24,6 @@
 	<classpathentry kind="lib" path="C:/Users/User/Downloads/spigot-latest.jar"/>
 	<classpathentry kind="lib" path="C:/Users/User/Downloads/Vault.jar"/>
 	<classpathentry kind="lib" path="C:/Users/User/Downloads/worldguard-6.2.1.jar"/>
-	<classpathentry kind="lib" path="I:/RPG/2018-07-01-1847/plugins/worldedit-bukkit-6.1.9-SNAPSHOT-dist.jar"/>
+	<classpathentry kind="lib" path="C:/Users/User/Downloads/worldedit-bukkit-7.0.0-SNAPSHOT-dist.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

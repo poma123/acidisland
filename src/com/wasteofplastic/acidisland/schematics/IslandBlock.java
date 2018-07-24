@@ -32,6 +32,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.block.Sign;
@@ -345,9 +346,9 @@ public class IslandBlock {
      * @param map
      * @param dataValue
      */
-    public void setSkull(Map<String, Tag> map, int dataValue) {
+    public void setSkull(Map<String, Tag> map, BlockFace rotation) {
         skull = new SkullBlock();
-        skull.prep(map, dataValue);
+        skull.prep(map, rotation);
     }
     public void setFlowerPot(Map<String, Tag> map){
         pot = new PotBlock();

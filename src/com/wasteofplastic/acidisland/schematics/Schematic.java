@@ -44,6 +44,9 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.block.Sign;
+import org.bukkit.block.Skull;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Rotatable;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
@@ -180,7 +183,7 @@ public class Schematic {
     public Schematic(ASkyBlock plugin, File file) throws IOException {
         this.plugin = plugin;
         // Initialize
-        short[] blocks;
+        Material[] blocks;
         byte[] data;
         name = file.getName();
         heading = "";
@@ -1158,7 +1161,7 @@ public class Schematic {
      * @param data
      */
     @SuppressWarnings("deprecation")
-    public void prePasteSchematic(short[] blocks, byte[] data) {
+    public void prePasteSchematic(Material[] blocks, byte[] data) {
         //plugin.getLogger().info("DEBUG: prepaste ");
         islandBlocks = new ArrayList<IslandBlock>();
         Map<BlockVector, Map<String, Tag>> tileEntitiesMap = this.getTileEntitiesMap();
@@ -1171,17 +1174,18 @@ public class Schematic {
                     // only bother with air if it is below sea level
                     // TODO: need to check max world height too?
                     int h = Settings.islandHeight + y - bedrock.getBlockY();
-                    if (h >= 0 && h < 255 && (blocks[index] != 0 || h < Settings.seaHeight)){
+                    if (h >= 0 && h < 255 && (blocks[index] != null || h < Settings.seaHeight)){
                         // Only bother if the schematic blocks are within the range that y can be
                         //plugin.getLogger().info("DEBUG: height " + (count++) + ":" +h);
                         IslandBlock block = new IslandBlock(x, y, z);
-                        if (!attachable.contains((int)blocks[index]) || blocks[index] == 179) {
-                            if (Bukkit.getServer().getVersion().contains("(MC: 1.7") && blocks[index] == 179) {
+                        if (!attachable.contains(blocks[index]) || blocks[index] == Material.RED_SANDSTONE) {
+                     /*       if (Bukkit.getServer().getVersion().contains("(MC: 1.7") && blocks[index] == 179) {
                                 // Red sandstone - use red sand instead
-                                block.setBlock(12);
+                                block.setBlock(Material.RED_SAND);
                             } else {
-                                block.setBlock(blocks[index], data[index]);
-                            }
+                            	block.setBlock(blocks[index]);
+                              //  block.setBlock(blocks[index], data[index]);
+                            }*/
                             // Tile Entities
                             if (tileEntitiesMap.containsKey(new BlockVector(x, y, z))) {
                                 //plugin.getLogger().info("DEBUG: tile entity = " + Material.getMaterial(block.getTypeId()).name());
@@ -1189,8 +1193,10 @@ public class Schematic {
                                     if (block.getTypeId().toString().endsWith("BANNER")) {
                                         block.setBanner(tileEntitiesMap.get(new BlockVector(x, y, z)));
                                     }
+                                    
                                     else if (block.getTypeId().toString().endsWith("HEAD")) {
-                                        block.setSkull(tileEntitiesMap.get(new BlockVector(x, y, z)), block.getData());
+                                    	BlockData sb = ((Block) block).getBlockData(); 
+                                        block.setSkull(tileEntitiesMap.get(new BlockVector(x, y, z)), ((Rotatable) sb).getRotation());
                                     }
                                     else if (block.getTypeId() == Material.FLOWER_POT) {
                                         block.setFlowerPot(tileEntitiesMap.get(new BlockVector(x, y, z)));
@@ -1232,8 +1238,8 @@ public class Schematic {
                     if (h >= 0 && h < 255){
                         int index = y * width * length + z * width + x;
                         IslandBlock block = new IslandBlock(x, y, z);
-                        if (attachable.contains((int)blocks[index])) {
-                            block.setBlock(blocks[index], data[index]);
+                        if (attachable.contains(blocks[index])) {
+                            block.setBlock(blocks[index]);
                             // Tile Entities
                             if (tileEntitiesMap.containsKey(new BlockVector(x, y, z))) {
                                 if (plugin.isOnePointEight()) {
