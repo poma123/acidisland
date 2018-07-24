@@ -337,7 +337,7 @@ general:
    mobwhitelist:
    - WITHER
    - ENDERMAN
-   - ZOMBIE_PIGMAN
+   - PIG_ZOMBIE
    #- ZOMBIE_VILLAGER
 
    # Sets the limit for number of monsters that can spawn in a chunk in this world. 
