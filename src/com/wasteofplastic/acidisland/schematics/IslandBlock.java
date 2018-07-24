@@ -51,7 +51,7 @@ import com.wasteofplastic.org.jnbt.StringTag;
 import com.wasteofplastic.org.jnbt.Tag;
 
 public class IslandBlock {
-    private short typeId;
+    private Material typeId;
     private byte data;
     private int x;
     private int y;
@@ -289,13 +289,13 @@ public class IslandBlock {
     /**
      * @return the type
      */
-    public int getTypeId() {
+    public Material getTypeId() {
         return typeId;
     }
     /**
      * @param type the type to set
      */
-    public void setTypeId(short type) {
+    public void setTypeId(Material type) {
         this.typeId = type;
     }
     /**
@@ -328,9 +328,8 @@ public class IslandBlock {
      * @param s
      * @param b
      */
-    public void setBlock(int s, byte b) {
-        this.typeId = (short)s;
-        this.data = b;
+    public void setBlock(Material s) {
+        this.typeId = s;
     }
 
     /**
@@ -533,11 +532,11 @@ public class IslandBlock {
                     if (item instanceof CompoundTag) {
                         try {
                             // Id is a number
-                            short itemType = (Short) ((CompoundTag) item).getValue().get("id").getValue();
-                            short itemDamage = (Short) ((CompoundTag) item).getValue().get("Damage").getValue();
+                            String itemType = (String) ((CompoundTag) item).getValue().get("id").getValue();
+                     //       short itemDamage = (Short) ((CompoundTag) item).getValue().get("Damage").getValue();
                             byte itemAmount = (Byte) ((CompoundTag) item).getValue().get("Count").getValue();
                             byte itemSlot = (Byte) ((CompoundTag) item).getValue().get("Slot").getValue();
-                            ItemStack chestItem = new ItemStack(itemType, itemAmount, itemDamage);
+                            ItemStack chestItem = new ItemStack(Material.matchMaterial(itemType), itemAmount);
                             chestContents.put(itemSlot, chestItem);
                         } catch (ClassCastException ex) {
                             // Id is a material
@@ -607,10 +606,10 @@ public class IslandBlock {
         // Only paste air if it is below the sea level and in the overworld
         Block block = new Location(blockLoc.getWorld(), x, y, z).add(blockLoc).getBlock();
         block.setBiome(biome);
-        nms.setBlockSuperFast(block, typeId, data, usePhysics);
+        nms.setBlockSuperFast(block, typeId, usePhysics);
         if (signText != null) {
-            if (block.getTypeId() != typeId) {
-                block.setTypeId(typeId);
+            if (block.getType() != typeId) {
+                block.setType(typeId);
             }
             // Sign
             Sign sign = (Sign) block.getState();
@@ -626,16 +625,16 @@ public class IslandBlock {
         } else if (pot != null){
             pot.set(nms, block);
         } else if (spawnerBlockType != null) {
-            if (block.getTypeId() != typeId) {
-                block.setTypeId(typeId);
+            if (block.getType() != typeId) {
+                block.setType(typeId);
             }
             CreatureSpawner cs = (CreatureSpawner)block.getState();
             cs.setSpawnedType(spawnerBlockType);
             //Bukkit.getLogger().info("DEBUG: setting spawner");
             cs.update(true, false);
         } else if (!chestContents.isEmpty()) {
-            if (block.getTypeId() != typeId) {
-                block.setTypeId(typeId);
+            if (block.getType() != typeId) {
+                block.setType(typeId);
             }
             //Bukkit.getLogger().info("DEBUG: inventory holder "+ block.getType());
             // Check if this is a double chest

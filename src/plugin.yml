@@ -1,12 +1,13 @@
 name: AcidIsland
 main: com.wasteofplastic.acidisland.ASkyBlock
-version: 1.8.0.2
+version: 3.9.0.0
 description: AcidIsland
 author: Tastybento, poma123
 depend: [Vault]
 softdepend: [Herochat]
 load: startup
 loadbefore: [Multiverse-Core]
+api-version: 1.13
 commands:
     ai:
         description: Main player command

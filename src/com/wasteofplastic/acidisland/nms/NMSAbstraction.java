@@ -30,11 +30,10 @@ public interface NMSAbstraction {
      * Update the low-level chunk information for the given block to the new block ID and data.  This
      * change will not be propagated to clients until the chunk is refreshed to them.
      * @param block
-     * @param blockId
-     * @param data
+     * @param typeId
      * @param applyPhysics
      */
-    public void setBlockSuperFast(Block block, int blockId, byte data, boolean applyPhysics);
+    public void setBlockSuperFast(Block block, Material typeId, boolean applyPhysics);
 
     public ItemStack setBook(Tag item);
 
