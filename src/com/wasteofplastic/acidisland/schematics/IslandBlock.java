@@ -53,7 +53,7 @@ import com.wasteofplastic.org.jnbt.Tag;
 
 public class IslandBlock {
     private short typeId;
-   // private byte data;
+   private byte data;
     private int x;
     private int y;
     private int z;
