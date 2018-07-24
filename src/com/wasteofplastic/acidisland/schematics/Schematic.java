@@ -44,6 +44,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Horse;
@@ -87,7 +88,7 @@ import net.milkbowl.vault.economy.EconomyResponse;
 
 public class Schematic {
     private ASkyBlock plugin;
-    //private short[] blocks;
+    private short[] blocks;
     //private byte[] data;
     private short width;
     private short length;
@@ -180,7 +181,7 @@ public class Schematic {
     public Schematic(ASkyBlock plugin, File file) throws IOException {
         this.plugin = plugin;
         // Initialize
-        short[] blocks;
+        Material[] blocks; //from short[] blocks;
         byte[] data;
         name = file.getName();
         heading = "";
@@ -1158,7 +1159,7 @@ public class Schematic {
      * @param data
      */
     @SuppressWarnings("deprecation")
-    public void prePasteSchematic(short[] blocks, byte[] data) {
+    public void prePasteSchematic(Material[] blocks, byte[] data) {
         //plugin.getLogger().info("DEBUG: prepaste ");
         islandBlocks = new ArrayList<IslandBlock>();
         Map<BlockVector, Map<String, Tag>> tileEntitiesMap = this.getTileEntitiesMap();
@@ -1171,16 +1172,16 @@ public class Schematic {
                     // only bother with air if it is below sea level
                     // TODO: need to check max world height too?
                     int h = Settings.islandHeight + y - bedrock.getBlockY();
-                    if (h >= 0 && h < 255 && (blocks[index] != 0 || h < Settings.seaHeight)){
+                    if (h >= 0 && h < 255 && (blocks[index] != Material.AIR || h < Settings.seaHeight)){
                         // Only bother if the schematic blocks are within the range that y can be
                         //plugin.getLogger().info("DEBUG: height " + (count++) + ":" +h);
                         IslandBlock block = new IslandBlock(x, y, z);
-                        if (!attachable.contains((int)blocks[index]) || blocks[index] == 179) {
-                            if (Bukkit.getServer().getVersion().contains("(MC: 1.7") && blocks[index] == 179) {
+                        if (!attachable.contains(blocks[index]) || blocks[index] == Material.SANDSTONE) {
+                            if (Bukkit.getServer().getVersion().contains("(MC: 1.7") && blocks[index] == Material.SANDSTONE) {
                                 // Red sandstone - use red sand instead
-                                block.setBlock(12, (byte)1);
+                                block.setBlock(Material.RED_SANDSTONE);
                             } else {
-                                block.setBlock(blocks[index], data[index]);
+                                block.setBlock(blocks[index]);
                             }
                             // Tile Entities
                             if (tileEntitiesMap.containsKey(new BlockVector(x, y, z))) {
@@ -1189,30 +1190,30 @@ public class Schematic {
                                     if (block.getTypeId().toString().endsWith("BANNER")) {
                                         block.setBanner(tileEntitiesMap.get(new BlockVector(x, y, z)));
                                     }
+                                    
                                     else if (block.getTypeId().toString().endsWith("HEAD")) {
-                                        block.setSkull(tileEntitiesMap.get(new BlockVector(x, y, z)), block.getData());
+                                        block.setSkull(tileEntitiesMap.get(new BlockVector(x, y, z)), );
                                     }
                                     else if (block.getTypeId() == Material.FLOWER_POT) {
                                         block.setFlowerPot(tileEntitiesMap.get(new BlockVector(x, y, z)));
                                     }
                                 }
                                 // Monster spawner blocks
-                                if (block.getTypeId() == Material.MOB_SPAWNER.getId()) {
+                                if (block.getTypeId() == Material.SPAWNER) {
                                     block.setSpawnerType(tileEntitiesMap.get(new BlockVector(x, y, z)));
-                                } else if ((block.getTypeId() == Material.SIGN_POST.getId())) {
+                                } else if ((block.getTypeId() == Material.SIGN)) {
                                     block.setSign(tileEntitiesMap.get(new BlockVector(x, y, z)));
-                                } else if (block.getTypeId() == Material.CHEST.getId()
-                                        || block.getTypeId() == Material.TRAPPED_CHEST.getId()
-                                        || block.getTypeId() == Material.FURNACE.getId()
-                                        || block.getTypeId() == Material.BURNING_FURNACE.getId()
-                                        || block.getTypeId() == Material.DISPENSER.getId()
-                                        || block.getTypeId() == Material.HOPPER.getId()
-                                        || block.getTypeId() == Material.DROPPER.getId()
-                                        || block.getTypeId() == Material.STORAGE_MINECART.getId()
-                                        || block.getTypeId() == Material.HOPPER_MINECART.getId()
-                                        || block.getTypeId() == Material.POWERED_MINECART.getId()
-                                        || Material.getMaterial(block.getTypeId()).name().contains("SHULKER_BOX")
-                                        ) {
+                                } else if (block.getTypeId() == Material.CHEST
+                                        || block.getTypeId() == Material.TRAPPED_CHEST
+                                        || block.getTypeId() == Material.FURNACE
+                                       // || block.getTypeId() == Material.BURNING_FURNACE.getId()
+                                        || block.getTypeId() == Material.DISPENSER
+                                        || block.getTypeId() == Material.HOPPER
+                                        || block.getTypeId() == Material.DROPPER
+                                        || block.getTypeId() == Material.CHEST_MINECART
+                                        || block.getTypeId() == Material.HOPPER_MINECART
+                                        || block.getTypeId() == Material.FURNACE_MINECART
+                                        || block.getTypeId().name().contains("SHULKER_BOX")) {
                                     //plugin.getLogger().info("DEBUG: Block is inventory holder, id = " + Material.getMaterial(block.getTypeId()));
                                     block.setChest(nms, tileEntitiesMap.get(new BlockVector(x, y, z)));
                                 } 
@@ -1233,8 +1234,8 @@ public class Schematic {
                     if (h >= 0 && h < 255){
                         int index = y * width * length + z * width + x;
                         IslandBlock block = new IslandBlock(x, y, z);
-                        if (attachable.contains((int)blocks[index])) {
-                            block.setBlock(blocks[index], data[index]);
+                        if (attachable.contains(blocks[index])) {
+                            block.setBlock(blocks[index]);
                             // Tile Entities
                             if (tileEntitiesMap.containsKey(new BlockVector(x, y, z))) {
                                 if (plugin.isOnePointEight()) {
@@ -1330,7 +1331,7 @@ public class Schematic {
      */
     public void setPasteAir(boolean pasteAir) {
         if (!pasteAir) {
-            islandBlocks.removeIf(b -> b.getTypeId() == 0);
+            islandBlocks.removeIf(b -> b.getTypeId() == Material.AIR);
         }
         
     }
@@ -1689,7 +1690,7 @@ public class Schematic {
             if (islandBlock.getTypeId() == playerSpawnBlock) {
                 playerSpawn = islandBlock.getVector().subtract(bedrock).add(new Vector(0.5D,-1D,0.5D));
                 // Set the block to air
-                islandBlock.setTypeId((short)0);
+                islandBlock.setTypeId(Material.AIR);
                 return true;
             }
         }

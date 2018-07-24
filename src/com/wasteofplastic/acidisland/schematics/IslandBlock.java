@@ -52,8 +52,8 @@ import com.wasteofplastic.org.jnbt.StringTag;
 import com.wasteofplastic.org.jnbt.Tag;
 
 public class IslandBlock {
-    private short typeId;
-   private byte data;
+    private Material typeId;
+    //private byte data;
     private int x;
     private int y;
     private int z;
@@ -290,13 +290,13 @@ public class IslandBlock {
     /**
      * @return the type
      */
-    public short getTypeId() {
+    public Material getTypeId() {
         return typeId;
     }
     /**
      * @param type the type to set
      */
-    public void setTypeId(short type) {
+    public void setTypeId(Material type) {
         this.typeId = type;
     }
     /**
@@ -329,7 +329,7 @@ public class IslandBlock {
      * @param i
      * @param b
      */
-    public void setBlock(short i) {
+    public void setBlock(Material i) {
         this.typeId = i;
     }
 
