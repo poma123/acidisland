@@ -223,7 +223,7 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
             schematics.get("nether").setName("NetherBlock Island");
             schematics.get("nether").setDescription("Nether Island");
             schematics.get("nether").setPartnerName("default");
-            schematics.get("nether").setBiome(Biome.HELL);
+            schematics.get("nether").setBiome(Biome.NETHER);
             schematics.get("nether").setIcon(Material.NETHERRACK);
             schematics.get("nether").setVisible(false);
             schematics.get("nether").setPasteEntities(true);
@@ -278,15 +278,15 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
                             String iconString = schemSection.getString("schematics." + key + ".icon","MAP").toUpperCase();
                             // Support damage values
                             String[] split = iconString.split(":");
-                            if (StringUtils.isNumeric(split[0])) {
+                        /*    if (StringUtils.isNumeric(split[0])) {
                                 icon = Material.getMaterial(Integer.parseInt(split[0]));
                                 if (icon == null) {
                                     icon = Material.MAP;
                                     plugin.getLogger().severe("Schematic's icon could not be found. Try using quotes like '17:2'");
                                 }
-                            } else {
+                            } else {*/
                                 icon = Material.valueOf(split[0]);
-                            }
+                          //  }
                             int damage = 0;
                             if (split.length == 2) {
                                 if (StringUtils.isNumeric(split[1])) {
@@ -410,11 +410,11 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
                                         }
                                     } else {
                                         Material mat;
-                                        if (StringUtils.isNumeric(amountdata[0])) {
+                                 /*       if (StringUtils.isNumeric(amountdata[0])) {
                                             mat = Material.getMaterial(Integer.parseInt(amountdata[0]));
-                                        } else {
-                                            mat = Material.getMaterial(amountdata[0].toUpperCase());
-                                        }
+                                        } else {*/
+                                            mat = Material.matchMaterial(amountdata[0].toUpperCase());
+                                   //     }
                                         if (amountdata.length == 2) {
                                             tempChest[i++] = new ItemStack(mat, Integer.parseInt(amountdata[1]));
                                         } else if (amountdata.length == 3) {
@@ -445,11 +445,11 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
                             // Check to see if this block is a valid material
                             try {
                                 Material playerSpawnBlock;
-                                if (StringUtils.isNumeric(spawnBlock)) {
+                                /*if (StringUtils.isNumeric(spawnBlock)) {
                                     playerSpawnBlock = Material.getMaterial(Integer.parseInt(spawnBlock));
-                                } else {
-                                    playerSpawnBlock = Material.valueOf(spawnBlock.toUpperCase());
-                                }
+                                } else {*/
+                                    playerSpawnBlock = Material.matchMaterial(spawnBlock.toUpperCase());
+                            //    }
                                 if (newSchem.setPlayerSpawnBlock(playerSpawnBlock)) {
                                     plugin.getLogger().info("Player will spawn at the " + playerSpawnBlock.toString());
                                 } else {

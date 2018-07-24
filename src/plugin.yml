@@ -1,8 +1,8 @@
 name: AcidIsland
 main: com.wasteofplastic.acidisland.ASkyBlock
-version: ${version}
+version: 1.8.0.2
 description: AcidIsland
-author: Tastybento
+author: Tastybento, poma123
 depend: [Vault]
 softdepend: [Herochat]
 load: startup
