@@ -197,6 +197,7 @@ public class DeleteIslandChunk {
     private void regenerate(World world, Pair<Integer, Integer> minWholeChunk, Pair<Integer, Integer> maxWholeChunk,
             Pair<Integer, Integer> minChunk, Pair<Integer, Integer> maxChunk) {
         for (int i = minChunk.x; i <= maxChunk.x; i++) {
+        	
             for (int j = minChunk.z; j <= maxChunk.z; j++) {
                 if (i >= minWholeChunk.x && i <= maxWholeChunk.x && j >= minWholeChunk.z && j <= maxWholeChunk.z) {
                     world.regenerateChunk(i, j);

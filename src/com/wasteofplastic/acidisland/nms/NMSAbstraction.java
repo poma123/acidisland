@@ -61,5 +61,5 @@ public interface NMSAbstraction {
      * @param amount
      * @return itemstack
      */
-    public ItemStack getSpawnEgg(EntityType type, int amount);
+    public ItemStack getSpawnEgg(Material type, int amount);
 }
