@@ -1203,13 +1203,13 @@ public class Challenges implements CommandExecutor, TabCompleter {
 						// This handles items with durability
 						// Correct some common mistakes
 						if (part[0].equalsIgnoreCase("potato")) {
-							part[0] = "POTATO_ITEM";
+							part[0] = "POTATO";
 						} else if (part[0].equalsIgnoreCase("brewing_stand")) {
-							part[0] = "BREWING_STAND_ITEM";
+							part[0] = "BREWING_STAND";
 						} else if (part[0].equalsIgnoreCase("carrot")) {
-							part[0] = "CARROT_ITEM";
+							part[0] = "CARROT";
 						} else if (part[0].equalsIgnoreCase("cauldron")) {
-							part[0] = "CAULDRON_ITEM";
+							part[0] = "CAULDRON";
 						} else if (part[0].equalsIgnoreCase("skull")) {
 							part[0] = "SKULL_ITEM";
 						}
