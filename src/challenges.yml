@@ -129,17 +129,17 @@ challenges:
     glassmaker:
       friendlyname: 'Glass Maker'
       description: 'Create 64 panes of glass (not blocks)'
-      icon: THIN_GLASS
+      icon: GLASS_PANE
       level: 'Novice'
       type: inventory
-      requiredItems: 'THIN_GLASS:64'
+      requiredItems: 'GLASS_PANE:64'
       # You can require the player has a certain amount of money for inventory challenges.
       # Remember to mention it in the description!
       # If takeItems is true, the money will be removed, so you may want to give it
       # back in the reward.
       #requiredMoney: 10
       takeItems: true
-      itemReward: 'SAPLING:0:2 SAPLING:1:2 SAPLING:2:2 SAPLING:3:2'
+      itemReward: 'OAK_SAPLING:2 SPRUCE_SAPLING:2 BIRCH_SAPLING:2 JUNGLE_SAPLING:2'
       rewardText: '2 oak, 2 birch, 2 jungle and 2 spruce saplings'
       #rewardcommands:
       #  - give [player] DIAMOND 1  <--- this is totally silly, just an example!
@@ -148,7 +148,7 @@ challenges:
       expReward: 30
       permissionReward: ''
       repeatable: true
-      repeatItemReward: 'SAPLING:0:1 SAPLING:1:1 SAPLING:2:1 SAPLING:3:1 SAPLING:4:1 SAPLING:5:1'
+      repeatItemReward: 'OAK_SAPLING:1 BIRCH_SAPLING:1 SPRUCE_SAPLING:1 DARK_OAK_SAPLING:1 ACACIA_SAPLING:1 JUNGLE_SAPLING:1'
       repeatRewardText: '1 of each kind of sapling'
       repeatMoneyReward: 5
       repeatExpReward: 10
@@ -184,10 +184,10 @@ challenges:
     dyemaker:
       friendlyname: 'Dye Maker'
       description: 'Craft 32 cactus green dyes'
-      icon: INK_SACK:2
+      icon: CACTUS_GREEN
       level: 'Novice'
       type: inventory
-      requiredItems: 'INK_SACK:2:32'
+      requiredItems: 'CACTUS_GREEN:32'
       takeItems: true
       itemReward: 'PACKED_ICE:10'
       rewardText: '10 blocks of packed ice'
@@ -323,15 +323,15 @@ challenges:
       icon: WHEAT
       level: 'Competent'
       type: inventory
-      requiredItems: 'WHEAT:64 SUGAR:64 MELON:64 CARROT_ITEM:64 POTATO_ITEM:64 PUMPKIN:64'
+      requiredItems: 'WHEAT:64 SUGAR:64 MELON:64 CARROT:64 POTATO:64 PUMPKIN:64'
       takeItems: true
-      itemReward: 'REDSTONE:16 INK_SACK:3:1 MONSTER_EGG:COW:1 MONSTER_EGG:PIG:1 MONSTER_EGG:CHICKEN:1'
+      itemReward: 'REDSTONE:16 INK_SACK:3:1 COW_SPAWN_EGG:1 PIG_SPAWN_EGG:1 CHICKEN_SPAWN_EGG:1'
       rewardText: '16 redstone dust, 1 cocoa bean, 1 spawn egg(chicken,cow,pig)'
       moneyReward: 75
       expReward: 75
       permissionReward: ''
       repeatable: true
-      repeatItemReward: 'INK_SACK:3:1 MONSTER_EGG:COW:1 MONSTER_EGG:PIG:1 MONSTER_EGG:CHICKEN:1'
+      repeatItemReward: 'INK_SACK:3:1 COW_SPAWN_EGG:1 PIG_SPAWN_EGG:1 CHICKEN_SPAWN_EGG:1'
       repeatRewardText: '1 cocoa bean, 1 spawn egg(chicken,cow,pig)'
       repeatMoneyReward: 20
       repeatExpReward: 20
@@ -363,7 +363,7 @@ challenges:
       icon: LOG
       level: 'Competent'
       type: inventory
-      requiredItems: 'LOG:0:16 LOG:1:16 LOG:2:16 LOG:3:16'
+      requiredItems: 'OAK_LOG:16 BIRCH:16 JUNGLE:16 SPRUCE:16'
       takeItems: true
       itemReward: 'REDSTONE:16 IRON_ORE:5 MONSTER_EGG:WOLF:1'
       rewardText: '16 redstone dust, 5 iron (ore), 1 wolf spawn egg'
