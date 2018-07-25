@@ -33,7 +33,7 @@ public interface NMSAbstraction {
      * @param typeId
      * @param applyPhysics
      */
-    public void setBlockSuperFast(Block block, short typeId, boolean applyPhysics);
+    public void setBlockSuperFast(Block block, Material typeId, boolean applyPhysics);
 
     public ItemStack setBook(Tag item);
 
