@@ -81,9 +81,9 @@ public class MiniShopItem {
                 if (!material.name().contains("POTION")) {
                     if (material.name().toString().endsWith("SPAWN_EGG")) {
                         try {
-                            EntityType type = EntityType.valueOf(extra.toUpperCase());
+                            Material type = material;
                             if (Bukkit.getServer().getVersion().contains("(MC: 1.8") || Bukkit.getServer().getVersion().contains("(MC: 1.7")) {
-                                item = new SpawnEgg(type).toItemStack(quantity);
+                                item = new SpawnEgg1_9(type).toItemStack(quantity);
                             } else {
                                 try {
                                     item = new SpawnEgg1_9(type).toItemStack(quantity);

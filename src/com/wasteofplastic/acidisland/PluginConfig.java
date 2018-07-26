@@ -3,6 +3,7 @@ package com.wasteofplastic.acidisland;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -167,26 +168,82 @@ public class PluginConfig {
             for (int i = 0; i < tempChest.length; i++) {
                 String[] amountdata = chestItemString[i].split(":");
                 try {
-                    if (amountdata.length == 3 && amountdata[0].equalsIgnoreCase("MONSTER_EGG")) {
+                    if (amountdata.length == 2 && amountdata[0].endsWith("SPAWN_EGG")) {
                         try {
-                            EntityType type = EntityType.valueOf(amountdata[1].toUpperCase());
+                            Material type = Material.matchMaterial(amountdata[1].toUpperCase());
                             if (Bukkit.getServer().getVersion().contains("(MC: 1.8") || Bukkit.getServer().getVersion().contains("(MC: 1.7")) {
-                                tempChest[i] = new SpawnEgg(type).toItemStack(Integer.parseInt(amountdata[2]));
+                                tempChest[i] = new SpawnEgg1_9(type).toItemStack(Integer.parseInt(amountdata[1]));
                             } else {
                                 try {
-                                    tempChest[i] = new SpawnEgg1_9(type).toItemStack(Integer.parseInt(amountdata[2]));
+                                    tempChest[i] = new SpawnEgg1_9(type).toItemStack(Integer.parseInt(amountdata[1]));
                                 } catch (Exception ex) {
                                     tempChest[i] = new ItemStack(Material.LEGACY_MONSTER_EGG);
                                     plugin.getLogger().severe("Monster eggs not supported with this server version.");
                                 }
                             }
                         } catch (Exception e) {
+                        	List<String> SpawnEgglist = new ArrayList<>(
+                        			Arrays.asList("BAT_SPAWN_EGG",
+                        			"BLAZE_SPAWN_EGG",
+                        			"CAVE_SPIDER_SPAWN_EGG",
+                        			"CHICKEN_SPAWN_EGG",
+                        			"COD_SPAWN_EGG",
+                        			"COW_SPAWN_EGG",
+                        			"CREEPER_SPAWN_EGG",
+                        			"DOLPHIN_SPAWN_EGG",	 
+                        			"DONKEY_SPAWN_EGG",
+                        			"DROWNED_SPAWN_EGG",
+                        			"ELDER_GUARDIAN_SPAWN_EGG",
+                        			"ENDERMAN_SPAWN_EGG",	 
+                        			"ENDERMITE_SPAWN_EGG",	 
+                        			"EVOKER_SPAWN_EGG",
+                        			"GHAST_SPAWN_EGG",
+                        			"GUARDIAN_SPAWN_EGG",
+                        			"HORSE_SPAWN_EGG",	 
+                        			"HUSK_SPAWN_EGG",
+                        			"LLAMA_SPAWN_EGG",
+                        			"MAGMA_CUBE_SPAWN_EGG",
+                        			"MOOSHROOM_SPAWN_EGG",
+                        			"MULE_SPAWN_EGG",
+                        			"OCELOT_SPAWN_EGG",
+                        			"PARROT_SPAWN_EGG",
+                        			"PHANTOM_SPAWN_EGG",	 
+                        			"PIG_SPAWN_EGG",
+                        			"POLAR_BEAR_SPAWN_EGG",
+                        			"PUFFERFISH_SPAWN_EGG",
+                        			"RABBIT_SPAWN_EGG",
+                        			"SALMON_SPAWN_EGG",
+                        			"SHEEP_SPAWN_EGG",
+                        			"SHULKER_SPAWN_EGG",
+                        			"SILVERFISH_SPAWN_EGG",	 
+                        			"SKELETON_HORSE_SPAWN_EGG",
+                        			"SKELETON_SPAWN_EGG",
+                        			"SLIME_SPAWN_EGG",
+                        			"SPIDER_SPAWN_EGG",
+                        			"SQUID_SPAWN_EGG",
+                        			"STRAY_SPAWN_EGG",
+                        			"TROPICAL_FISH_SPAWN_EGG",
+                        			"TURTLE_SPAWN_EGG",	 
+                        			"VEX_SPAWN_EGG",	 
+                        			"VILLAGER_SPAWN_EGG",	 
+                        			"VINDICATOR_SPAWN_EGG",
+                        			"WITCH_SPAWN_EGG",
+                        			"WOLF_SPAWN_EGG",
+                        			"ZOMBIE_HORSE_SPAWN_EGG",	 
+                        			"ZOMBIE_PIGMAN_SPAWN_EGG",	 
+                        			"ZOMBIE_SPAWN_EGG",	 
+                        			"ZOMBIE_VILLAGER_SPAWN_EGG"));
+                        			
                             plugin.getLogger().severe("Spawn eggs must be described by name. Try one of these (not all are possible):");
-                            for (EntityType type : EntityType.values()) {
-                                if (type.isSpawnable() && type.isAlive()) {
+                            
+                            for (String str : SpawnEgglist) {
+                            	plugin.getLogger().severe(str);
+                            }
+                            /*for (Material type : Material.values()) {
+                                if (type.is) {
                                     plugin.getLogger().severe(type.toString());
                                 }
-                            }
+                            }*/
                         }
                     } else if (amountdata[0].equals("POTION")) {
                         // plugin.getLogger().info("DEBUG: Potion length " +
@@ -204,9 +261,9 @@ public class PluginConfig {
                         
                         if (amountdata.length == 2) {
                             tempChest[i] = new ItemStack(mat, Integer.parseInt(amountdata[1]));
-                        } else if (amountdata.length == 3) {
+                        }/* else if (amountdata.length == 3) {
                             tempChest[i] = new ItemStack(mat, Integer.parseInt(amountdata[2]), Short.parseShort(amountdata[1]));
-                        }
+                        }*/
                     }
                 } catch (java.lang.IllegalArgumentException ex) {
                     ex.printStackTrace();

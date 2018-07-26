@@ -119,16 +119,16 @@ public class DeleteIslandChunk {
                                             break;
                                         case AIR:
                                             if (setTo.equals(Material.WATER)) {//stationary
-                                                nms.setBlockSuperFast(block, setTo.getId(), (byte)0, false);
+                                                nms.setBlockSuperFast(block, setTo, false);
                                             }
                                             break;
                                         case WATER://stationary
                                             if (setTo.equals(Material.AIR)) {
-                                                nms.setBlockSuperFast(block, setTo.getId(), (byte)0, false);
+                                                nms.setBlockSuperFast(block, setTo, false);
                                             }
                                             break;
                                         default:
-                                            nms.setBlockSuperFast(block, setTo.getId(), (byte)0, false);
+                                            nms.setBlockSuperFast(block, setTo, false);
                                             break;
                                         }
                                         // Nether, if it exists
@@ -150,7 +150,7 @@ public class DeleteIslandChunk {
                                                     block.setType(setTo);
                                                     break;
                                                 default:
-                                                    nms.setBlockSuperFast(block, setTo.getId(), (byte)0, false);
+                                                    nms.setBlockSuperFast(block, setTo, false);
                                                     break;
                                                 }
                                             }

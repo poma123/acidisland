@@ -2106,8 +2106,18 @@ public class IslandGuard implements Listener {
                     }
                 }
             }
+            
             // Handle name tags and dyes
-            if (Util.playerIsHolding(p, Material.NAME_TAG) || Util.playerIsHolding(p, Material.INK_SACK)) {
+            if (Util.playerIsHolding(p, Material.NAME_TAG) 
+            		|| p.getInventory().getItemInMainHand().toString().endsWith("DYE")
+            		|| p.getInventory().getItemInMainHand().equals(Material.BONE_MEAL)
+            		|| p.getInventory().getItemInMainHand().equals(Material.INK_SAC)
+            		|| p.getInventory().getItemInMainHand().equals(Material.CACTUS_GREEN)
+            		|| p.getInventory().getItemInMainHand().equals(Material.COCOA_BEANS)
+            		|| p.getInventory().getItemInMainHand().equals(Material.LAPIS_LAZULI)
+            		|| p.getInventory().getItemInMainHand().equals(Material.ROSE_RED)
+            		|| p.getInventory().getItemInMainHand().equals(Material.DANDELION_YELLOW)
+            		) {
                 Util.sendMessage(e.getPlayer(), ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
                 e.setCancelled(true);
                 e.getPlayer().updateInventory();

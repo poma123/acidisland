@@ -554,17 +554,32 @@ public final class Util {
      * @param type
      * @return true if they are holding an item of type type
      */
+    
+   
     @SuppressWarnings("deprecation")
     public static boolean playerIsHolding(Player player, Material type) {
         if (plugin.getServer().getVersion().contains("(MC: 1.7")
                 || plugin.getServer().getVersion().contains("(MC: 1.8")) {
-            return player.getItemInHand() != null && player.getItemInHand().getType().equals(type);
+            return player.getInventory().getItemInMainHand() != null && player.getInventory().getItemInMainHand().getType().equals(type);
         }
         if (player.getInventory().getItemInMainHand() != null && player.getInventory().getItemInMainHand().getType().equals(type)) {
             return true;
         }
         return player.getInventory().getItemInMainHand() != null && player.getInventory()
                 .getItemInOffHand().getType().equals(type);
+    }
+    
+    
+    public static boolean playerIsHoldingEndsWith(Player player, String type) {
+    	 if (plugin.getServer().getVersion().contains("(MC: 1.7")
+                 || plugin.getServer().getVersion().contains("(MC: 1.8")) {
+             return player.getInventory().getItemInMainHand() != null && player.getInventory().getItemInMainHand().getType().toString().endsWith(type);
+         }
+         if (player.getInventory().getItemInMainHand() != null && player.getInventory().getItemInMainHand().getType().toString().endsWith(type)) {
+             return true;
+         }
+         return player.getInventory().getItemInMainHand() != null && player.getInventory()
+                 .getItemInOffHand().getType().toString().endsWith(type);
     }
 
     public static void runCommand(final Player player, final String string) {

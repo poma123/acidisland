@@ -541,14 +541,14 @@ public class Challenges implements CommandExecutor, TabCompleter {
 						plugin.getLogger().severe(materialList.substring(0, materialList.length() - 1));
 					}
 				}
-			} else if (element.length == 3) {
+			} else if (element.length == 2) {
 				try {
 					// if (StringUtils.isNumeric(element[0])) {
 					// rewardItem = Material.getMaterial(Integer.parseInt(element[0]));
 					// } else {
 					rewardItem = Material.getMaterial(element[0].toUpperCase());
 					// }
-					rewardQty = Integer.parseInt(element[2]);
+					rewardQty = Integer.parseInt(element[1]);
 					// Check for POTION
 					if (rewardItem.equals(Material.POTION)) {
 						givePotion(player, rewardedItems, element, rewardQty);
@@ -558,10 +558,10 @@ public class Challenges implements CommandExecutor, TabCompleter {
 						if (rewardItem.toString().endsWith("SPAWN_EGG")) {
 
 							try {
-								EntityType type = EntityType.valueOf(element[1].toUpperCase());
+								Material type = Material.matchMaterial(element[0].toUpperCase());
 								if (Bukkit.getServer().getVersion().contains("(MC: 1.8")
 										|| Bukkit.getServer().getVersion().contains("(MC: 1.7")) {
-									item = new SpawnEgg(type).toItemStack(rewardQty);
+									item = new SpawnEgg1_9(type).toItemStack(rewardQty);
 								} else {
 									try {
 										item = new SpawnEgg1_9(type).toItemStack(rewardQty);
@@ -1083,7 +1083,7 @@ public class Challenges implements CommandExecutor, TabCompleter {
 							} else if (part[0].equalsIgnoreCase("cauldron")) {
 								part[0] = "CAULDRON_ITEM";
 							} else if (part[0].equalsIgnoreCase("skull")) {
-								part[0] = "SKULL_ITEM";
+								part[0] = "PLAYER_HEAD";
 							}
 							// TODO: add netherwart vs. netherstalk?
 							// if (StringUtils.isNumeric(part[0])) {
@@ -1211,7 +1211,7 @@ public class Challenges implements CommandExecutor, TabCompleter {
 						} else if (part[0].equalsIgnoreCase("cauldron")) {
 							part[0] = "CAULDRON";
 						} else if (part[0].equalsIgnoreCase("skull")) {
-							part[0] = "SKULL_ITEM";
+							part[0] = "PLAYER_HEAD";
 						}
 						// if (StringUtils.isNumeric(part[0])) {
 						// reqItem = Material.getMaterial(Integer.parseInt(part[0]));
@@ -1231,12 +1231,12 @@ public class Challenges implements CommandExecutor, TabCompleter {
 							reqDurability = -1; // non existent
 							try {
 								// Check if this is a string
-								EntityType entityType = EntityType.valueOf(part[1]);
+								Material entityType = Material.matchMaterial(part[0]);
 								NMSAbstraction nms = null;
 								nms = Util.checkVersion();
 								item = nms.getSpawnEgg(entityType, reqAmount);
 							} catch (Exception ex) {
-								plugin.getLogger().severe("Unknown entity type '" + part[1]
+								plugin.getLogger().severe("Unknown entity type '" + part[0]
 										+ "' for MONSTER_EGG in challenge " + challenge);
 								return false;
 							}
@@ -1977,10 +1977,10 @@ public class Challenges implements CommandExecutor, TabCompleter {
 					} else if (icon.getType().toString().endsWith("SPAWN_EGG")) {
 						// Handle monster egg icons
 						try {
-							EntityType type = EntityType.valueOf(split[1].toUpperCase());
+							Material type = Material.matchMaterial(split[0].toUpperCase());
 							if (Bukkit.getServer().getVersion().contains("(MC: 1.8")
 									|| Bukkit.getServer().getVersion().contains("(MC: 1.7")) {
-								icon = new SpawnEgg(type).toItemStack();
+								icon = new SpawnEgg1_9(type).toItemStack();
 							} else {
 								try {
 									icon = new SpawnEgg1_9(type).toItemStack();

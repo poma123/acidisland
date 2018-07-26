@@ -17,7 +17,7 @@
 package com.wasteofplastic.acidisland.util;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.EntityType;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import com.wasteofplastic.acidisland.nms.NMSAbstraction;
@@ -28,10 +28,10 @@ import com.wasteofplastic.acidisland.nms.NMSAbstraction;
  * @author tastybento
  */
 public class SpawnEgg1_9 {
-    private EntityType type;
+    private Material type;
     private NMSAbstraction nms;
 
-    public SpawnEgg1_9(EntityType type) {
+    public SpawnEgg1_9(Material type) {
         this.type = type;
         nms = null;
         try {
