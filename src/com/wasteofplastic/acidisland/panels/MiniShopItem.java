@@ -257,6 +257,7 @@ public class MiniShopItem {
      */
     public void setMaterial(Material material) {
         this.material = material;
+        
     }
 
     /**
@@ -292,6 +293,7 @@ public class MiniShopItem {
     @SuppressWarnings("deprecation")
     private static String getDataName(ItemStack item) {
         Material mat = item.getType();
+       
         // Find out durability, which indicates additional information on the
         // item, color, etc.
         //short damage = item.getDurability();
