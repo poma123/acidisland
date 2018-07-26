@@ -249,7 +249,7 @@ public class SafeSpotTeleport {
      * @param worldHeight
      * @return true if this is a safe spot, false if this is a portal scan
      */
-    @SuppressWarnings("deprecation")
+
     private boolean checkBlock(ChunkSnapshot chunk, int x, int y, int z, int worldHeight) {
         World world = location.getWorld();
         Material type = Material.getMaterial(chunk.getBlockType(x, y, z).toString());
