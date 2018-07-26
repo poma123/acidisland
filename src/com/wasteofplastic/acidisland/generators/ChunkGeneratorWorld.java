@@ -38,7 +38,8 @@ import com.wasteofplastic.acidisland.Settings;
 public class ChunkGeneratorWorld extends ChunkGenerator {
     private Random rand = new Random();
     private PerlinOctaveGenerator gen;
-    private final ASkyBlock plugin = ASkyBlock.getPlugin();
+    @SuppressWarnings("unused")
+	private final ASkyBlock plugin = ASkyBlock.getPlugin();
 
     @SuppressWarnings("deprecation")
     public byte[][] generateBlockSections(World world, Random random, int chunkX, int chunkZ, BiomeGrid biomeGrid) {

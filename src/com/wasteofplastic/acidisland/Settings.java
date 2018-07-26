@@ -143,8 +143,8 @@ public class Settings {
     public static boolean resetChallenges;
 
     // Levels
-    public static HashMap<MaterialData, Integer> blockLimits;
-    public static HashMap<MaterialData, Integer> blockValues;
+    public static HashMap<Material, Integer> blockLimits;
+    public static HashMap<Material, Integer> blockValues;
 
     // Challenge completion broadcast
     public static boolean broadcastMessages;

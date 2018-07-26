@@ -51,7 +51,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.material.MaterialData;
-import org.bukkit.material.SpawnEgg;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
@@ -722,6 +721,7 @@ public class Challenges implements CommandExecutor, TabCompleter {
 				|| Bukkit.getServer().getVersion().contains("(MC: 1.7")) {
 			// Add the effect of the potion
 			final PotionType potionType = PotionType.valueOf(element[1]);
+		//	final PotionEffectType potionType = PotionEffectType.getByName(element[1]);
 			if (potionType == null) {
 				Bukkit.getLogger()
 						.severe("Potion effect '" + element[1] + "' in " + configFile + " is unknown - skipping!");
@@ -730,6 +730,9 @@ public class Challenges implements CommandExecutor, TabCompleter {
 					Bukkit.getLogger().severe(name.name());
 				}
 			} else {
+			//	final ItemStack potion = new ItemStack(Material.POTION);
+			//	PotionMeta pm = (PotionMeta) potion.getItemMeta();
+			//	pm.addCustomEffect(new PotionEffect(p)), arg1)
 				final Potion rewPotion = new Potion(potionType);
 				if (potionType != PotionType.INSTANT_DAMAGE && potionType != PotionType.INSTANT_HEAL) {
 					// Instant potions cannot be extended

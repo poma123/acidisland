@@ -44,7 +44,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 import org.bukkit.material.SimpleAttachableMaterialData;
 import org.bukkit.material.TrapDoor;
 import org.bukkit.util.Vector;
@@ -1298,7 +1297,6 @@ public class GridManager {
 	 *            - home location to do to
 	 * @return true if successful, false if not
 	 */
-	@SuppressWarnings("deprecation")
 	public void homeTeleport(final Player player, int number) {
 		Location home = null;
 		// plugin.getLogger().info("home teleport called for #" + number);

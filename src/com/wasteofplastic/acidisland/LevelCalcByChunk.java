@@ -17,18 +17,17 @@ import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.material.MaterialData;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multiset.Entry;
+import com.google.common.collect.Multisets;
 import com.wasteofplastic.acidisland.events.IslandPostLevelEvent;
 import com.wasteofplastic.acidisland.events.IslandPreLevelEvent;
 import com.wasteofplastic.acidisland.util.Pair;
 import com.wasteofplastic.acidisland.util.Util;
-import com.google.common.collect.Multisets;
 
 
 public class LevelCalcByChunk {
@@ -48,7 +47,7 @@ public class LevelCalcByChunk {
     private final Results result;
 
     // Copy the limits hashmap
-    private HashMap<MaterialData, Integer> limitCount;
+    private HashMap<Material, Integer> limitCount;
     private boolean report;
     private long oldLevel;
 
@@ -121,7 +120,7 @@ public class LevelCalcByChunk {
 
     }
 
-    @SuppressWarnings("deprecation")
+
     private void scanChunk(ChunkSnapshot chunk) {
 
         for (int x = 0; x< 16; x++) {
@@ -149,8 +148,8 @@ public class LevelCalcByChunk {
 
     private void checkBlock(Material type, BlockData blockData, boolean belowSeaLevel) {
         // Currently, there is no alternative to using block data (Feb 2018)
-        @SuppressWarnings("deprecation")
-        MaterialData md = new MaterialData(type);
+
+        Material md = type;
         int count = limitCount(md);
         if (count != 0) {
             if (belowSeaLevel) {
@@ -168,8 +167,8 @@ public class LevelCalcByChunk {
      * @param md
      * @return value of the block if can be counted
      */
-    private int limitCount(MaterialData md) {
-        MaterialData generic = new MaterialData(md.getItemType());
+    private int limitCount(Material md) {
+        Material generic = md;
         if (limitCount.containsKey(md) && Settings.blockValues.containsKey(md)) {
             int count = limitCount.get(md);
             if (count > 0) {
@@ -365,14 +364,14 @@ public class LevelCalcByChunk {
 
         reportLines.add("Blocks not counted because they exceeded limits: " + String.format("%,d",result.ofCount.size()));
         //entriesSortedByCount = Multisets.copyHighestCountFirst(ofCount).entrySet();
-        Iterable<Multiset.Entry<MaterialData>> entriesSortedByCount = result.ofCount.entrySet();
-        Iterator<Entry<MaterialData>> it = entriesSortedByCount.iterator();
+        Iterable<Entry<Material>> entriesSortedByCount = result.ofCount.entrySet();
+        Iterator<Entry<Material>> it = entriesSortedByCount.iterator();
         while (it.hasNext()) {
-            Entry<MaterialData> type = it.next();
+            Entry<Material> type = it.next();
             Integer limit = Settings.blockLimits.get(type.getElement());
             String explain = ")";
             if (limit == null) {
-                MaterialData generic = new MaterialData(type.getElement().getItemType());
+                Material generic = type.getElement();
                 limit = Settings.blockLimits.get(generic);
                 explain = " - All types)";
             }
@@ -385,7 +384,7 @@ public class LevelCalcByChunk {
         entriesSortedByCount = result.ncCount.entrySet();
         it = entriesSortedByCount.iterator();
         while (it.hasNext()) {
-            Entry<MaterialData> type = it.next();
+            Entry<Material> type = it.next();
             reportLines.add(type.getElement().toString() + ": " + String.format("%,d",type.getCount()) + " blocks");
         }
         reportLines.add("=================================");
@@ -395,19 +394,19 @@ public class LevelCalcByChunk {
         }
     }
 
-    private Collection<String> sortedReport(int total, Multiset<MaterialData> materialDataCount) {
+    private Collection<String> sortedReport(int total, Multiset<Material> materialDataCount) {
         Collection<String> result = new ArrayList<>();
-        Iterable<Multiset.Entry<MaterialData>> entriesSortedByCount = Multisets.copyHighestCountFirst(materialDataCount).entrySet();
-        for (Entry<MaterialData> en : entriesSortedByCount) {
-            MaterialData type = en.getElement();
+        Iterable<Multiset.Entry<Material>> entriesSortedByCount = Multisets.copyHighestCountFirst(materialDataCount).entrySet();
+        for (Entry<Material> en : entriesSortedByCount) {
+            Material type = en.getElement();
 
             int value = 0;
             if (Settings.blockValues.containsKey(type)) {
                 // Specific
                 value = Settings.blockValues.get(type);
-            } else if (Settings.blockValues.containsKey(new MaterialData(type.getItemType()))) {
+            } else if (Settings.blockValues.containsKey(type)) {
                 // Generic
-                value = Settings.blockValues.get(new MaterialData(type.getItemType()));
+                value = Settings.blockValues.get(type);
             }
             if (value > 0) {
                 result.add(type.toString() + ":"
@@ -426,10 +425,10 @@ public class LevelCalcByChunk {
      *
      */
     public class Results {
-        Multiset<MaterialData> mdCount = HashMultiset.create();
-        Multiset<MaterialData> uwCount = HashMultiset.create();
-        Multiset<MaterialData> ncCount = HashMultiset.create();
-        Multiset<MaterialData> ofCount = HashMultiset.create();
+        Multiset<Material> mdCount = HashMultiset.create();
+        Multiset<Material> uwCount = HashMultiset.create();
+        Multiset<Material> ncCount = HashMultiset.create();
+        Multiset<Material> ofCount = HashMultiset.create();
         long rawBlockCount = 0;
         Island island;
         long underWaterBlockCount = 0;

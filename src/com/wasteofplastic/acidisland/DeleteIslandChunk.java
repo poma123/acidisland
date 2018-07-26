@@ -79,7 +79,6 @@ public class DeleteIslandChunk {
             plugin.getLogger().info("Island delete: There are " + chunksToClear.size() + " chunks that need to be cleared up.");
             plugin.getLogger().info("Clean rate is " + Settings.cleanRate + " chunks per second. Should take ~" + Math.round((float)chunksToClear.size()/Settings.cleanRate) + "s");
             new BukkitRunnable() {
-                @SuppressWarnings("deprecation")
                 @Override
                 public void run() {
                     Iterator<Pair<Integer, Integer>> it = chunksToClear.iterator();

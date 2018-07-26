@@ -931,7 +931,7 @@ public class PluginConfig {
             Settings.levelCost = 1;
             plugin.getLogger().warning("levelcost in blockvalues.yml cannot be less than 1. Setting to 1.");
         }
-        Settings.blockLimits = new HashMap<MaterialData, Integer>();
+        Settings.blockLimits = new HashMap<Material, Integer>();
         if (blockValuesConfig.isSet("limits")) {
             for (String material : blockValuesConfig.getConfigurationSection("limits").getKeys(false)) {
                 try {
@@ -944,8 +944,7 @@ public class PluginConfig {
                     
                         mat = Material.valueOf(split[0].toUpperCase());
                     
-                    MaterialData materialData = new MaterialData(mat);
-                    materialData.setData(data);
+                    Material materialData = mat;
                     Settings.blockLimits.put(materialData, blockValuesConfig.getInt("limits." + material, 0));
                     if (DEBUG) {
                         plugin.getLogger().info("Maximum number of " + materialData + " will be " + Settings.blockLimits.get(materialData));
@@ -955,21 +954,23 @@ public class PluginConfig {
                 }
             }
         }
-        Settings.blockValues = new HashMap<MaterialData, Integer>();
+        Settings.blockValues = new HashMap<Material, Integer>();
         if (blockValuesConfig.isSet("blocks")) {
             for (String material : blockValuesConfig.getConfigurationSection("blocks").getKeys(false)) {
                 try {
                     String[] split = material.split(":");
                     byte data = 0;
                     if (split.length>1) {
-                        data = Byte.valueOf(split[1]);
+                    	plugin.getLogger().warning("§cThe numeric IDs are no longer supported! Use Material names instead.");
+                    	plugin.getLogger().warning("§cUnsupported ID: " + split[0] + ":" + split[1]);
+                        //data = Byte.valueOf(split[1]);
                     }
-                    MaterialData materialData = null;
+                    Material materialData = null;
                     
-                        materialData = new MaterialData(Material.valueOf(split[0].toUpperCase()));
+                        materialData = Material.matchMaterial(split[0].toUpperCase());
                     
 
-                    materialData.setData(data);
+                 //  materialData.setData(data);
                     Settings.blockValues.put(materialData, blockValuesConfig.getInt("blocks." + material, 0));
                     if (DEBUG) {
                         plugin.getLogger().info(materialData.toString() + " value " + Settings.blockValues.get(materialData));
