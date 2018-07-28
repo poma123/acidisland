@@ -297,7 +297,7 @@ public class MiniShopItem {
         // Find out durability, which indicates additional information on the
         // item, color, etc.
         //short damage = item.getDurability();
-        switch (mat) {
+ /*       switch (mat) {
         case WOOL:
             switch ((int) damage) {
             case 0:
@@ -1513,8 +1513,8 @@ public class MiniShopItem {
         if (damage == 0 || isTool(mat))
             return mat.toString();
         // This returns something that has a durability qualifier, but we don't
-        // know what it is.
-        return mat.toString() + ":" + damage;
+        // know what it is.*/
+        return mat.toString();// + ":" + damage;
     }
 
     private static boolean isTool(Material mat) {
@@ -1528,11 +1528,11 @@ public class MiniShopItem {
         case CHAINMAIL_HELMET:
         case CHAINMAIL_LEGGINGS:
 
-        case WOOD_AXE:
-        case WOOD_HOE:
-        case WOOD_PICKAXE:
-        case WOOD_SPADE:
-        case WOOD_SWORD:
+        case WOODEN_AXE:
+        case WOODEN_HOE:
+        case WOODEN_PICKAXE:
+        case WOODEN_SHOVEL:
+        case WOODEN_SWORD:
 
         case LEATHER_BOOTS:
         case LEATHER_CHESTPLATE:
@@ -1542,7 +1542,7 @@ public class MiniShopItem {
         case DIAMOND_AXE:
         case DIAMOND_HOE:
         case DIAMOND_PICKAXE:
-        case DIAMOND_SPADE:
+        case DIAMOND_SHOVEL:
         case DIAMOND_SWORD:
 
         case DIAMOND_BOOTS:
@@ -1552,23 +1552,23 @@ public class MiniShopItem {
         case STONE_AXE:
         case STONE_HOE:
         case STONE_PICKAXE:
-        case STONE_SPADE:
+        case STONE_SHOVEL:
         case STONE_SWORD:
 
-        case GOLD_AXE:
-        case GOLD_HOE:
-        case GOLD_PICKAXE:
-        case GOLD_SPADE:
-        case GOLD_SWORD:
+        case GOLDEN_AXE:
+        case GOLDEN_HOE:
+        case GOLDEN_PICKAXE:
+        case GOLDEN_SHOVEL:
+        case GOLDEN_SWORD:
 
-        case GOLD_BOOTS:
-        case GOLD_CHESTPLATE:
-        case GOLD_HELMET:
-        case GOLD_LEGGINGS:
+        case GOLDEN_BOOTS:
+        case GOLDEN_CHESTPLATE:
+        case GOLDEN_HELMET:
+        case GOLDEN_LEGGINGS:
         case IRON_AXE:
         case IRON_HOE:
         case IRON_PICKAXE:
-        case IRON_SPADE:
+        case IRON_SHOVEL:
         case IRON_SWORD:
 
         case IRON_BOOTS:

@@ -742,7 +742,7 @@ challenges:
     itsamonsterparty:
       friendlyname: "It's a Monster Party"
       description: 'Have a party - all monsters invited! Get close to a Skeleton, Zombie, Spider, Creeper and Enderman all at the same time.'
-      icon:ZOMBIE_HEAD
+      icon: ZOMBIE_HEAD
       level: 'Advanced'
       type: island
       requiredItems: 'SKELETON:1 ZOMBIE:1 SPIDER:1 CREEPER:1 ENDERMAN:1'

@@ -375,10 +375,12 @@ public class Schematic {
                 throw new IllegalArgumentException("Schematic file is not an Alpha schematic");
             }
 
-            Material[] blockId = getChildTag(schematic, "Blocks", ByteArrayTag.class).getValue();
-            data = getChildTag(schematic, "Data", ByteArrayTag.class).getValue();
+         //   Material[] blockId = getChildTag(schematic, "Blocks", ByteArrayTag.class).getValue();
+            byte[] blocckId = getChildTag(schematic, "Blocks", ByteArrayTag.class).getValue();
+        //    data = getChildTag(schematic, "Data", ByteArrayTag.class).getValue();
             byte[] addId = new byte[0];
-            blocks = new Material[blockId.length]; // Have to later combine IDs
+            blocks = new Material[blocckId.length]; // Have to later combine IDs
+            short[] bloccks = new short[blocckId.length];
             // We support 4096 block IDs using the same method as vanilla
             // Minecraft, where
             // the highest 4 bits are stored in a separate byte array.
@@ -387,15 +389,15 @@ public class Schematic {
             }
 
             // Combine the AddBlocks data with the first 8-bit block ID
-            for (int index = 0; index < blockId.length; index++) {
+            for (int index = 0; index < blocckId.length; index++) {
                 if ((index >> 1) >= addId.length) { // No corresponding
                     // AddBlocks index
-                    blocks[index] = (blockId[index] & 0xFF);
+                    bloccks[index] = (short) (blocckId[index] & 0xFF);
                 } else {
                     if ((index & 1) == 0) {
-                        blocks[index] = (((addId[index >> 1] & 0x0F) << 8) + (blockId[index] & 0xFF));
+                        bloccks[index] = (short) (((addId[index >> 1] & 0x0F) << 8) + (blocckId[index] & 0xFF));
                     } else {
-                        blocks[index] = (((addId[index >> 1] & 0xF0) << 4) + (blockId[index] & 0xFF));
+                        bloccks[index] = (short) (((addId[index >> 1] & 0xF0) << 4) + (blocckId[index] & 0xFF));
                     }
                 }
             }
