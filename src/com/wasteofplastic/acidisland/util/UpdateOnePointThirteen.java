@@ -520,13 +520,22 @@ public class UpdateOnePointThirteen {
 			FileConfiguration ymlfile = YamlConfiguration.loadConfiguration(file);
 			if (file.getName().equals("config.yml")) {
 				// Update chestItems
-				List<String> chestItems = Arrays.asList(ymlfile.getString("island.chestItems").split(" "));
-				for (int i = 0; i <= chestItems.size(); i++) {
-					String[] items = chestItems.get(i).split(":");
-
-					if (table.containsKey(items[0] + ":" + items[1])) {
-						chestItems.set(i, table.get(items[0] + ":" + items[1]));
-						
+				String[] chestItems = ymlfile.getString("island.chestItems").split(" ");
+				for (int i = 0; i <= chestItems.length; i++) {
+					plugin.getLogger().info(String.join(" ", chestItems));
+					
+					String[] items = chestItems[i].split(":");
+					
+					if (items.length > 2) {
+						if (table.containsKey(items[0] + ":" + items[1])) {
+							// chestItems.set(i, table.get(items[0] + ":" + items[1]) + ":" + items[2]);
+							chestItems[i] = table.get(items[0] + ":" + items[1]) + ":" + items[2];
+						}
+					} else if (items.length == 2) {
+						if (table.containsKey(items[0])) {
+						//	chestItems.set(i, table.get(items[0]) + ":" + items[1]);
+							chestItems[i] = table.get(items[0]) + ":" + items[1];
+						}
 					}
 				}
 				String chestItemsOutput = String.join(" ", chestItems);
