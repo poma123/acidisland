@@ -234,7 +234,7 @@ public class PluginConfig {
                         			"ZOMBIE_SPAWN_EGG",	 
                         			"ZOMBIE_VILLAGER_SPAWN_EGG"));
                         			
-                            plugin.getLogger().severe("Spawn eggs must be described by name. Try one of these (not all are possible):");
+                            plugin.getLogger().severe("Spawn eggs must be described by name. Try one of these:");
                             
                             for (String str : SpawnEgglist) {
                             	plugin.getLogger().severe(str);

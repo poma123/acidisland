@@ -183,7 +183,7 @@ public class Schematic {
     public Schematic(ASkyBlock plugin, File file) throws IOException {
         this.plugin = plugin;
         // Initialize
-        Material[] blocks;
+        short[] blocks;
         byte[] data;
         name = file.getName();
         heading = "";
@@ -379,8 +379,13 @@ public class Schematic {
             byte[] blocckId = getChildTag(schematic, "Blocks", ByteArrayTag.class).getValue();
         //    data = getChildTag(schematic, "Data", ByteArrayTag.class).getValue();
             byte[] addId = new byte[0];
-            blocks = new Material[blocckId.length]; // Have to later combine IDs
+           // blocks = new Material[blocckId.length];// Have to later combine IDs
+            //Material[] toBlocks = IDConverter.getFromID(blocckId);
+            blocks = new short[blocckId.length];
+            plugin.getLogger().info(String.valueOf(blocckId.length));
+            
             short[] bloccks = new short[blocckId.length];
+            
             // We support 4096 block IDs using the same method as vanilla
             // Minecraft, where
             // the highest 4 bits are stored in a separate byte array.
@@ -617,13 +622,13 @@ public class Schematic {
             for (int y = 0; y < height; ++y) {
                 for (int z = 0; z < length; ++z) {
                     int index = y * width * length + z * width + x;
-                    if (blocks[index] == Material.BEDROCK) {
+                    if (IDConverter.getFromID(blocks[index]) == Material.BEDROCK) {
                         // Last bedrock
                         if (bedrock == null || bedrock.getY() < y) {
                             bedrock = new Vector(x, y, z);
                             //Bukkit.getLogger().info("DEBUG higher bedrock found:" + bedrock.toString());
                         }
-                    } else if (blocks[index] == Material.CHEST) {
+                    } else if (IDConverter.getFromID(blocks[index]) == Material.CHEST) {
                         // Last chest
                         if (chest == null || chest.getY() < y) {
                             chest = new Vector(x, y, z);
@@ -632,14 +637,14 @@ public class Schematic {
                             // Bukkit.getLogger().info("Chest relative location is "
                             // + chest.toString());
                         }
-                    } else if (blocks[index] == Material.SIGN) {
+                    } else if (IDConverter.getFromID(blocks[index]) == Material.SIGN) {
                         // Sign
                         if (welcomeSign == null || welcomeSign.getY() < y) {
                             welcomeSign = new Vector(x, y, z);
                             // Bukkit.getLogger().info("DEBUG higher sign found:"
                             // + welcomeSign.toString());
                         }
-                    } else if (blocks[index] == Material.GRASS) {
+                    } else if (IDConverter.getFromID(blocks[index]) == Material.GRASS) {
                         // Grass
                         grassBlocks.add(new Vector(x,y,z));
                     } 
@@ -1169,7 +1174,7 @@ public class Schematic {
      * @param data
      */
     @SuppressWarnings("deprecation")
-    public void prePasteSchematic(Material[] blocks) {
+    public void prePasteSchematic(short[] blocks) {
         //plugin.getLogger().info("DEBUG: prepaste ");
         islandBlocks = new ArrayList<IslandBlock>();
         Map<BlockVector, Map<String, Tag>> tileEntitiesMap = this.getTileEntitiesMap();
@@ -1182,16 +1187,16 @@ public class Schematic {
                     // only bother with air if it is below sea level
                     // TODO: need to check max world height too?
                     int h = Settings.islandHeight + y - bedrock.getBlockY();
-                    if (h >= 0 && h < 255 && (blocks[index] != Material.AIR || h < Settings.seaHeight)){
+                    if (h >= 0 && h < 255 && (IDConverter.getFromID(blocks[index]) != Material.AIR || h < Settings.seaHeight)){
                         // Only bother if the schematic blocks are within the range that y can be
                         //plugin.getLogger().info("DEBUG: height " + (count++) + ":" +h);
                         IslandBlock block = new IslandBlock(x, y, z);
-                        if (!attachable.contains(blocks[index]) || blocks[index] == Material.RED_SANDSTONE) {
-                            if (Bukkit.getServer().getVersion().contains("(MC: 1.7") && blocks[index] == Material.RED_SANDSTONE) {
+                        if (!attachable.contains(blocks[index]) || IDConverter.getFromID(blocks[index]) == Material.RED_SANDSTONE) {
+                            if (Bukkit.getServer().getVersion().contains("(MC: 1.7") && IDConverter.getFromID(blocks[index])== Material.RED_SANDSTONE) {
                                 // Red sandstone - use red sand instead
                                 block.setBlock(Material.RED_SANDSTONE);
                             } else {
-                                block.setBlock(blocks[index]);
+                                block.setBlock(IDConverter.getFromID(blocks[index]));
                             }
                             // Tile Entities
                             if (tileEntitiesMap.containsKey(new BlockVector(x, y, z))) {
@@ -1247,7 +1252,7 @@ public class Schematic {
                         int index = y * width * length + z * width + x;
                         IslandBlock block = new IslandBlock(x, y, z);
                         if (attachable.contains(blocks[index])) {
-                            block.setBlock(blocks[index]);
+                            block.setBlock(IDConverter.getFromID(blocks[index]));
                             // Tile Entities
                             if (tileEntitiesMap.containsKey(new BlockVector(x, y, z))) {
                                 if (plugin.isOnePointEight()) {
@@ -1478,9 +1483,16 @@ public class Schematic {
             inventory.setContents(Settings.chestItems);
         }
         // Fill the chest and orient it correctly (1.8 faces it north!
-        DirectionalContainer dc = (DirectionalContainer) blockToChange.getState().getData();
-        dc.setFacingDirection(BlockFace.SOUTH);
-        blockToChange.setBlockData(((Block) dc).getBlockData(), true);
+        //DirectionalContainer dc = (DirectionalContainer) blockToChange.getState().getData();
+        //dc.setFacingDirection(BlockFace.SOUTH);
+        
+        /*@author poma123
+         * 
+         * New chest rotation with 1.13 blockdata
+         */
+        BlockData bd = blockToChange.getBlockData();
+        ((Rotatable) bd).setRotation(BlockFace.SOUTH);
+         blockToChange.setBlockData(bd, true);
         // Teleport player
         plugin.getGrid().homeTeleport(player);
         // Reset any inventory, etc. This is done AFTER the teleport because other plugins may switch out inventory based on world

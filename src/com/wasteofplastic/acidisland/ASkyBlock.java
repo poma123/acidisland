@@ -73,6 +73,7 @@ import com.wasteofplastic.acidisland.panels.SchematicsPanel;
 import com.wasteofplastic.acidisland.panels.SettingsPanel;
 import com.wasteofplastic.acidisland.panels.WarpPanel;
 import com.wasteofplastic.acidisland.util.HeadGetter;
+import com.wasteofplastic.acidisland.util.UpdateOnePointThirteen;
 import com.wasteofplastic.acidisland.util.Util;
 import com.wasteofplastic.acidisland.util.VaultHelper;
 
@@ -113,7 +114,8 @@ public class ASkyBlock extends JavaPlugin {
     private TopTen topTen;
     // V1.8 or later
     private boolean onePointEight;
-
+    // true if v1.13
+    private boolean onePointThirteen;
     // Update object
     private Updater updateCheck = null;
 
@@ -290,7 +292,10 @@ public class ASkyBlock extends JavaPlugin {
         if (clazz != null) {
             onePointEight = true;
         }
-
+        
+        if (getServer().getVersion().contains("MC: 1.13")) {
+        	onePointThirteen = true;
+        }
         saveDefaultConfig();
         // Check to see if island distance is set or not
         if (getConfig().getInt("island.distance", -1) < 1) {
@@ -425,6 +430,16 @@ public class ASkyBlock extends JavaPlugin {
                     return;
                 }
 
+                //update old configuration files (e.g. materials) for 1.13 
+                if (isOnePointThirteen()) {
+                	getLogger().info("Version 1.13 detected! Please wait...");
+                	if (getConfig().get("onePointThirteen") == null) {
+                	UpdateOnePointThirteen.updateOnePointThirteen(plugin);
+                	} else {
+                		getLogger().info("The configurations are up to date!");
+                	}
+                }
+                
                 // Run game rule to keep things quiet
                 if (Settings.silenceCommandFeedback){
                     try {
@@ -489,7 +504,8 @@ public class ASkyBlock extends JavaPlugin {
                     }
                     // Give temp permissions
                     playerEvents.giveAllTempPerms();
-
+                    
+                   
                     getLogger().info("All files loaded. Ready to play...");
 
                     registerCustomCharts();
@@ -499,6 +515,7 @@ public class ASkyBlock extends JavaPlugin {
                     getServer().getPluginManager().callEvent(new ReadyEvent());
                 });
                 // Check for updates asynchronously
+                
                 if (Settings.updateCheck) {
                     checkUpdates();
                     new BukkitRunnable() {
@@ -937,6 +954,10 @@ public class ASkyBlock extends JavaPlugin {
         return onePointEight;
     }
 
+    public boolean isOnePointThirteen() {
+    	
+		return onePointThirteen;
+    }
     /**
      * @return the settingsPanel
      */

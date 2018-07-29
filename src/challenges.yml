@@ -247,7 +247,7 @@ challenges:
       icon: PUMPKIN_SEEDS
       level: 'Novice'
       type: inventory
-      requiredItems: 'MELON_SEEDS:64 PUMPKIN_SEEDS:64 SEEDS:64'
+      requiredItems: 'MELON_SEEDS:64 PUMPKIN_SEEDS:64 WHEAT_SEEDS:64'
       takeItems: true
       itemReward: 'DIRT:5 VINE:20'
       rewardText: '5 dirt blocks and 20 vines'

@@ -79,11 +79,11 @@ island:
    levelwait: 60
    
    # Items that will be in the chest when the player starts an island
-   # Must be in Bukkit Materials format. Format is <Material>:<Qty>
-   # or <Material>:<Data>:<Qty>
-   # Use <Data> to set the durability of a item or to select sub-items/colors.
+   # Must be in Bukkit Materials format. Format is <Material>
+   # or <Material>:<Qty>
+   #
    # 
-   # Spawn Eggs must be defined by name, e.g., MONSTER_EGG:PIG
+   # Spawn Eggs must be defined by name, e.g., PIG_SPAWN_EGG
    #
    # The format for POTIONS is as follows:
    #
@@ -658,7 +658,9 @@ general:
    # plugin config has been updated. If a new config is detected, it will be
    # auto-saved to config.new.yml.
    version: ${version}
-   
+
+   #DO NOT DELETE! This value is needed for the configuration files updating (for version 1.13). 
+   onePointThirteen: true
 # Protection settings
 protection:
    # Protection Setting Flags:

@@ -17,18 +17,12 @@
 package com.wasteofplastic.acidisland;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
-import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import com.wasteofplastic.acidisland.nms.NMSAbstraction;
 import com.wasteofplastic.acidisland.util.Pair;
-import com.wasteofplastic.acidisland.util.Util;
 
 //import com.wasteofplastic.askyblock.nms.NMSAbstraction;
 
@@ -39,9 +33,89 @@ import com.wasteofplastic.acidisland.util.Util;
  *
  */
 public class DeleteIslandChunk {
-    private Set<Pair<Integer, Integer>> chunksToClear = new HashSet<>();
+	
+	 public DeleteIslandChunk(final ASkyBlock plugin, final Island island) {
+
+		 if (island.getCenter().getWorld() == null)
+	            return;
+	        if (Settings.deleteProtectedOnly) {
+	            gatherProtected(island);
+	        } else {
+	            gatherWholeIsland(island);
+	        }
+
+	        // Remove from grid
+	        plugin.getGrid().deleteIsland(island.getCenter());
+	        
+	 /*       
+
+			// Fire event
+	        IslandDeleteEvent event = IslandDeleteEvent;
+
+	        if (((BukkitTask) event).isCancelled()) {
+
+	            return;
+
+	        }*/
+
+	        final World world = island.getCenter().getWorld();
+
+	        if (world == null) {
+
+	            return;
+
+	        }
+
+	        int minXChunk =  island.getMinX() / 16;
+	        
+	        int maxXChunk = (island.getProtectionSize() * 2 + island.getMinX() - 1) /16;
+
+	        int minZChunk = island.getMinZ() / 16;
+
+	        int maxZChunk = (island.getProtectionSize() * 2 + island.getMinZ() - 1) /16;
+
+	        for (int x = minXChunk; x <= maxXChunk; x++) {
+
+	            for (int z = minZChunk; z<=maxZChunk; z++) {
+
+	                world.regenerateChunk(x, z);
+
+	                if (Settings.newNether && Settings.createNether) {
+
+	                    ASkyBlock.getNetherWorld().regenerateChunk(x, z);
+
+//TODO nether
+
+	                }
+	              
+
+	            }
+
+	        }
+
+	        // Fire event
+
+	        //IslandEvent.builder().island(island).reason(Reason.DELETED).build();
+
+
+
+	    }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	private Set<Pair<Integer, Integer>> chunksToClear = new HashSet<>();
     //private Map<Location, Material> blocksToClear = new HashMap<>();
-    private NMSAbstraction nms = null;
+    @SuppressWarnings("unused")
+	private NMSAbstraction nms = null;
 
     private int nearest16(int x, boolean countUp) {
         while (x % 16 != 0) {
@@ -57,7 +131,7 @@ public class DeleteIslandChunk {
         return (int) Math.floor((double)x / 16);
     }
 
-    public DeleteIslandChunk(final ASkyBlock plugin, final Island island) {
+/*    public DeleteIslandChunks(final ASkyBlock plugin, final Island island) {
         if (island.getCenter().getWorld() == null)
             return;
         if (Settings.deleteProtectedOnly) {
@@ -168,7 +242,7 @@ public class DeleteIslandChunk {
             }.runTaskTimer(plugin, 0L, 20L);
 
         }
-    }
+    }*/
 
     private void gatherProtected(Island island) {
         // Get the min and max whole chunks
