@@ -11,6 +11,7 @@ import org.bukkit.block.Biome;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import com.sk89q.worldedit.entity.metadata.EntityType;
 import com.wasteofplastic.acidisland.ASkyBlock;
 
 public class UpdateOnePointThirteen {
@@ -538,6 +539,7 @@ public class UpdateOnePointThirteen {
 
 				String[] chestItems = ymlfile.getString("island.chestItems").split(" ");
 				String oldItems = String.join(" ", chestItems);
+
 				for (int i = 0; i < chestItems.length; i++) {
 
 					String[] items = chestItems[i].split(":");
@@ -615,18 +617,484 @@ public class UpdateOnePointThirteen {
 					e1.printStackTrace();
 				}
 
-				if (ymlfile.get("onePointThirteen") == null) {
+				plugin.reloadConfig();
+				plugin.getLogger().info("config.yml succesfully updated for 1.13!");
+			}
 
+			// update challenges.yml for 1.13
+			if (file.getName().equals("challenges.yml")) {
+				String content = null;
+				try {
+
+					content = FileUtils.readFileToString(file, "UTF-8");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				// Update levelUnlock section rewards
+				for (String s : ymlfile.getConfigurationSection("challenges.levelUnlock").getKeys(false)) {
+					String reward = ymlfile.getString("challenges.levelUnlock." + s + ".itemReward");
+					if (reward != null) {
+						String[] space = reward.split(" ");
+						for (int i = 0; i < space.length; i++) {
+							String[] splitted = space[i].split(":");
+							if (splitted.length == 2) {
+								if (table.containsKey(splitted[0])) {
+									// content = content.replace(" itemReward: " + splitted[0] + ":" + splitted[1],
+									// " itemReward: " + table.get(splitted[0]) + ":" + splitted[1]);
+									space[i] = table.get(splitted[0]);
+								}
+							}
+							if (splitted.length > 2) {
+								if (table.containsKey(splitted[0] + ":" + splitted[1])) {
+									// content = content.replace(" itemReward: " + splitted[0] + ":" + splitted[1] +
+									// ":" + splitted[2], " itemReward: " + table.get(splitted[0] + ":" +
+									// splitted[1]) + ":" + splitted[2]);
+									space[i] = table.get(splitted[0] + ":" + splitted[1]) + ":" + splitted[2];
+								}
+							}
+							String output = String.join(" ", space);
+							content = content.replace("      itemReward: '" + reward + "'",
+									"      itemReward: '" + output + "'");
+						}
+						
+
+					}
+				}
+
+				// Update challenges itemrewards, icons, required items
+				for (String s : ymlfile.getConfigurationSection("challenges.challengeList").getKeys(false)) {
+					String icon = ymlfile.get("challenges.challengeList." + s + ".icon").toString();
+					if (table.containsKey(icon)) {
+						String output = table.get(icon);
+						content = content.replace("      icon: " + icon, "      icon: " + output);
+					}
+					String itemReward = ymlfile.getString("challenges.challengeList." + s + ".itemReward");
+					if (itemReward != null) {
+						String[] space = itemReward.split(" ");
+						for (int i = 0; i < space.length; i++) {
+							String[] splitted = space[i].split(":");
+							if (splitted.length == 2) {
+								if (table.containsKey(splitted[0])) {
+									// content = content.replace(" itemReward: " + splitted[0] + ":" + splitted[1],
+									// " itemReward: " + table.get(splitted[0]) + ":" + splitted[1]);
+									space[i] = table.get(splitted[0]);
+								}
+							}
+							if (splitted.length > 2) {
+								if (table.containsKey(splitted[0] + ":" + splitted[1])) {
+									// content = content.replace(" itemReward: " + splitted[0] + ":" + splitted[1] +
+									// ":" + splitted[2], " itemReward: " + table.get(splitted[0] + ":" +
+									// splitted[1]) + ":" + splitted[2]);
+									space[i] = table.get(splitted[0] + ":" + splitted[1]) + ":" + splitted[2];
+								}
+							}
+
+						}
+						String output = String.join(" ", space);
+						content = content.replace("      itemReward: '" + itemReward + "'",
+								"      itemReward: '" + output + "'");
+					}
+					String repeatitemReward = ymlfile.getString("challenges.challengeList." + s + ".repeatItemReward");
+					if (repeatitemReward != null) {
+						String[] space = repeatitemReward.split(" ");
+						for (int i = 0; i < space.length; i++) {
+							String[] splitted = space[i].split(":");
+							if (splitted.length == 2) {
+								if (table.containsKey(splitted[0])) {
+									// content = content.replace(" itemReward: " + splitted[0] + ":" + splitted[1],
+									// " itemReward: " + table.get(splitted[0]) + ":" + splitted[1]);
+									space[i] = table.get(splitted[0]);
+								}
+								
+							}
+							if (splitted.length > 2) {
+								if (table.containsKey(splitted[0] + ":" + splitted[1])) {
+									// content = content.replace(" itemReward: " + splitted[0] + ":" + splitted[1] +
+									// ":" + splitted[2], " itemReward: " + table.get(splitted[0] + ":" +
+									// splitted[1]) + ":" + splitted[2]);
+									space[i] = table.get(splitted[0] + ":" + splitted[1]) + ":" + splitted[2];
+								}
+							}
+
+						}
+						String output = String.join(" ", space);
+						content = content.replace("      repeatItemReward: '" + repeatitemReward + "'",
+								"      repeatItemReward: '" + output + "'");
+					}
+					String requiredItems = ymlfile.getString("challenges.challengeList." + s + ".requiredItems");
+					if (requiredItems != null) {
+						String[] space = requiredItems.split(" ");
+						for (int i = 0; i < space.length; i++) {
+							String[] splitted = space[i].split(":");
+							if (splitted.length == 2) {
+								if (table.containsKey(splitted[0])) {
+									// content = content.replace(" itemReward: " + splitted[0] + ":" + splitted[1],
+									// " itemReward: " + table.get(splitted[0]) + ":" + splitted[1]);
+									space[i] = table.get(splitted[0]);
+								}
+							}
+							if (splitted.length > 2) {
+								if (table.containsKey(splitted[0] + ":" + splitted[1])) {
+									// content = content.replace(" itemReward: " + splitted[0] + ":" + splitted[1] +
+									// ":" + splitted[2], " itemReward: " + table.get(splitted[0] + ":" +
+									// splitted[1]) + ":" + splitted[2]);
+									space[i] = table.get(splitted[0] + ":" + splitted[1]) + ":" + splitted[2];
+								}
+							}
+
+						}
+						String output = String.join(" ", space);
+						content = content.replace("      requiredItems: '" + requiredItems + "'",
+								"      requiredItems: '" + output + "'");
+					}
+					
+
+				}
+				try {
+					FileUtils.writeStringToFile(file, content, "UTF-8");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				plugin.getLogger().info("challenges.yml succesfully updated for 1.13!");
+			}
+			// update blockvalues.yml for 1.13
+			if (file.getName().equals("blockvalues.yml")) {
+				String content = null;
+				try {
+
+					content = FileUtils.readFileToString(file, "UTF-8");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				for (String s : ymlfile.getConfigurationSection("blocks").getKeys(false)) {
+
+					String[] splitted = s.split(": ");
+					int value = ymlfile.getInt("blocks." + s);
+					if (splitted[0].equals("BANNER")) {
+						content = content.replace("  BANNER: " + value,
+								"  WHITE_BANNER: " + value + System.lineSeparator() + "  ORANGE_BANNER: " + value
+										+ System.lineSeparator() + "  MAGENTA_BANNER: " + value + System.lineSeparator()
+										+ "  LIGHT_BLUE_BANNER: " + value + System.lineSeparator() + "  YELLOW_BANNER: "
+										+ value + System.lineSeparator() + "  LIME_BANNER: " + value
+										+ System.lineSeparator() + "  PINK_BANNER: " + value + System.lineSeparator()
+										+ "  GRAY_BANNER: " + value + System.lineSeparator() + "  LIGHT_GRAY_BANNER: "
+										+ value + System.lineSeparator() + "  CYAN_BANNER: " + value
+										+ System.lineSeparator() + "  PURPLE_BANNER: " + value + System.lineSeparator()
+										+ "  BLUE_BANNER: " + value + System.lineSeparator() + "  BROWN_BANNER: "
+										+ value + System.lineSeparator() + "  GREEN_BANNER: " + value
+										+ System.lineSeparator() + "  RED_BANNER: " + value + System.lineSeparator()
+										+ "  BLACK_BANNER: " + value + System.lineSeparator());
+						continue;
+					} else if (splitted[0].equals("BED_BLOCK")) {
+						content = content.replace("  BED_BLOCK: " + value,
+								"  WHITE_BED: " + value + System.lineSeparator() + "  ORANGE_BED: " + value
+										+ System.lineSeparator() + "  MAGENTA_BED: " + value + System.lineSeparator()
+										+ "  LIGHT_BLUE_BED: " + value + System.lineSeparator() + "  YELLOW_BED: "
+										+ value + System.lineSeparator() + "  LIME_BED: " + value
+										+ System.lineSeparator() + "  PINK_BED: " + value + System.lineSeparator()
+										+ "  GRAY_BED: " + value + System.lineSeparator() + "  LIGHT_GRAY_BED: " + value
+										+ System.lineSeparator() + "  CYAN_BED: " + value + System.lineSeparator()
+										+ "  PURPLE_BED: " + value + System.lineSeparator() + "  BLUE_BED: " + value
+										+ System.lineSeparator() + "  BROWN_BED: " + value + System.lineSeparator()
+										+ "  GREEN_BED: " + value + System.lineSeparator() + "  RED_BED: " + value
+										+ System.lineSeparator() + "  BLACK_BED: " + value + System.lineSeparator());
+						continue;
+
+					} else if (splitted[0].equals("BOAT")) {
+						content = content.replace("  BOAT: " + value,
+								"  BIRCH_BOAT: " + value + System.lineSeparator() + "  OAK_BOAT: " + value
+										+ System.lineSeparator() + "  SPRUCE_BOAT: " + value + System.lineSeparator()
+										+ "  DARK_OAK_BOAT: " + value + System.lineSeparator() + "  JUNGLE_BOAT: "
+										+ value + System.lineSeparator() + "  ACACIA_BOAT: " + value
+										+ System.lineSeparator());
+						continue;
+					} else if (splitted[0].equals("CARPET")) {
+						content = content.replace("  CARPET: " + value,
+								"  WHITE_CARPET: " + value + System.lineSeparator() + "  ORANGE_CARPET: " + value
+										+ System.lineSeparator() + "  MAGENTA_CARPET: " + value + System.lineSeparator()
+										+ "  LIGHT_BLUE_CARPET: " + value + System.lineSeparator() + "  YELLOW_CARPET: "
+										+ value + System.lineSeparator() + "  LIME_CARPET: " + value
+										+ System.lineSeparator() + "  PINK_CARPET: " + value + System.lineSeparator()
+										+ "  GRAY_CARPET: " + value + System.lineSeparator() + "  LIGHT_GRAY_CARPET: "
+										+ value + System.lineSeparator() + "  CYAN_CARPET: " + value
+										+ System.lineSeparator() + "  PURPLE_CARPET: " + value + System.lineSeparator()
+										+ "  BLUE_CARPET: " + value + System.lineSeparator() + "  BROWN_CARPET: "
+										+ value + System.lineSeparator() + "  GREEN_CARPET: " + value
+										+ System.lineSeparator() + "  RED_CARPET: " + value + System.lineSeparator()
+										+ "  BLACK_CARPET: " + value + System.lineSeparator());
+
+					} else if (splitted[0].equals("CONCRETE")) {
+						content = content.replace("  CONCRETE: " + value, "  WHITE_CONCRETE: " + value
+								+ System.lineSeparator() + "  ORANGE_CONCRETE: " + value + System.lineSeparator()
+								+ "  MAGENTA_CONCRETE: " + value + System.lineSeparator() + "  LIGHT_BLUE_CONCRETE: "
+								+ value + System.lineSeparator() + "  YELLOW_CONCRETE: " + value
+								+ System.lineSeparator() + "  LIME_CONCRETE: " + value + System.lineSeparator()
+								+ "  PINK_CONCRETE: " + value + System.lineSeparator() + "  GRAY_CONCRETE: " + value
+								+ System.lineSeparator() + "  LIGHT_GRAY_CONCRETE: " + value + System.lineSeparator()
+								+ "  CYAN_CONCRETE: " + value + System.lineSeparator() + "  PURPLE_CONCRETE: " + value
+								+ System.lineSeparator() + "  BLUE_CONCRETE: " + value + System.lineSeparator()
+								+ "  BROWN_CONCRETE: " + value + System.lineSeparator() + "  GREEN_CONCRETE: " + value
+								+ System.lineSeparator() + "  RED_CONCRETE: " + value + System.lineSeparator()
+								+ "  BLACK_CONCRETE: " + value + System.lineSeparator());
+						continue;
+
+					} else if (splitted[0].equals("CONCRETE_POWDER")) {
+						content = content.replace("  CONCRETE_POWDER: " + value,
+								"  WHITE_CONCRETE_POWDER: " + value + System.lineSeparator()
+										+ "  ORANGE_CONCRETE_POWDER: " + value + System.lineSeparator()
+										+ "  MAGENTA_CONCRETE_POWDER: " + value + System.lineSeparator()
+										+ "  LIGHT_BLUE_CONCRETE_POWDER: " + value + System.lineSeparator()
+										+ "  YELLOW_CONCRETE_POWDER: " + value + System.lineSeparator()
+										+ "  LIME_CONCRETE_POWDER: " + value + System.lineSeparator()
+										+ "  PINK_CONCRETE_POWDER: " + value + System.lineSeparator()
+										+ "  GRAY_CONCRETE_POWDER: " + value + System.lineSeparator()
+										+ "  LIGHT_GRAY_CONCRETE_POWDER: " + value + System.lineSeparator()
+										+ "  CYAN_CONCRETE_POWDER: " + value + System.lineSeparator()
+										+ "  PURPLE_CONCRETE_POWDER: " + value + System.lineSeparator()
+										+ "  BLUE_CONCRETE_POWDER: " + value + System.lineSeparator()
+										+ "  BROWN_CONCRETE_POWDER: " + value + System.lineSeparator()
+										+ "  GREEN_CONCRETE_POWDER: " + value + System.lineSeparator()
+										+ "  RED_CONCRETE_POWDER: " + value + System.lineSeparator()
+										+ "  BLACK_CONCRETE_POWDER: " + value + System.lineSeparator());
+						continue;
+
+					} else if (splitted[0].equals("HARDENED_CLAY")) {
+						content = content.replace("  HARDENED_CLAY: " + value, "  WHITE_TERRACOTTA: " + value
+								+ System.lineSeparator() + "  ORANGE_TERRACOTTA: " + value + System.lineSeparator()
+								+ "  MAGENTA_TERRACOTTA: " + value + System.lineSeparator()
+								+ "  LIGHT_BLUE_TERRACOTTA: " + value + System.lineSeparator() + "  YELLOW_TERRACOTTA: "
+								+ value + System.lineSeparator() + "  LIME_TERRACOTTA: " + value
+								+ System.lineSeparator() + "  PINK_TERRACOTTA: " + value + System.lineSeparator()
+								+ "  GRAY_TERRACOTTA: " + value + System.lineSeparator() + "  LIGHT_GRAY_TERRACOTTA: "
+								+ value + System.lineSeparator() + "  CYAN_TERRACOTTA: " + value
+								+ System.lineSeparator() + "  PURPLE_TERRACOTTA: " + value + System.lineSeparator()
+								+ "  BLUE_TERRACOTTA: " + value + System.lineSeparator() + "  BROWN_TERRACOTTA: "
+								+ value + System.lineSeparator() + "  GREEN_TERRACOTTA: " + value
+								+ System.lineSeparator() + "  RED_TERRACOTTA: " + value + System.lineSeparator()
+								+ "  BLACK_TERRACOTTA: " + value + System.lineSeparator());
+						continue;
+
+					} else if (splitted[0].equals("FENCE")) {
+						content = content.replace("  FENCE: " + value,
+								"  BIRCH_FENCE: " + value + System.lineSeparator() + "  OAK_FENCE: " + value
+										+ System.lineSeparator() + "  SPRUCE_FENCE: " + value + System.lineSeparator()
+										+ "  DARK_OAK_FENCE: " + value + System.lineSeparator() + "  JUNGLE_FENCE: "
+										+ value + System.lineSeparator() + "  ACACIA_FENCE: " + value
+										+ System.lineSeparator());
+						continue;
+
+					} else if (splitted[0].equals("FENCE_GATE")) {
+						content = content.replace("  FENCE_GATE: " + value, "  BIRCH_FENCE_GATE: " + value
+								+ System.lineSeparator() + "  OAK_FENCE_GATE: " + value + System.lineSeparator()
+								+ "  SPRUCE_FENCE_GATE: " + value + System.lineSeparator() + "  DARK_OAK_FENCE_GATE: "
+								+ value + System.lineSeparator() + "  JUNGLE_FENCE_GATE: " + value
+								+ System.lineSeparator() + "  ACACIA_FENCE_GATE: " + value + System.lineSeparator());
+						continue;
+
+					} else if (splitted[0].equals("LEAVES")) {
+						content = content.replace("  LEAVES: " + value,
+								"  BIRCH_LEAVES: " + value + System.lineSeparator() + "  OAK_LEAVES: " + value
+										+ System.lineSeparator() + "  SPRUCE_LEAVES: " + value + System.lineSeparator()
+										+ "  DARK_OAK_LEAVES: " + value + System.lineSeparator() + "  JUNGLE_LEAVES: "
+										+ value + System.lineSeparator());
+						continue;
+
+					} else if (splitted[0].equals("LEAVES_2")) {
+						content = content.replace("  LEAVES_2: " + value,
+								"  ACACIA_LEAVES: " + value + System.lineSeparator());
+						continue;
+
+					} else if (splitted[0].equals("LOG")) {
+						content = content.replace("  LOG: " + value,
+								"  BIRCH_LOG: " + value + System.lineSeparator() + "  OAK_LOG: " + value
+										+ System.lineSeparator() + "  SPRUCE_LOG: " + value + System.lineSeparator()
+										+ "  DARK_OAK_LOG: " + value + System.lineSeparator() + "  JUNGLE_LOG: " + value
+										+ System.lineSeparator());
+						continue;
+
+					} else if (splitted[0].equals("LOG_2")) {
+						content = content.replace("  LOG_2: " + value,
+								"  ACACIA_LOG: " + value + System.lineSeparator());
+						continue;
+
+					} else if (splitted[0].equals("SKULL")) {
+						content = content.replace("  SKULL: " + value,
+								"  SKELETON_SKULL: " + value + System.lineSeparator() + "  WITHER_SKELETON_SKULL: "
+										+ value + System.lineSeparator() + "  ZOMBIE_HEAD: " + value
+										+ System.lineSeparator() + "  CREEPER_HEAD: " + value + System.lineSeparator()
+										+ "  PLAYER_HEAD: " + value + System.lineSeparator() + "  DRAGON_HEAD: " + value
+										+ System.lineSeparator());
+						continue;
+
+					} else if (splitted[0].equals("STAINED_GLASS")) {
+						content = content.replace("  STAINED_GLASS: " + value, "  WHITE_STAINED_GLASS: " + value
+								+ System.lineSeparator() + "  ORANGE_STAINED_GLASS: " + value + System.lineSeparator()
+								+ "  MAGENTA_STAINED_GLASS: " + value + System.lineSeparator()
+								+ "  LIGHT_BLUE_STAINED_GLASS: " + value + System.lineSeparator()
+								+ "  YELLOW_STAINED_GLASS: " + value + System.lineSeparator() + "  LIME_STAINED_GLASS: "
+								+ value + System.lineSeparator() + "  PINK_STAINED_GLASS: " + value
+								+ System.lineSeparator() + "  GRAY_STAINED_GLASS: " + value + System.lineSeparator()
+								+ "  LIGHT_GRAY_STAINED_GLASS: " + value + System.lineSeparator()
+								+ "  CYAN_STAINED_GLASS: " + value + System.lineSeparator() + "  PURPLE_STAINED_GLASS: "
+								+ value + System.lineSeparator() + "  BLUE_STAINED_GLASS: " + value
+								+ System.lineSeparator() + "  BROWN_STAINED_GLASS: " + value + System.lineSeparator()
+								+ "  GREEN_STAINED_GLASS: " + value + System.lineSeparator() + "  RED_STAINED_GLASS: "
+								+ value + System.lineSeparator() + "  BLACK_STAINED_GLASS: " + value
+								+ System.lineSeparator());
+						continue;
+					} else if (splitted[0].equals("STAINED_GLASS_PANE")) {
+						content = content.replace("  STAINED_GLASS_PANE: " + value,
+								"  WHITE_STAINED_GLASS_PANE: " + value + System.lineSeparator()
+										+ "  ORANGE_STAINED_GLASS_PANE: " + value + System.lineSeparator()
+										+ "  MAGENTA_STAINED_GLASS_PANE: " + value + System.lineSeparator()
+										+ "  LIGHT_BLUE_STAINED_GLASS_PANE: " + value + System.lineSeparator()
+										+ "  YELLOW_STAINED_GLASS_PANE: " + value + System.lineSeparator()
+										+ "  LIME_STAINED_GLASS_PANE: " + value + System.lineSeparator()
+										+ "  PINK_STAINED_GLASS_PANE: " + value + System.lineSeparator()
+										+ "  GRAY_STAINED_GLASS_PANE: " + value + System.lineSeparator()
+										+ "  LIGHT_GRAY_STAINED_GLASS_PANE: " + value + System.lineSeparator()
+										+ "  CYAN_STAINED_GLASS_PANE: " + value + System.lineSeparator()
+										+ "  PURPLE_STAINED_GLASS_PANE: " + value + System.lineSeparator()
+										+ "  BLUE_STAINED_GLASS_PANE: " + value + System.lineSeparator()
+										+ "  BROWN_STAINED_GLASS_PANE: " + value + System.lineSeparator()
+										+ "  GREEN_STAINED_GLASS_PANE: " + value + System.lineSeparator()
+										+ "  RED_STAINED_GLASS_PANE: " + value + System.lineSeparator()
+										+ "  BLACK_STAINED_GLASS_PANE: " + value + System.lineSeparator());
+						continue;
+					} else if (splitted[0].equals("TRAP_DOOR")) {
+						content = content.replace("  TRAP_DOOR: " + value, "  BIRCH_TRAPDOOR: " + value
+								+ System.lineSeparator() + "  OAK_TRAPDOOR: " + value + System.lineSeparator()
+								+ "  SPRUCE_TRAPDOOR: " + value + System.lineSeparator() + "  DARK_OAK_TRAPDOOR: "
+								+ value + System.lineSeparator() + "  JUNGLE_TRAPDOOR: " + value
+								+ System.lineSeparator() + "  ACACIA_TRAPDOOR: " + value + System.lineSeparator());
+						continue;
+					} else if (splitted[0].equals("WOOD_BUTTON")) {
+						content = content.replace("  WOOD_BUTTON: " + value,
+								"  BIRCH_BUTTON: " + value + System.lineSeparator() + "  OAK_BUTTON: " + value
+										+ System.lineSeparator() + "  SPRUCE_BUTTON: " + value + System.lineSeparator()
+										+ "  DARK_OAK_BUTTON: " + value + System.lineSeparator() + "  JUNGLE_BUTTON: "
+										+ value + System.lineSeparator() + "  ACACIA_BUTTON: " + value
+										+ System.lineSeparator());
+						continue;
+					} else if (splitted[0].equals("WOOD_DOOR")) {
+						content = content.replace("  WOOD_DOOR: " + value,
+								"  BIRCH_DOOR: " + value + System.lineSeparator() + "  OAK_DOOR: " + value
+										+ System.lineSeparator() + "  SPRUCE_DOOR: " + value + System.lineSeparator()
+										+ "  DARK_OAK_DOOR: " + value + System.lineSeparator() + "  JUNGLE_DOOR: "
+										+ value + System.lineSeparator() + "  ACACIA_DOOR: " + value
+										+ System.lineSeparator());
+						continue;
+					} else if (splitted[0].equals("WOOD_DOUBLE_STEP")) {
+						content = content.replace("  WOOD_DOUBLE_STEP: " + value,
+								"  BIRCH_SLAB: " + value + System.lineSeparator() + "  OAK_SLAB: " + value
+										+ System.lineSeparator() + "  SPRUCE_SLAB: " + value + System.lineSeparator()
+										+ "  DARK_OAK_SLAB: " + value + System.lineSeparator() + "  JUNGLE_SLAB: "
+										+ value + System.lineSeparator() + "  ACACIA_SLAB: " + value
+										+ System.lineSeparator());
+						continue;
+					} else if (splitted[0].equals("WOOD_PLATE")) {
+						content = content.replace("  WOOD_PLATE: " + value,
+								"  BIRCH_PRESSURE_PLATE: " + value + System.lineSeparator() + "  OAK_PRESSURE_PLATE: "
+										+ value + System.lineSeparator() + "  SPRUCE_PRESSURE_PLATE: " + value
+										+ System.lineSeparator() + "  DARK_OAK_PRESSURE_PLATE: " + value
+										+ System.lineSeparator() + "  JUNGLE_PRESSURE_PLATE: " + value
+										+ System.lineSeparator() + "  ACACIA_PRESSURE_PLATE: " + value
+										+ System.lineSeparator());
+						continue;
+					} else if (splitted[0].equals("WOOD_STAIRS")) {
+						content = content.replace("  WOOD_STAIRS: " + value,
+								"  BIRCH_STAIRS: " + value + System.lineSeparator() + "  OAK_STAIRS: " + value
+										+ System.lineSeparator() + "  SPRUCE_STAIRS: " + value + System.lineSeparator()
+										+ "  DARK_OAK_STAIRS: " + value + System.lineSeparator() + "  JUNGLE_STAIRS: "
+										+ value + System.lineSeparator() + "  ACACIA_STAIRS: " + value
+										+ System.lineSeparator());
+						continue;
+					} else if (splitted[0].equals("WOOD_STEP")) {
+						content = content.replace("  WOOD_STEP: " + value,
+								"  BIRCH_SLAB: " + value + System.lineSeparator() + "  OAK_SLAB: " + value
+										+ System.lineSeparator() + "  SPRUCE_SLAB: " + value + System.lineSeparator()
+										+ "  DARK_OAK_SLAB: " + value + System.lineSeparator() + "  JUNGLE_SLAB: "
+										+ value + System.lineSeparator() + "  ACACIA_SLAB: " + value
+										+ System.lineSeparator());
+						continue;
+					} else if (splitted[0].equals("WOOL")) {
+						content = content.replace("  WOOL: " + value, "  WHITE_WOOL: " + value + System.lineSeparator()
+								+ "  ORANGE_WOOL: " + value + System.lineSeparator() + "  MAGENTA_WOOL: " + value
+								+ System.lineSeparator() + "  LIGHT_BLUE_WOOL: " + value + System.lineSeparator()
+								+ "  YELLOW_WOOL: " + value + System.lineSeparator() + "  LIME_WOOL: " + value
+								+ System.lineSeparator() + "  PINK_WOOL: " + value + System.lineSeparator()
+								+ "  GRAY_WOOL: " + value + System.lineSeparator() + "  LIGHT_GRAY_WOOL: " + value
+								+ System.lineSeparator() + "  CYAN_WOOL: " + value + System.lineSeparator()
+								+ "  PURPLE_WOOL: " + value + System.lineSeparator() + "  BLUE_WOOL: " + value
+								+ System.lineSeparator() + "  BROWN_WOOL: " + value + System.lineSeparator()
+								+ "  GREEN_WOOL: " + value + System.lineSeparator() + "  RED_WOOL: " + value
+								+ System.lineSeparator() + "  BLACK_WOOL: " + value + System.lineSeparator());
+						continue;
+					} else if (table.containsKey(splitted[0])) {
+						String newName = table.get(splitted[0]);
+						content = content.replace(splitted[0] + ": ", newName + ": ");
+					}
+
+				}
+
+				try {
+					FileUtils.writeStringToFile(file, content, "UTF-8");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				if (!content.contains("#TUBE_CORAL")) {
 					try {
 
 						FileWriter wr = null;
 						wr = new FileWriter(file, true);
 						BufferedWriter bw = new BufferedWriter(wr);
 						bw.newLine();
-						bw.write(
-								"#DO NOT DELETE! This value is needed for the configuration files updating (for version 1.13).");
+						bw.write("  #TUBE_CORAL: 10");
 						bw.newLine();
-						bw.write("onePointThirteen: true");
+						bw.write("  #BRAIN_CORAL: 10");
+						bw.newLine();
+						bw.write("  #BUBBLE_CORAL: 10");
+						bw.newLine();
+						bw.write("  #FIRE_CORAL: 10");
+						bw.newLine();
+						bw.write("  #HORN_CORAL: 10");
+						bw.newLine();
+						bw.write("  #TUBE_CORAL_FAN: 10");
+						bw.newLine();
+						bw.write("  #BRAIN_CORAL_FAN: 10");
+						bw.newLine();
+						bw.write("  #BUBBLE_CORAL_FAN: 10");
+						bw.newLine();
+						bw.write("  #FIRE_CORAL_FAN: 10");
+						bw.newLine();
+						bw.write("  #HORN_CORAL_FAN: 10");
+						bw.newLine();
+						bw.write("  #TUBE_CORAL_BLOCK: 10");
+						bw.newLine();
+						bw.write("  #BRAIN_CORAL_BLOCK: 10");
+						bw.newLine();
+						bw.write("  #BUBBLE_CORAL_BLOCK: 10");
+						bw.newLine();
+						bw.write("  #FIRE_CORAL_BLOCK: 10");
+						bw.newLine();
+						bw.write("  #HORN_CORAL_BLOCK: 10");
+						bw.newLine();
+						bw.write("  #DEAD_TUBE_CORAL_BLOCK: 1");
+						bw.newLine();
+						bw.write("  #DEAD_BRAIN_CORAL_BLOCK: 1");
+						bw.newLine();
+						bw.write("  #DEAD_BUBBLE_CORAL_BLOCK: 1");
+						bw.newLine();
+						bw.write("  #DEAD_FIRE_CORAL_BLOCK: 1");
+						bw.newLine();
+						bw.write("  #DEAD_HORN_CORAL_BLOCK: 1");
 						bw.newLine();
 						bw.flush();
 						bw.close();
@@ -634,27 +1102,63 @@ public class UpdateOnePointThirteen {
 						e.printStackTrace();
 						return false;
 					}
+
+					plugin.getLogger().info("blockvalues.yml succesfully updated for 1.13!");
 				}
-
-				plugin.reloadConfig();
-				plugin.getLogger().info("config.yml succesfully updated for 1.13!");
-			}
-
-			// update challenges.yml for 1.13
-			if (file.getName().equals("challenges.yml")) {
-
-			}
-			// update blockvalues.yml for 1.13
-			if (file.getName().equals("blockvalues.yml")) {
-
 			}
 			// update controlpanel.yml for 1.13
 			if (file.getName().equals("controlpanel.yml")) {
+				String content = null;
+				try {
 
+					content = FileUtils.readFileToString(file, "UTF-8");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				for (String s : ymlfile.getConfigurationSection("default.buttons").getKeys(false)) {
+					String icon = ymlfile.get("default.buttons." + s + ".material").toString();
+					if (table.containsKey(icon)) {
+						String output = table.get(icon);
+						content = content.replace("      material: " + icon, "      material: " + output);
+					}
+				}
+				
+				
+				try {
+					FileUtils.writeStringToFile(file, content, "UTF-8");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				plugin.getLogger().info("controlpanel.yml succesfully updated for 1.13!");
 			}
 
 		}
 
+		if (plugin.getConfig().get("onePointThirteen") == null) {
+
+			try {
+
+				FileWriter wr = null;
+				wr = new FileWriter(plugin.getDataFolder().getAbsolutePath() + File.separator + "config.yml", true);
+				BufferedWriter bw = new BufferedWriter(wr);
+				bw.newLine();
+				bw.write(
+						"#DO NOT DELETE! This value is needed for the configuration files updating (for version 1.13).");
+				bw.newLine();
+				bw.write("onePointThirteen: true");
+				bw.newLine();
+				bw.flush();
+				bw.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+			plugin.reloadConfig();
+		}
 		return true;
 	}
 
