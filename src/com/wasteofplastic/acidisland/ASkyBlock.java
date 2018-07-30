@@ -115,7 +115,7 @@ public class ASkyBlock extends JavaPlugin {
     // V1.8 or later
     private boolean onePointEight;
     // true if v1.13
-    private boolean onePointThirteen;
+    private static boolean onePointThirteen;
     // Update object
     private Updater updateCheck = null;
 
@@ -295,6 +295,19 @@ public class ASkyBlock extends JavaPlugin {
         
         if (getServer().getVersion().contains("MC: 1.13")) {
         	onePointThirteen = true;
+        } else {
+        	getLogger().warning("§c-+-+-+-+-+-+-+-E-R-R-O-R-+-+-+-+-+-+-+-+-+");
+        	getLogger().warning("§cNot supported server version! (" + getServer().getVersion() + ")");
+        	getLogger().warning("§cSupported version: 1.13.x");
+        	getLogger().warning("");
+        	getLogger().warning("§cThis is a fork of AcidIsland,");
+        	getLogger().warning("§cbecause it hasn't been officially updated for 1.13.");
+        	getLogger().warning("");
+        	getLogger().warning("§7Original repo: §ehttps://github.com/tastybento/acidisland");
+        	getLogger().warning("§7Forked repo: §ehttps://github.com/poma123/acidisland");
+        	getLogger().warning("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
+        	getServer().getPluginManager().disablePlugin(this);
+        	return;
         }
         saveDefaultConfig();
         // Check to see if island distance is set or not
@@ -316,6 +329,19 @@ public class ASkyBlock extends JavaPlugin {
             }
             return;
         }
+        //update old configuration files (e.g. materials) for 1.13 
+        if (isOnePointThirteen()) {
+        	getLogger().info("Version 1.13 detected! Please wait...");
+        	if (getConfig().get("onePointThirteen") == null) {
+        		if (!UpdateOnePointThirteen.updateOnePointThirteen(this)) {
+        			return;
+        		}
+        	
+        	} else {
+        		getLogger().info("The configurations are up to date!");
+        	}
+        }
+      
         // Load all the configuration of the plugin and localization strings
         if (!PluginConfig.loadPluginConfig(this)) {
             // Currently, the only setup error is where the world_name does not match
@@ -430,15 +456,7 @@ public class ASkyBlock extends JavaPlugin {
                     return;
                 }
 
-                //update old configuration files (e.g. materials) for 1.13 
-                if (isOnePointThirteen()) {
-                	getLogger().info("Version 1.13 detected! Please wait...");
-                	if (getConfig().get("onePointThirteen") == null) {
-                	UpdateOnePointThirteen.updateOnePointThirteen(plugin);
-                	} else {
-                		getLogger().info("The configurations are up to date!");
-                	}
-                }
+               
                 
                 // Run game rule to keep things quiet
                 if (Settings.silenceCommandFeedback){
@@ -954,7 +972,7 @@ public class ASkyBlock extends JavaPlugin {
         return onePointEight;
     }
 
-    public boolean isOnePointThirteen() {
+    public static boolean isOnePointThirteen() {
     	
 		return onePointThirteen;
     }

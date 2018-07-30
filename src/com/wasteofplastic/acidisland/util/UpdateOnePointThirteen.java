@@ -3,10 +3,11 @@ package com.wasteofplastic.acidisland.util;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
+import org.apache.commons.io.FileUtils;
+import org.bukkit.block.Biome;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -21,6 +22,12 @@ public class UpdateOnePointThirteen {
 
 		// nether biome
 		table.put("HELL", "NETHER");
+		table.put("MUSHROOM_ISLAND", "MUSHROOM_FIELDS");
+		table.put("SWAMPLAND", "SWAMP");
+		table.put("COLD_BEACH", "SNOWY_BEACH");
+		table.put("MESA", "BADLANDS");
+		table.put("MUTATED_FOREST", "FLOWER_FOREST");
+		table.put("ROOFED_FOREST", "DARK_FOREST");
 
 		// materials
 		table.put("STONE:1", "GRANITE");
@@ -43,7 +50,7 @@ public class UpdateOnePointThirteen {
 		table.put("SAPLING:3", "JUNGLE_SAPLING");
 		table.put("SAPLING:4", "ACACIA_SAPLING");
 		table.put("SAPLING:5", "DARK_OAK_SAPLING");
-		table.put("SAPLING:", "OAK_SAPLING");
+		table.put("SAPLING", "OAK_SAPLING");
 		table.put("STATIONARY_WATER", "WATER");
 		table.put("STATIONARY_LAVA", "LAVA");
 		table.put("SAND:1", "RED_SAND");
@@ -511,7 +518,7 @@ public class UpdateOnePointThirteen {
 	 * 
 	 *            Update old configuration files for 1.13 release
 	 */
-	public static void updateOnePointThirteen(final ASkyBlock plugin) {
+	public static boolean updateOnePointThirteen(final ASkyBlock plugin) {
 
 		plugin.getLogger().info("Starting updating the configuration files for 1.13...");
 		for (File file : new File(plugin.getDataFolder().getAbsolutePath()).listFiles()) {
@@ -519,31 +526,101 @@ public class UpdateOnePointThirteen {
 
 			FileConfiguration ymlfile = YamlConfiguration.loadConfiguration(file);
 			if (file.getName().equals("config.yml")) {
+				String content = null;
+				try {
+
+					content = FileUtils.readFileToString(file, "UTF-8");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				// Update chestItems
+
 				String[] chestItems = ymlfile.getString("island.chestItems").split(" ");
-				for (int i = 0; i <= chestItems.length; i++) {
-					plugin.getLogger().info(String.join(" ", chestItems));
-					
+				String oldItems = String.join(" ", chestItems);
+				for (int i = 0; i < chestItems.length; i++) {
+
 					String[] items = chestItems[i].split(":");
-					
+
 					if (items.length > 2) {
 						if (table.containsKey(items[0] + ":" + items[1])) {
-							// chestItems.set(i, table.get(items[0] + ":" + items[1]) + ":" + items[2]);
+
 							chestItems[i] = table.get(items[0] + ":" + items[1]) + ":" + items[2];
 						}
 					} else if (items.length == 2) {
 						if (table.containsKey(items[0])) {
-						//	chestItems.set(i, table.get(items[0]) + ":" + items[1]);
+
 							chestItems[i] = table.get(items[0]) + ":" + items[1];
 						}
 					}
 				}
+
 				String chestItemsOutput = String.join(" ", chestItems);
-				ymlfile.set("island.chestItems", chestItemsOutput);
+				content = content.replace("chestItems: '" + oldItems + "'", "chestItems: '" + chestItemsOutput + "'");
+
+				// Update biomes and icons
+
+				String biomeName = null;
+
+				for (String s : ymlfile.getConfigurationSection("biomes").getKeys(false)) {
+					try {
+						Biome.valueOf(s);
+					} catch (Exception e) {
+						if (table.containsKey(s)) {
+							biomeName = table.get(s);
+							content = content.replace(s + ":", biomeName + ":");
+						} else {
+							plugin.getLogger().warning(
+									"[AcidIsland 1.13 Updater] Can't update the biome: " + s + ". Skipping...");
+						}
+					}
+
+					String icon = ymlfile.get("biomes." + s + ".icon").toString();
+					if (table.containsKey(icon)) {
+						String output = table.get(icon);
+						content = content.replace("    icon: " + icon, "    icon: " + output);
+					}
+
+				}
+
+				// Update schematic biomes and icons
+				for (String s : ymlfile.getConfigurationSection("schematicsection.schematics").getKeys(false)) {
+					if (ymlfile.get("schematicsection.schematics." + s + ".biome") != null) {
+						String biome = ymlfile.get("schematicsection.schematics." + s + ".biome").toString();
+						try {
+							Biome.valueOf(biome);
+						} catch (Exception e) {
+							if (table.containsKey(biome)) {
+								biomeName = table.get(biome);
+								content = content.replace(biome + ":", biomeName + ":");
+							} else {
+								plugin.getLogger().warning(
+										"[AcidIsland 1.13 Updater] Can't update the biome: " + biome + ". Skipping...");
+							}
+						}
+					}
+
+					String icon = ymlfile.get("schematicsection.schematics." + s + ".icon").toString();
+					if (table.containsKey(icon)) {
+						String output = table.get(icon);
+						content = content.replace("    icon: " + icon, "    icon: " + output);
+					}
+
+				}
+
+				try {
+					FileUtils.writeStringToFile(file, content, "UTF-8");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
 				if (ymlfile.get("onePointThirteen") == null) {
+
 					try {
 
-						FileWriter wr = new FileWriter(file, true);
+						FileWriter wr = null;
+						wr = new FileWriter(file, true);
 						BufferedWriter bw = new BufferedWriter(wr);
 						bw.newLine();
 						bw.write(
@@ -555,11 +632,12 @@ public class UpdateOnePointThirteen {
 						bw.close();
 					} catch (Exception e) {
 						e.printStackTrace();
+						return false;
 					}
 				}
-				plugin.saveConfig();
+
 				plugin.reloadConfig();
-				plugin.getLogger().info("config.yml succesfully updated to 1.13!");
+				plugin.getLogger().info("config.yml succesfully updated for 1.13!");
 			}
 
 			// update challenges.yml for 1.13
@@ -577,5 +655,7 @@ public class UpdateOnePointThirteen {
 
 		}
 
+		return true;
 	}
+
 }
