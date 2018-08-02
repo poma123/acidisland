@@ -580,7 +580,7 @@ public class UpdateOnePointThirteen {
 					String icon = ymlfile.get("biomes." + s + ".icon").toString();
 					if (table.containsKey(icon)) {
 						String output = table.get(icon);
-						content = content.replace("    icon: " + icon, "    icon: " + output);
+						content = content.replace("    icon: " + icon + System.lineSeparator(), "    icon: " + output + System.lineSeparator());
 					}
 
 				}
@@ -668,7 +668,7 @@ public class UpdateOnePointThirteen {
 					String icon = ymlfile.get("challenges.challengeList." + s + ".icon").toString();
 					if (table.containsKey(icon)) {
 						String output = table.get(icon);
-						content = content.replace("      icon: " + icon, "      icon: " + output);
+						content = content.replace("      icon: " + icon + System.lineSeparator(), "      icon: " + output + System.lineSeparator());
 					}
 					String itemReward = ymlfile.getString("challenges.challengeList." + s + ".itemReward");
 					if (itemReward != null) {
