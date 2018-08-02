@@ -1121,7 +1121,7 @@ public class UpdateOnePointThirteen {
 					String icon = ymlfile.get("default.buttons." + s + ".material").toString();
 					if (table.containsKey(icon)) {
 						String output = table.get(icon);
-						content = content.replace("      material: " + icon, "      material: " + output);
+						content = content.replace("      material: " + icon + System.lineSeparator(), "      material: " + output + System.lineSeparator());
 					}
 				}
 				
