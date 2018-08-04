@@ -8,3 +8,8 @@ It shares common code with ASkyBlock.
 
 
 Original author: tastybento.
+
+Pull Requests
+===
+
+If you have ideas about rewriting the schematic section, then feel free to make a Pull Request!
